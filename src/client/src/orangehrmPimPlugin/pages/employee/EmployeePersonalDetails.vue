@@ -69,6 +69,14 @@
                 :rules="rules.otherId"
               />
             </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="employee.pisNumber"
+                label="PIS/NIS"
+                :rules="rules.pisNumber"
+                placeholder="000.00000.00-0"
+              />
+            </oxd-grid-item>
           </oxd-grid>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -208,6 +216,7 @@ const employeeModel = {
   lastName: '',
   employeeId: '',
   otherId: '',
+  pisNumber: '',
   drivingLicenseNo: '',
   drivingLicenseExpiredDate: '',
   ssnNumber: '',
@@ -273,6 +282,7 @@ export default {
         lastName: [required, shouldNotExceedCharLength(30)],
         employeeId: [shouldNotExceedCharLength(10)],
         otherId: [shouldNotExceedCharLength(30)],
+        pisNumber: [shouldNotExceedCharLength(12)],
         drivingLicenseNo: [shouldNotExceedCharLength(30)],
         ssnNumber: [shouldNotExceedCharLength(30)],
         sinNumber: [shouldNotExceedCharLength(30)],
@@ -335,6 +345,7 @@ export default {
             middleName: this.employee.middleName,
             employeeId: this.employee.employeeId,
             otherId: this.employee.otherId,
+            pisNumber: this.employee.pisNumber,
             drivingLicenseNo: this.employee.drivingLicenseNo,
             drivingLicenseExpiredDate: this.employee.drivingLicenseExpiredDate,
             gender: this.employee.gender,

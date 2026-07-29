@@ -43,13 +43,73 @@ class AttendanceDao extends BaseDao
      */
     public function savePunchRecord(AttendanceRecord $attendanceRecord): AttendanceRecord
     {
+        $isNew = $attendanceRecord->getNsr() === null;
         // BR: Assign NSR (Numero Sequencial de Registro) on new records
-        if ($attendanceRecord->getNsr() === null) {
+        if ($isNew) {
             $nextNsr = $this->getNextNsr();
             $attendanceRecord->setNsr($nextNsr);
         }
         $this->persist($attendanceRecord);
+        // BR: Audit trail (Portaria 673/2021)
+        $this->logAttendanceAudit(
+            $attendanceRecord,
+            $isNew ? 'CREATE' : 'UPDATE'
+        );
         return $attendanceRecord;
+    }
+
+    /**
+     * BR: Log attendance record changes to the audit trail table.
+     * Portaria 673/2021 requires full traceability of punch modifications.
+     *
+     * @param AttendanceRecord $record
+     * @param string $action CREATE|UPDATE|DELETE|RECTIFY
+     * @param string|null $fieldName
+     * @param string|null $oldValue
+     * @param string|null $newValue
+     */
+    private function logAttendanceAudit(
+        AttendanceRecord $record,
+        string $action,
+        ?string $fieldName = null,
+        ?string $oldValue = null,
+        ?string $newValue = null
+    ): void {
+        try {
+            $conn = $this->getEntityManager()->getConnection();
+            $conn->executeStatement(
+                'INSERT INTO ohrm_attendance_audit_log
+                    (attendance_record_id, employee_id, action, field_name, old_value, new_value,
+                     changed_by_emp_number, ip_address, user_agent, changed_at)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())',
+                [
+                    $record->getId(),
+                    $record->getEmployee()->getEmpNumber(),
+                    $action,
+                    $fieldName,
+                    $oldValue,
+                    $newValue,
+                    $this->getCurrentEmpNumber(),
+                    $_SERVER['REMOTE_ADDR'] ?? null,
+                    isset($_SERVER['HTTP_USER_AGENT']) ? substr($_SERVER['HTTP_USER_AGENT'], 0, 255) : null,
+                ]
+            );
+        } catch (\Throwable $e) {
+            // Audit logging must never break the main flow
+        }
+    }
+
+    /**
+     * BR: Get the current authenticated employee number for audit logging.
+     */
+    private function getCurrentEmpNumber(): ?int
+    {
+        try {
+            $authUser = \OrangeHRM\Framework\Services::getContainer()->get(\OrangeHRM\Framework\Services::AUTH_USER);
+            return $authUser->getEmpNumber();
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 
     /**
@@ -322,6 +382,14 @@ class AttendanceDao extends BaseDao
      */
     public function deleteAttendanceRecords(array $attendanceRecordIds): int
     {
+        // BR: Log deletions to audit trail before removing records
+        foreach ($attendanceRecordIds as $recordId) {
+            $record = $this->getAttendanceRecordById((int)$recordId);
+            if ($record !== null) {
+                $this->logAttendanceAudit($record, 'DELETE');
+            }
+        }
+
         $qb = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
         $qb->delete()
             ->where($qb->expr()->in('attendanceRecord.id', ':ids'))

@@ -58,6 +58,7 @@ class EmployeePersonalDetailAPI extends Endpoint implements ResourceEndpoint
     // Country Specific
     public const PARAMETER_SSN_NUMBER = 'ssnNumber';
     public const PARAMETER_SIN_NUMBER = 'sinNumber';
+    public const PARAMETER_PIS_NUMBER = 'pisNumber';
 
     public const PARAM_RULE_FIRST_NAME_MAX_LENGTH = 30;
     public const PARAM_RULE_MIDDLE_NAME_MAX_LENGTH = 30;
@@ -244,6 +245,11 @@ class EmployeePersonalDetailAPI extends Endpoint implements ResourceEndpoint
             );
         }
 
+        // BR: PIS/NIS number (always available for Brazilian deployments)
+        $employee->setPisNumber(
+            $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PIS_NUMBER)
+        );
+
         $this->getEmployeeService()->updateEmployeePersonalDetails($employee);
 
         return new EndpointResourceResult(EmployeePersonalDetailModel::class, $employee);
@@ -389,6 +395,15 @@ class EmployeePersonalDetailAPI extends Endpoint implements ResourceEndpoint
                 true
             );
         }
+        // BR: PIS/NIS number (always available)
+        $paramRules[] = $this->getValidationDecorator()->notRequiredParamRule(
+            new ParamRule(
+                self::PARAMETER_PIS_NUMBER,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, 12]),
+            ),
+            true
+        );
         return new ParamRuleCollection(...$paramRules);
     }
 
