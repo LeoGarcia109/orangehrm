@@ -132,6 +132,7 @@ import {APIService} from '@ohrm/core/util/services/api.service';
 import useDateFormat from '@/core/util/composable/useDateFormat';
 import {reloadPage, navigate} from '@/core/util/helper/navigation';
 import TimezoneDropdown from '@/orangehrmAttendancePlugin/components/TimezoneDropdown.vue';
+import useGeolocation from '@/orangehrmAttendancePlugin/composables/useGeolocation';
 
 const attendanceRecordModal = {
   date: null,
@@ -266,10 +267,14 @@ export default {
       });
   },
   methods: {
-    onSave() {
+    async onSave() {
       this.isLoading = true;
 
       const timezone = guessTimezone();
+
+      // BR: Capture GPS coordinates (non-blocking)
+      const {getCoordinates} = useGeolocation();
+      const coords = await getCoordinates();
 
       this.http
         .request({
@@ -281,6 +286,8 @@ export default {
             timezoneOffset:
               this.attendanceRecord.timezone?._offset ?? timezone.offset,
             timezoneName: this.attendanceRecord.timezone?.id ?? timezone.name,
+            latitude: coords?.latitude ?? null,
+            longitude: coords?.longitude ?? null,
           },
         })
         .then(() => {

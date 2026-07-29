@@ -228,3 +228,8 @@ apiv2_attendance_br_work_time_report:
   methods: [ GET ]
   defaults:
     _api: OrangeHRM\Attendance\Api\WorkTimeReportAPI
+
+attendance_br_work_time_report_page:
+  path: /attendance/brWorkTimeReport
+  controller: OrangeHRM\Attendance\Controller\BrazilWorkTimeReportController::handle
+  methods: [ GET ]
