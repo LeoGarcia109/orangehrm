@@ -139,3 +139,85 @@ attendance_employee_edit_attendance:
   path: /attendance/editEmployeeAttendanceRecord/{id}
   controller: OrangeHRM\Attendance\Controller\EditEmployeeAttendanceController::handle
   methods: [ GET ]
+
+##########################
+#     BR - Portaria 673
+##########################
+
+apiv2_attendance_br_afd_export:
+  path: /api/v2/attendance/br/afd-export
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Attendance\Api\AFDExportAPI
+
+apiv2_attendance_br_afdt_export:
+  path: /api/v2/attendance/br/afdt-export
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Attendance\Api\AFDTExportAPI
+
+apiv2_attendance_br_audit_log:
+  path: /api/v2/attendance/br/audit-log
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\AttendanceAuditLogAPI
+
+apiv2_attendance_br_retification:
+  path: /api/v2/attendance/br/retification
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\AttendanceRetificationAPI
+
+apiv2_attendance_br_retification_action:
+  path: /api/v2/attendance/br/retification/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\AttendanceRetificationAPI
+  requirements:
+    id: '\d+'
+
+apiv2_attendance_br_receipt:
+  path: /api/v2/attendance/br/receipt/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\PunchReceiptAPI
+  requirements:
+    id: '\d+'
+
+apiv2_attendance_br_receipt_daily:
+  path: /api/v2/attendance/br/receipt/daily
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Attendance\Api\PunchReceiptAPI
+
+apiv2_attendance_br_signature_verify:
+  path: /api/v2/attendance/br/signature/verify
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Attendance\Api\SignatureVerifyAPI
+
+apiv2_attendance_br_esocial_events:
+  path: /api/v2/attendance/br/esocial/events
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\ESocialEventAPI
+
+apiv2_attendance_br_esocial_generate:
+  path: /api/v2/attendance/br/esocial/generate
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\ESocialEventAPI
