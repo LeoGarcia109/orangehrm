@@ -65,3 +65,65 @@ Detalhes em [`attendance-br/README.md`](attendance-br/README.md).
 - [x] Ponto eletrônico compatível com Portaria 673/2021
 - [x] Adaptadores de PIS, CNPJ (via attendance-br)
 - [ ] Integração com WhatsApp para notificações
+## Troubleshooting - Docker (IMPORTANTE)
+
+### Tela branca apos operacoes no container
+
+O container usa volume Docker (nao bind mount). O Apache roda como `www-data`,
+mas comandos via `docker exec` rodam como `root`. Isso causa dois problemas recorrentes:
+
+**1. Cache com permissao errada (causa tela branca / erro 500 no I18N):**
+
+```bash
+docker exec orangehrm-web bash -c "chown -R www-data:www-data /var/www/html/src/cache/ && chmod -R 775 /var/www/html/src/cache/ && rm -rf /var/www/html/src/cache/orangehrm/*"
+```
+
+**2. Assets do frontend com 403 Forbidden (causa tela branca sem erros no log):**
+
+Apos qualquer `docker cp` para `/var/www/html/web/dist/`:
+
+```bash
+docker exec orangehrm-web bash -c "chown -R www-data:www-data /var/www/html/web/dist/ && chmod -R 755 /var/www/html/web/dist/"
+```
+
+**3. Apos `composer dump-autoload` (regenera cache como root):**
+
+```bash
+docker exec orangehrm-web bash -c "cd /var/www/html/src && php composer.phar dump-autoload && chown -R www-data:www-data /var/www/html/src/cache/"
+```
+
+### Deploy completo (frontend + backend)
+
+```bash
+# Build do frontend (no host)
+cd src/client && yarn install --frozen-lockfile && yarn build
+
+# Copiar dist para o container
+docker cp web/dist/. orangehrm-web:/var/www/html/web/dist/
+
+# Copiar arquivos PHP modificados
+docker cp src/plugins/orangehrmAttendancePlugin/. orangehrm-web:/var/www/html/src/plugins/orangehrmAttendancePlugin/
+docker cp src/plugins/orangehrmPimPlugin/. orangehrm-web:/var/www/html/src/plugins/orangehrmPimPlugin/
+
+# Corrigir permissoes + regenerar autoload + limpar cache
+docker exec orangehrm-web bash -c "
+  chown -R www-data:www-data /var/www/html/web/dist/ &&
+  chmod -R 755 /var/www/html/web/dist/ &&
+  cd /var/www/html/src && php composer.phar dump-autoload &&
+  chown -R www-data:www-data /var/www/html/src/cache/ &&
+  rm -rf /var/www/html/src/cache/orangehrm/*
+"
+```
+
+### Credenciais do banco (container orangehrm-db)
+
+- Host: `orangehrm-db`
+- User: `orangehrm`
+- Pass: `OhrmDb2026!Leo`
+- Database: `orangehrm`
+
+### Manutencao (tela de senha nao aparece no Safari)
+
+A tela de re-verificacao de credencial do Maintenance (`/maintenance/purgeEmployee`)
+nao renderiza no Safari (incompatibilidade com o bundle Vue/OXD).
+Usar Chrome ou Firefox para acessar funcoes de Maintenance.
