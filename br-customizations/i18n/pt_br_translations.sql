@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 -- OrangeHRM 5.9 pt_BR Translation Import
 -- Generated automatically
 -- Clear existing translations for pt_BR (if any)
