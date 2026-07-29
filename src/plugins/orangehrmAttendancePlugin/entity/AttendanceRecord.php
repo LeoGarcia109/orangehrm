@@ -137,6 +137,48 @@ class AttendanceRecord
     private string $state;
 
     /**
+     * @var int|null
+     *
+     * @ORM\Column(name="nsr", type="bigint", nullable=true, options={"unsigned"=true})
+     */
+    private ?int $nsr = null;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_rectified", type="boolean", nullable=false, options={"default"=0})
+     */
+    private bool $isRectified = false;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="punch_in_latitude", type="decimal", precision=10, scale=8, nullable=true)
+     */
+    private ?string $punchInLatitude = null;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="punch_in_longitude", type="decimal", precision=11, scale=8, nullable=true)
+     */
+    private ?string $punchInLongitude = null;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="punch_out_latitude", type="decimal", precision=10, scale=8, nullable=true)
+     */
+    private ?string $punchOutLatitude = null;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="punch_out_longitude", type="decimal", precision=11, scale=8, nullable=true)
+     */
+    private ?string $punchOutLongitude = null;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -342,5 +384,101 @@ class AttendanceRecord
     public function setPunchOutTimezoneName(?string $punchOutTimezoneName): void
     {
         $this->punchOutTimezoneName = $punchOutTimezoneName;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getNsr(): ?int
+    {
+        return $this->nsr;
+    }
+
+    /**
+     * @param int|null $nsr
+     */
+    public function setNsr(?int $nsr): void
+    {
+        $this->nsr = $nsr;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRectified(): bool
+    {
+        return $this->isRectified;
+    }
+
+    /**
+     * @param bool $isRectified
+     */
+    public function setIsRectified(bool $isRectified): void
+    {
+        $this->isRectified = $isRectified;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPunchInLatitude(): ?string
+    {
+        return $this->punchInLatitude;
+    }
+
+    /**
+     * @param string|null $punchInLatitude
+     */
+    public function setPunchInLatitude(?string $punchInLatitude): void
+    {
+        $this->punchInLatitude = $punchInLatitude;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPunchInLongitude(): ?string
+    {
+        return $this->punchInLongitude;
+    }
+
+    /**
+     * @param string|null $punchInLongitude
+     */
+    public function setPunchInLongitude(?string $punchInLongitude): void
+    {
+        $this->punchInLongitude = $punchInLongitude;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPunchOutLatitude(): ?string
+    {
+        return $this->punchOutLatitude;
+    }
+
+    /**
+     * @param string|null $punchOutLatitude
+     */
+    public function setPunchOutLatitude(?string $punchOutLatitude): void
+    {
+        $this->punchOutLatitude = $punchOutLatitude;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPunchOutLongitude(): ?string
+    {
+        return $this->punchOutLongitude;
+    }
+
+    /**
+     * @param string|null $punchOutLongitude
+     */
+    public function setPunchOutLongitude(?string $punchOutLongitude): void
+    {
+        $this->punchOutLongitude = $punchOutLongitude;
     }
 }

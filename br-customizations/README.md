@@ -44,10 +44,24 @@ docker exec orangehrm-web rm -rf /var/www/html/src/cache/*
 | help | 6 | Ajuda |
 | **Total** | **1.262** | |
 
+## Ponto Eletrônico BR (attendance-br)
+
+Implementação da Fase 1 de conformidade com a Portaria SEPRT 673/2021:
+
+- NSR (Número Sequencial de Registro) em cada batida
+- PIS/NIS no cadastro do funcionário
+- CNPJ/CEI mapeados nos campos da Organização
+- Audit trail completo de alterações
+- Retificações (original permanece inalterado)
+- Exportação AFD no layout da Portaria
+- Colunas de geolocalização (preparação para Fase 3)
+
+Detalhes em [`attendance-br/README.md`](attendance-br/README.md).
+
 ## Próximas customizações planejadas
 
 - [ ] Integração com e-Social
 - [ ] Holerite brasileiro
-- [ ] Ponto eletrônico compatível com CLT
-- [ ] Adaptadores de CTPS, PIS, CNPJ
+- [x] Ponto eletrônico compatível com Portaria 673/2021
+- [x] Adaptadores de PIS, CNPJ (via attendance-br)
 - [ ] Integração com WhatsApp para notificações

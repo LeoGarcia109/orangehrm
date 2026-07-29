@@ -1,0 +1,93 @@
+# ============================================================================
+# OrangeHRM BR - Rotas da API de Ponto Eletronico (Portaria 673/2021)
+# ============================================================================
+
+# --- Fase 1: Conformidade Basica ---
+
+attendance_br_afd_export:
+  path: /api/v2/attendance/br/afd-export
+  methods: [GET]
+  defaults:
+    _controller: OrangeHRM\Attendance\Api\AFDExportAPI
+
+attendance_br_audit_log:
+  path: /api/v2/attendance/br/audit-log
+  methods: [GET]
+  defaults:
+    _controller: OrangeHRM\Attendance\Api\AttendanceAuditLogAPI
+
+attendance_br_retification:
+  path: /api/v2/attendance/br/retification
+  methods: [GET, POST, DELETE]
+  defaults:
+    _controller: OrangeHRM\Attendance\Api\AttendanceRetificationAPI
+
+attendance_br_retification_action:
+  path: /api/v2/attendance/br/retification/{id}
+  methods: [PUT]
+  defaults:
+    _controller: OrangeHRM\Attendance\Api\AttendanceRetificationAPI
+  requirements:
+    id: '\d+'
+
+# --- Fase 2: Calculos Brasileiros ---
+
+attendance_br_time_bank:
+  path: /api/v2/attendance/br/time-bank
+  methods: [GET, POST]
+  defaults:
+    _controller: OrangeHRM\Attendance\Api\TimeBankAPI
+
+attendance_br_time_bank_balance:
+  path: /api/v2/attendance/br/time-bank/balance/{empNumber}
+  methods: [GET]
+  defaults:
+    _controller: OrangeHRM\Attendance\Api\TimeBankAPI
+  requirements:
+    empNumber: '\d+'
+
+attendance_br_work_time_report:
+  path: /api/v2/attendance/br/work-time-report
+  methods: [GET]
+  defaults:
+    _controller: OrangeHRM\Attendance\Api\WorkTimeReportAPI
+
+# --- Fase 3: Extras ---
+
+attendance_br_receipt:
+  path: /api/v2/attendance/br/receipt/{id}
+  methods: [GET]
+  defaults:
+    _controller: OrangeHRM\Attendance\Api\PunchReceiptAPI
+  requirements:
+    id: '\d+'
+
+attendance_br_receipt_daily:
+  path: /api/v2/attendance/br/receipt/daily
+  methods: [GET]
+  defaults:
+    _controller: OrangeHRM\Attendance\Api\PunchReceiptAPI
+
+attendance_br_signature_verify:
+  path: /api/v2/attendance/br/signature/verify
+  methods: [GET, POST]
+  defaults:
+    _controller: OrangeHRM\Attendance\Api\SignatureVerifyAPI
+
+attendance_br_afdt_export:
+  path: /api/v2/attendance/br/afdt-export
+  methods: [GET]
+  defaults:
+    _controller: OrangeHRM\Attendance\Api\AFDTExportAPI
+
+attendance_br_esocial_generate:
+  path: /api/v2/attendance/br/esocial/generate
+  methods: [POST]
+  defaults:
+    _controller: OrangeHRM\Attendance\Api\ESocialEventAPI
+
+attendance_br_esocial_events:
+  path: /api/v2/attendance/br/esocial/events
+  methods: [GET]
+  defaults:
+    _controller: OrangeHRM\Attendance\Api\ESocialEventAPI

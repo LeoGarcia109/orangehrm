@@ -43,8 +43,28 @@ class AttendanceDao extends BaseDao
      */
     public function savePunchRecord(AttendanceRecord $attendanceRecord): AttendanceRecord
     {
+        // BR: Assign NSR (Numero Sequencial de Registro) on new records
+        if ($attendanceRecord->getNsr() === null) {
+            $nextNsr = $this->getNextNsr();
+            $attendanceRecord->setNsr($nextNsr);
+        }
         $this->persist($attendanceRecord);
         return $attendanceRecord;
+    }
+
+    /**
+     * Get the next NSR value using a locked read to prevent duplicates.
+     * Must be called within an active transaction for concurrency safety.
+     *
+     * @return int
+     */
+    private function getNextNsr(): int
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $result = $conn->executeQuery(
+            'SELECT COALESCE(MAX(nsr), 0) + 1 FROM ohrm_attendance_record FOR UPDATE'
+        );
+        return (int)$result->fetchOne();
     }
 
     /**

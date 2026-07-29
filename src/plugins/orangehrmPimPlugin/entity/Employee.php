@@ -164,6 +164,13 @@ class Employee
     /**
      * @var string|null
      *
+     * @ORM\Column(name="pis_number", type="string", length=12, nullable=true)
+     */
+    private ?string $pisNumber = null;
+
+    /**
+     * @var string|null
+     *
      * @ORM\Column(name="emp_dri_lice_num", type="string", length=100, nullable=true, options={"default" : ""})
      */
     private ?string $drivingLicenseNo = '';
@@ -813,6 +820,22 @@ class Employee
     public function setOtherId(?string $otherId): void
     {
         $this->otherId = $otherId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPisNumber(): ?string
+    {
+        return $this->pisNumber;
+    }
+
+    /**
+     * @param string|null $pisNumber
+     */
+    public function setPisNumber(?string $pisNumber): void
+    {
+        $this->pisNumber = $pisNumber;
     }
 
     /**
