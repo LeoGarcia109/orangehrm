@@ -28,7 +28,7 @@ use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\ResourceEndpoint;
+use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -42,7 +42,7 @@ use OrangeHRM\Entity\AttendanceRecord;
  * GET  /api/v2/attendance/br/signature/verify?fromDate=...&toDate=... - verify period
  * POST /api/v2/attendance/br/signature/verify - batch-sign unsigned records
  */
-class SignatureVerifyAPI extends Endpoint implements ResourceEndpoint
+class SignatureVerifyAPI extends Endpoint implements CollectionEndpoint
 {
     use EntityManagerHelperTrait;
 

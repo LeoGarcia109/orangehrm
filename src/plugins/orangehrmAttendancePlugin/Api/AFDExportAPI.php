@@ -26,7 +26,7 @@ use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\ResourceEndpoint;
+use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -41,7 +41,7 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
  * Returns the AFD as a text/plain file download.
  * Requires admin or supervisor role with attendance access.
  */
-class AFDExportAPI extends Endpoint implements ResourceEndpoint
+class AFDExportAPI extends Endpoint implements CollectionEndpoint
 {
     use EntityManagerHelperTrait;
 

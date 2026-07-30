@@ -149,7 +149,6 @@ apiv2_attendance_br_afd_export:
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
-    id: 0
     _api: OrangeHRM\Attendance\Api\AFDExportAPI
 
 apiv2_attendance_br_afdt_export:
@@ -157,7 +156,6 @@ apiv2_attendance_br_afdt_export:
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
-    id: 0
     _api: OrangeHRM\Attendance\Api\AFDTExportAPI
 
 apiv2_attendance_br_audit_log:
@@ -197,7 +195,6 @@ apiv2_attendance_br_receipt_daily:
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
-    id: 0
     _api: OrangeHRM\Attendance\Api\PunchReceiptAPI
 
 apiv2_attendance_br_signature_verify:
@@ -205,7 +202,6 @@ apiv2_attendance_br_signature_verify:
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, POST ]
   defaults:
-    id: 0
     _api: OrangeHRM\Attendance\Api\SignatureVerifyAPI
 
 apiv2_attendance_br_esocial_events:

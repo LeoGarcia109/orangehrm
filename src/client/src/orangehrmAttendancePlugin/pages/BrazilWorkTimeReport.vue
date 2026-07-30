@@ -20,7 +20,7 @@
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
     <oxd-text tag="h6" class="orangehrm-main-title">
-      Relatório de Jornada (BR)
+      Relatório de Jornada
     </oxd-text>
     <oxd-divider />
 

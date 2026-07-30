@@ -154,7 +154,7 @@ class TimeBankService
             ->andWhere('ar.punchOutUserTime IS NOT NULL')
             ->setParameter('empNumber', $employeeNumber)
             ->setParameter('start', $start)
-            ->setParameter('end', $end)
+            ->setParameter('end', (clone $end)->setTime(23, 59, 59))
             ->orderBy('ar.punchInUserTime', 'ASC');
 
         return $qb->getQuery()->getResult();

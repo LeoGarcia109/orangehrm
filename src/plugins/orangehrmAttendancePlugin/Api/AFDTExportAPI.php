@@ -26,7 +26,7 @@ use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\ResourceEndpoint;
+use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -38,7 +38,7 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
  *
  * Generates the AFDT (Arquivo Fonte de Dados Tratado) file for download.
  */
-class AFDTExportAPI extends Endpoint implements ResourceEndpoint
+class AFDTExportAPI extends Endpoint implements CollectionEndpoint
 {
     use EntityManagerHelperTrait;
 

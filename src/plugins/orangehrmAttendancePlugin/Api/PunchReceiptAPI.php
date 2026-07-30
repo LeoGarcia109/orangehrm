@@ -28,7 +28,7 @@ use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\ResourceEndpoint;
+use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -43,7 +43,7 @@ use OrangeHRM\Entity\AttendanceRecord;
  * GET /api/v2/attendance/br/receipt/{id}         - single record receipt
  * GET /api/v2/attendance/br/receipt/daily?empNumber=1&date=2024-01-15 - all records for a day
  */
-class PunchReceiptAPI extends Endpoint implements ResourceEndpoint
+class PunchReceiptAPI extends Endpoint implements CrudEndpoint
 {
     use EntityManagerHelperTrait;
     use AuthUserTrait;
