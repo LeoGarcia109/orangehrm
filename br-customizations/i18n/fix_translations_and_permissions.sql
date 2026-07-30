@@ -100,3 +100,32 @@ UPDATE ohrm_i18n_language SET modified_at = NOW() WHERE modified_at IS NULL;
 --   docker exec orangehrm-web bash -c "rm -rf /var/www/html/src/cache/orangehrm/*"
 --   docker exec orangehrm-web bash -c "chown -R www-data:www-data /var/www/html/src/cache/"
 -- ============================================================================
+
+-- ----------------------------------------------------------------------------
+-- 4. Corrige traducoes do menu do usuario (avatar dropdown)
+--    Mesmo bug de deslocamento: About->Suporte, Support->Alterar Senha, etc.
+-- ----------------------------------------------------------------------------
+
+UPDATE ohrm_i18n_translate t JOIN ohrm_i18n_lang_string ls ON ls.id = t.lang_string_id
+SET t.value = 'Sobre' WHERE t.language_id = 374 AND ls.value = 'About';
+
+UPDATE ohrm_i18n_translate t JOIN ohrm_i18n_lang_string ls ON ls.id = t.lang_string_id
+SET t.value = 'Suporte' WHERE t.language_id = 374 AND ls.value = 'Support';
+
+UPDATE ohrm_i18n_translate t JOIN ohrm_i18n_lang_string ls ON ls.id = t.lang_string_id
+SET t.value = 'Alterar Senha' WHERE t.language_id = 374 AND ls.value = 'Change Password';
+
+UPDATE ohrm_i18n_translate t JOIN ohrm_i18n_lang_string ls ON ls.id = t.lang_string_id
+SET t.value = 'Sair' WHERE t.language_id = 374 AND ls.value = 'Logout';
+
+UPDATE ohrm_i18n_translate t JOIN ohrm_i18n_lang_string ls ON ls.id = t.lang_string_id
+SET t.value = 'Meus Acompanhamentos' WHERE t.language_id = 374 AND ls.value = 'My Trackers';
+
+UPDATE ohrm_i18n_translate t JOIN ohrm_i18n_lang_string ls ON ls.id = t.lang_string_id
+SET t.value = 'Minhas Avaliacoes' WHERE t.language_id = 374 AND ls.value = 'My Reviews';
+
+UPDATE ohrm_i18n_translate t JOIN ohrm_i18n_lang_string ls ON ls.id = t.lang_string_id
+SET t.value = 'Minhas Folgas' WHERE t.language_id = 374 AND ls.value = 'My Leave';
+
+UPDATE ohrm_i18n_translate t JOIN ohrm_i18n_lang_string ls ON ls.id = t.lang_string_id
+SET t.value = 'Minhas Folhas de Ponto' WHERE t.language_id = 374 AND ls.value = 'My Timesheets';
