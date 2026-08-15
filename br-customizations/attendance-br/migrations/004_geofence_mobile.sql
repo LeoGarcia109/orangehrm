@@ -139,6 +139,14 @@ INSERT INTO ohrm_i18n_lang_string (`unit_id`, `group_id`, `value`, `version`)
 SELECT * FROM (SELECT 'geofence_validation_failed_location_outside_allowed_area', 17, 'Geofence Validation Failed - Location Outside Allowed Area', NULL) AS tmp
 WHERE NOT EXISTS (SELECT 1 FROM ohrm_i18n_lang_string WHERE unit_id = 'geofence_validation_failed_location_outside_allowed_area' AND group_id = 17);
 
+INSERT INTO ohrm_i18n_lang_string (`unit_id`, `group_id`, `value`, `version`)
+SELECT tmp.unit_id, tmp.group_id, tmp.value, tmp.version FROM (SELECT 'history' AS unit_id, 17 AS group_id, 'History' AS value, NULL AS version) AS tmp
+WHERE NOT EXISTS (SELECT 1 FROM ohrm_i18n_lang_string WHERE unit_id = 'history' AND group_id = 17);
+
+INSERT INTO ohrm_i18n_lang_string (`unit_id`, `group_id`, `value`, `version`)
+SELECT tmp.unit_id, tmp.group_id, tmp.value, tmp.version FROM (SELECT 'history_loading' AS unit_id, 17 AS group_id, 'Loading...' AS value, NULL AS version) AS tmp
+WHERE NOT EXISTS (SELECT 1 FROM ohrm_i18n_lang_string WHERE unit_id = 'history_loading' AND group_id = 17);
+
 SET @lang_pt_br = (SELECT id FROM ohrm_i18n_language WHERE code = 'pt_BR' LIMIT 1);
 
 INSERT INTO ohrm_i18n_translate (`lang_string_id`, `language_id`, `value`, `modified_at`)
@@ -168,6 +176,29 @@ WHERE ls.group_id = 17
     SELECT 1 FROM ohrm_i18n_translate t
     WHERE t.lang_string_id = ls.id AND t.language_id = @lang_pt_br
   );
+
+INSERT INTO ohrm_i18n_translate (`lang_string_id`, `language_id`, `value`, `modified_at`)
+SELECT ls.id, @lang_pt_br,
+  CASE ls.unit_id
+    WHEN 'history' THEN 'Histórico'
+    WHEN 'history_loading' THEN 'Carregando...'
+  END,
+  NOW()
+FROM ohrm_i18n_lang_string ls
+WHERE ls.group_id = 17
+  AND ls.unit_id IN ('history', 'history_loading')
+  AND NOT EXISTS (
+    SELECT 1 FROM ohrm_i18n_translate t
+    WHERE t.lang_string_id = ls.id AND t.language_id = @lang_pt_br
+  );
+
+-- Corrige traducao quebrada do SQL original (off-by-one):
+-- general.no_records_found tinha virado "Alterar Senha?"
+UPDATE ohrm_i18n_translate t
+JOIN ohrm_i18n_lang_string ls ON ls.id = t.lang_string_id
+SET t.value = 'Nenhum registro encontrado', t.modified_at = NOW()
+WHERE ls.unit_id = 'no_records_found' AND ls.group_id = 1
+  AND t.language_id = @lang_pt_br;
 
 -- ----------------------------------------------------------------------------
 -- FIM DA MIGRACAO 004

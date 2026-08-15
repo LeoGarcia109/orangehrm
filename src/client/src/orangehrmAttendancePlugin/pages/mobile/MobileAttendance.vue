@@ -13,90 +13,182 @@
       />
     </header>
 
-    <section class="ohrm-mobile__clock-card">
-      <div class="ohrm-mobile__clock">{{ currentTime }}</div>
-      <div
-        class="ohrm-mobile__status"
-        :class="{
-          'ohrm-mobile__status--in': isPunchedIn,
-          'ohrm-mobile__status--out': !isPunchedIn,
-        }"
-      >
-        {{
-          isPunchedIn
-            ? $t('attendance.punched_in')
-            : $t('attendance.punched_out')
-        }}
-      </div>
-      <div v-if="lastPunchLabel" class="ohrm-mobile__last-punch">
-        {{ lastPunchLabel }}
-      </div>
-    </section>
-
-    <section class="ohrm-mobile__location">
-      <span class="ohrm-mobile__location-badge" :class="locationBadgeClass">
-        <i class="oxd-icon bi-geo-alt-fill"></i>
-        {{ locationStatusText }}
-      </span>
-      <span v-if="geofenceEnabled" class="ohrm-mobile__geofence-note">
-        {{ $t('attendance.geofence_active') }}
-      </span>
-    </section>
-
-    <section class="ohrm-mobile__punch">
+    <nav class="ohrm-mobile__tabs">
       <button
-        class="ohrm-mobile__punch-button"
-        :class="{
-          'ohrm-mobile__punch-button--in': !isPunchedIn,
-          'ohrm-mobile__punch-button--out': isPunchedIn,
-        }"
-        :disabled="isLoading"
-        @click="onPunch"
+        class="ohrm-mobile__tab"
+        :class="{'ohrm-mobile__tab--active': tab === 'punch'}"
+        @click="tab = 'punch'"
       >
-        <span v-if="isLoading" class="ohrm-mobile__spinner"></span>
-        <span v-else>{{
-          isPunchedIn ? $t('attendance.out') : $t('attendance.in')
-        }}</span>
+        <i class="oxd-icon bi-stopwatch"></i>
+        {{ $t('general.punch_in_out') }}
       </button>
-    </section>
-
-    <section v-if="punchError" class="ohrm-mobile__error">
-      <i class="oxd-icon bi-exclamation-triangle-fill"></i>
-      {{ punchError }}
-    </section>
-
-    <section class="ohrm-mobile__note">
-      <oxd-input-field
-        v-model="punchNote"
-        type="textarea"
-        :label="$t('general.note')"
-        :placeholder="$t('attendance.note_placeholder')"
-        :rules="rules.note"
-      />
-    </section>
-
-    <section v-if="todayRecords.length" class="ohrm-mobile__history">
-      <oxd-text class="ohrm-mobile__history-title" tag="p">
-        {{ $t('attendance.today_records') }}
-      </oxd-text>
-      <div
-        v-for="record in todayRecords"
-        :key="record.id"
-        class="ohrm-mobile__history-item"
+      <button
+        class="ohrm-mobile__tab"
+        :class="{'ohrm-mobile__tab--active': tab === 'history'}"
+        @click="onOpenHistory"
       >
-        <span class="ohrm-mobile__history-time">
-          <i class="oxd-icon bi-box-arrow-in-right"></i>
-          {{ record.punchIn.userTime }}
+        <i class="oxd-icon bi-clock-history"></i>
+        {{ $t('attendance.history') }}
+      </button>
+    </nav>
+
+    <template v-if="tab === 'punch'">
+      <section class="ohrm-mobile__clock-card">
+        <div class="ohrm-mobile__clock">{{ currentTime }}</div>
+        <div
+          class="ohrm-mobile__status"
+          :class="{
+            'ohrm-mobile__status--in': isPunchedIn,
+            'ohrm-mobile__status--out': !isPunchedIn,
+          }"
+        >
+          {{
+            isPunchedIn
+              ? $t('attendance.punched_in')
+              : $t('attendance.punched_out')
+          }}
+        </div>
+        <div v-if="lastPunchLabel" class="ohrm-mobile__last-punch">
+          {{ lastPunchLabel }}
+        </div>
+      </section>
+
+      <section class="ohrm-mobile__location">
+        <span class="ohrm-mobile__location-badge" :class="locationBadgeClass">
+          <i class="oxd-icon bi-geo-alt-fill"></i>
+          {{ locationStatusText }}
         </span>
-        <span v-if="record.punchOut" class="ohrm-mobile__history-time">
-          <i class="oxd-icon bi-box-arrow-right"></i>
-          {{ record.punchOut.userTime }}
+        <span v-if="geofenceEnabled" class="ohrm-mobile__geofence-note">
+          {{ $t('attendance.geofence_active') }}
         </span>
-        <span v-else class="ohrm-mobile__history-open">
-          {{ $t('attendance.in') }}
-        </span>
-      </div>
-    </section>
+      </section>
+
+      <section class="ohrm-mobile__punch">
+        <button
+          class="ohrm-mobile__punch-button"
+          :class="{
+            'ohrm-mobile__punch-button--in': !isPunchedIn,
+            'ohrm-mobile__punch-button--out': isPunchedIn,
+          }"
+          :disabled="isLoading"
+          @click="onPunch"
+        >
+          <span v-if="isLoading" class="ohrm-mobile__spinner"></span>
+          <span v-else>{{
+            isPunchedIn ? $t('attendance.out') : $t('attendance.in')
+          }}</span>
+        </button>
+      </section>
+
+      <section v-if="punchError" class="ohrm-mobile__error">
+        <i class="oxd-icon bi-exclamation-triangle-fill"></i>
+        {{ punchError }}
+      </section>
+
+      <section class="ohrm-mobile__note">
+        <oxd-input-field
+          v-model="punchNote"
+          type="textarea"
+          :label="$t('general.note')"
+          :placeholder="$t('attendance.note_placeholder')"
+          :rules="rules.note"
+        />
+      </section>
+
+      <section v-if="todayRecords.length" class="ohrm-mobile__today">
+        <oxd-text class="ohrm-mobile__history-title" tag="p">
+          {{ $t('attendance.today_records') }}
+        </oxd-text>
+        <div
+          v-for="record in todayRecords"
+          :key="record.id"
+          class="ohrm-mobile__history-item"
+        >
+          <span class="ohrm-mobile__history-time">
+            <i class="oxd-icon bi-box-arrow-in-right"></i>
+            {{ record.punchIn.userTime }}
+          </span>
+          <span v-if="record.punchOut" class="ohrm-mobile__history-time">
+            <i class="oxd-icon bi-box-arrow-right"></i>
+            {{ record.punchOut.userTime }}
+          </span>
+          <span v-else class="ohrm-mobile__history-open">
+            {{ $t('attendance.in') }}
+          </span>
+        </div>
+      </section>
+    </template>
+
+    <template v-if="tab === 'history'">
+      <section class="ohrm-mobile__history-nav">
+        <button class="ohrm-mobile__history-arrow" @click="onHistoryPrev">
+          <i class="oxd-icon bi-chevron-left"></i>
+        </button>
+        <div class="ohrm-mobile__history-date">
+          <span class="ohrm-mobile__history-date-label">
+            {{ historyDateLabel }}
+          </span>
+          <button
+            v-if="historyDate !== todayIso"
+            class="ohrm-mobile__history-today-link"
+            @click="onHistoryToday"
+          >
+            {{ $t('general.today') }}
+          </button>
+        </div>
+        <button
+          class="ohrm-mobile__history-arrow"
+          :disabled="historyDate >= todayIso"
+          @click="onHistoryNext"
+        >
+          <i class="oxd-icon bi-chevron-right"></i>
+        </button>
+      </section>
+
+      <section v-if="historyLoading" class="ohrm-mobile__history-empty">
+        {{ $t('attendance.history_loading') }}
+      </section>
+
+      <section
+        v-else-if="!historyRecords.length"
+        class="ohrm-mobile__history-empty"
+      >
+        {{ $t('general.no_records_found') }}
+      </section>
+
+      <section v-else class="ohrm-mobile__history-list">
+        <div
+          v-for="record in historyRecords"
+          :key="record.id"
+          class="ohrm-mobile__history-card"
+        >
+          <div class="ohrm-mobile__history-card-row">
+            <span class="ohrm-mobile__history-card-time">
+              <i class="oxd-icon bi-box-arrow-in-right"></i>
+              {{ record.punchIn.userTime }}
+            </span>
+            <span class="ohrm-mobile__history-card-duration">
+              {{ record.duration }}h
+            </span>
+            <span class="ohrm-mobile__history-card-time">
+              <i v-if="record.punchOut" class="oxd-icon bi-box-arrow-right"></i>
+              {{ record.punchOut ? record.punchOut.userTime : '—' }}
+            </span>
+          </div>
+          <div
+            v-if="
+              record.punchIn.note || (record.punchOut && record.punchOut.note)
+            "
+            class="ohrm-mobile__history-card-note"
+          >
+            {{ record.punchIn.note || record.punchOut.note }}
+          </div>
+        </div>
+        <div class="ohrm-mobile__history-total">
+          {{ $t('general.total') }}: {{ historyTotalLabel }}
+        </div>
+      </section>
+    </template>
   </div>
 </template>
 
@@ -155,6 +247,7 @@ export default {
   },
   data() {
     return {
+      tab: 'punch',
       isLoading: false,
       isPunchedIn: false,
       lastRecord: null,
@@ -168,6 +261,10 @@ export default {
       currentTime: '',
       clockTimer: null,
       punchError: null,
+      historyDate: null,
+      historyRecords: [],
+      historyLoading: false,
+      historyTotalSeconds: 0,
       rules: {
         note: [shouldNotExceedCharLength(250)],
       },
@@ -200,10 +297,33 @@ export default {
       const prefix = this.isPunchedIn
         ? this.$t('attendance.punched_in')
         : this.$t('attendance.punched_out');
-      return `${prefix} - ${formatTime(
-        parseDate(`${punch.userDate} ${punch.userTime}`),
-        this.jsTimeFormat,
-      )}`;
+      const parsed = parseDate(
+        `${punch.userDate} ${punch.userTime}`,
+        'yyyy-MM-dd HH:mm',
+      );
+      const label = parsed
+        ? formatTime(parsed, this.jsTimeFormat)
+        : punch.userTime;
+      return `${prefix} - ${label}`;
+    },
+    todayIso() {
+      const now = new Date();
+      return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
+        2,
+        '0',
+      )}-${String(now.getDate()).padStart(2, '0')}`;
+    },
+    historyDateLabel() {
+      if (!this.historyDate) return '';
+      const parsed = parseDate(this.historyDate);
+      return parsed
+        ? formatDate(parsed, this.jsDateFormat, {locale: this.locale})
+        : this.historyDate;
+    },
+    historyTotalLabel() {
+      const hours = Math.floor(this.historyTotalSeconds / 3600);
+      const minutes = Math.round((this.historyTotalSeconds % 3600) / 60);
+      return `${hours}h ${String(minutes).padStart(2, '0')}m`;
     },
   },
   beforeMount() {
@@ -253,10 +373,67 @@ export default {
         });
     },
     loadToday() {
-      return this.recordsHttp.request({method: 'GET'}).then((response) => {
-        const [records] = response.data.data;
-        this.todayRecords = Array.isArray(records) ? records : [];
-      });
+      return this.recordsHttp
+        .request({method: 'GET'})
+        .then((response) => {
+          this.todayRecords = response.data.data;
+        })
+        .catch(() => {
+          this.todayRecords = [];
+        });
+    },
+    onOpenHistory() {
+      this.tab = 'history';
+      if (!this.historyDate) {
+        this.historyDate = this.todayIso;
+      }
+      this.loadHistoryRecords();
+    },
+    loadHistoryRecords() {
+      if (!this.historyDate) return;
+      this.historyLoading = true;
+      this.recordsHttp
+        .request({
+          method: 'GET',
+          params: {
+            fromDate: this.historyDate,
+            toDate: this.historyDate,
+            limit: 100,
+          },
+        })
+        .then((response) => {
+          this.historyRecords = response.data.data;
+          const total = response.data.meta?.sum;
+          this.historyTotalSeconds = total
+            ? total.hours * 3600 + total.minutes * 60
+            : 0;
+        })
+        .catch(() => {
+          this.historyRecords = [];
+          this.historyTotalSeconds = 0;
+        })
+        .finally(() => {
+          this.historyLoading = false;
+        });
+    },
+    shiftHistoryDate(days) {
+      const parsed = parseDate(this.historyDate);
+      if (!parsed) return;
+      parsed.setDate(parsed.getDate() + days);
+      this.historyDate = formatDate(parsed, 'yyyy-MM-dd');
+      this.loadHistoryRecords();
+    },
+    onHistoryPrev() {
+      this.shiftHistoryDate(-1);
+    },
+    onHistoryNext() {
+      if (this.historyDate < this.todayIso) {
+        this.shiftHistoryDate(1);
+      }
+    },
+    onHistoryToday() {
+      this.historyDate = this.todayIso;
+      this.loadHistoryRecords();
     },
     async refreshLocation() {
       this.locationStatus = 'locating';

@@ -44,6 +44,37 @@ $ohrm-mobile-bg: #f7f7f7;
     flex-shrink: 0;
   }
 
+  &__tabs {
+    display: flex;
+    gap: 0.5rem;
+    background: #fff;
+    border-radius: 0.9rem;
+    padding: 0.35rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  }
+
+  &__tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.6rem 0.5rem;
+    border: none;
+    border-radius: 0.65rem;
+    background: transparent;
+    color: $ohrm-mobile-gray;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    &--active {
+      background: $ohrm-mobile-orange;
+      color: #fff;
+    }
+  }
+
   &__clock-card {
     background: #fff;
     border-radius: 1rem;
@@ -189,7 +220,7 @@ $ohrm-mobile-bg: #f7f7f7;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   }
 
-  &__history {
+  &__today {
     background: #fff;
     border-radius: 1rem;
     padding: 1rem;
@@ -223,6 +254,120 @@ $ohrm-mobile-bg: #f7f7f7;
   &__history-open {
     color: $ohrm-mobile-orange;
     font-weight: 600;
+  }
+
+  // ---- History tab ----
+
+  &__history-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    border-radius: 1rem;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  }
+
+  &__history-arrow {
+    border: none;
+    background: $ohrm-mobile-bg;
+    color: #2c2c2c;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+  }
+
+  &__history-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  &__history-date-label {
+    font-weight: 600;
+    color: #2c2c2c;
+  }
+
+  &__history-today-link {
+    border: none;
+    background: none;
+    color: $ohrm-mobile-orange;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  &__history-empty {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 2rem 1rem;
+    text-align: center;
+    color: $ohrm-mobile-gray;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  }
+
+  &__history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  &__history-card {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 0.85rem 1rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  }
+
+  &__history-card-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__history-card-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #2c2c2c;
+  }
+
+  &__history-card-duration {
+    background: $ohrm-mobile-bg;
+    color: $ohrm-mobile-gray;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    border-radius: 1rem;
+  }
+
+  &__history-card-note {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed #eee;
+    font-size: 0.85rem;
+    color: $ohrm-mobile-gray;
+  }
+
+  &__history-total {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 0.85rem 1rem;
+    text-align: right;
+    font-weight: 700;
+    color: $ohrm-mobile-orange-dark;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   }
 }
 
