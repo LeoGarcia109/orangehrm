@@ -2550,6 +2550,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/geojson@npm:*":
+  version: 7946.0.16
+  resolution: "@types/geojson@npm:7946.0.16"
+  checksum: 10/34d07421bdd60e7b99fa265441d17ac6e9aef48e3ce22d04324127d0de1daf7fbaa0bd3be1cece2092eb6995f21da84afa5231e24621a2910ff7340bc98f496f
+  languageName: node
+  linkType: hard
+
 "@types/graceful-fs@npm:^4.1.2":
   version: 4.1.5
   resolution: "@types/graceful-fs@npm:4.1.5"
@@ -2621,6 +2628,15 @@ __metadata:
   version: 7.0.11
   resolution: "@types/json-schema@npm:7.0.11"
   checksum: 10/e50864a93f4dcb9de64c0c605d836f5416341c824d7a8cde1aa15a5fc68bed44b33cdcb2e04e5098339e9121848378f2d0cc5b124dec41c89203c6f67d6f344a
+  languageName: node
+  linkType: hard
+
+"@types/leaflet@npm:^1":
+  version: 1.9.22
+  resolution: "@types/leaflet@npm:1.9.22"
+  dependencies:
+    "@types/geojson": "npm:*"
+  checksum: 10/fdfe2f4a1adb2cd5e594320613d7673e8058928abb7caf0a79a6a9e58bc743cbefb2d1fa6d45e0a054d298a9f57632a04dd4e8c2c8e7ddfaa3c376d8f72b90a6
   languageName: node
   linkType: hard
 
@@ -8507,6 +8523,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"leaflet@npm:1.9.4":
+  version: 1.9.4
+  resolution: "leaflet@npm:1.9.4"
+  checksum: 10/7b6a74d503980961a85bdabebf9d1162c26db0e88195800ceea311682b653d621718f2ada3c9aab903a735af9862c9ae278ba550d4429acbd954d43449cd0d77
+  languageName: node
+  linkType: hard
+
 "leven@npm:^3.1.0":
   version: 3.1.0
   resolution: "leven@npm:3.1.0"
@@ -9520,6 +9543,7 @@ __metadata:
     "@ohrm/oxd": "npm:2.0.3"
     "@types/hammerjs": "npm:^2.0.45"
     "@types/jest": "npm:^27.5.2"
+    "@types/leaflet": "npm:^1"
     "@typescript-eslint/eslint-plugin": "npm:^5.62.0"
     "@typescript-eslint/parser": "npm:^5.62.0"
     "@vue/cli-plugin-babel": "npm:~5.0.8"
@@ -9541,6 +9565,7 @@ __metadata:
     hammerjs: "npm:^2.0.8"
     intl-messageformat: "npm:^9.13.0"
     jest: "npm:^27.5.1"
+    leaflet: "npm:1.9.4"
     prettier: "npm:^2.8.8"
     qrcode: "npm:^1.5.3"
     sass: "npm:^1.70.0"

@@ -16,12 +16,14 @@
     "date-fns": "^2.30.0",
     "hammerjs": "^2.0.8",
     "intl-messageformat": "^9.13.0",
+    "leaflet": "1.9.4",
     "qrcode": "^1.5.3",
     "vue": "^3.4.18"
   },
   "devDependencies": {
     "@types/hammerjs": "^2.0.45",
     "@types/jest": "^27.5.2",
+    "@types/leaflet": "^1",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "@vue/cli-plugin-babel": "~5.0.8",

@@ -99,6 +99,14 @@
             </oxd-grid-item>
             <oxd-grid-item :span="2" class="orangehrm-geofence-actions">
               <oxd-icon-button
+                class="orangehrm-geofence-pick"
+                icon="bi-geo-alt"
+                role="none"
+                :aria-label="$t('attendance.geofence_pick_on_map')"
+                :title="$t('attendance.geofence_pick_on_map')"
+                @click="onOpenMap(index)"
+              />
+              <oxd-icon-button
                 class="orangehrm-geofence-remove"
                 icon="trash-fill"
                 role="none"
@@ -125,6 +133,15 @@
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
+
+      <geofence-location-map-modal
+        v-if="mapModalLocation !== null"
+        :latitude="locations[mapModalLocation]?.latitude"
+        :longitude="locations[mapModalLocation]?.longitude"
+        :radius="locations[mapModalLocation]?.radius"
+        @apply="onMapApply"
+        @close="mapModalLocation = null"
+      />
     </div>
   </div>
 </template>
@@ -139,6 +156,7 @@ import {
 } from '@ohrm/core/util/validation/rules';
 import {OxdSwitchInput, OxdIconButton} from '@ohrm/oxd';
 import {translate as translatorFactory} from '@/core/plugins/i18n/translate';
+import GeofenceLocationMapModal from './GeofenceLocationMapModal.vue';
 
 const translate = translatorFactory();
 
@@ -170,6 +188,7 @@ export default {
   components: {
     'oxd-switch-input': OxdSwitchInput,
     'oxd-icon-button': OxdIconButton,
+    'geofence-location-map-modal': GeofenceLocationMapModal,
   },
   setup() {
     const geofenceHttp = new APIService(
@@ -192,6 +211,7 @@ export default {
       scopeSelection: null, // oxd-select model: {id, name} object or null
       units: [],
       locations: [],
+      mapModalLocation: null, // index of the location being picked on the map
       locationRules: {
         name: [required, shouldNotExceedCharLength(100)],
         latitude: [
@@ -276,6 +296,17 @@ export default {
     },
     onAddLocation() {
       this.locations.push({...emptyLocation});
+    },
+    onOpenMap(index) {
+      this.mapModalLocation = index;
+    },
+    onMapApply({latitude, longitude}) {
+      if (this.mapModalLocation === null) {
+        return;
+      }
+      this.locations[this.mapModalLocation].latitude = latitude.toFixed(6);
+      this.locations[this.mapModalLocation].longitude = longitude.toFixed(6);
+      this.mapModalLocation = null;
     },
     onRemoveLocation(index) {
       this.locations.splice(index, 1);
