@@ -100,7 +100,7 @@
             <oxd-grid-item :span="2" class="orangehrm-geofence-actions">
               <oxd-icon-button
                 class="orangehrm-geofence-pick"
-                icon="bi-geo-alt"
+                name="geo-alt"
                 role="none"
                 :aria-label="$t('attendance.geofence_pick_on_map')"
                 :title="$t('attendance.geofence_pick_on_map')"
@@ -108,7 +108,7 @@
               />
               <oxd-icon-button
                 class="orangehrm-geofence-remove"
-                icon="trash-fill"
+                name="trash-fill"
                 role="none"
                 :aria-label="$t('general.delete')"
                 @click="onRemoveLocation(index)"
@@ -121,7 +121,7 @@
           <oxd-button
             type="button"
             display-type="ghost"
-            icon="bi-plus-lg"
+            icon-name="plus-lg"
             :label="$t('admin.add_location')"
             @click="onAddLocation"
           />

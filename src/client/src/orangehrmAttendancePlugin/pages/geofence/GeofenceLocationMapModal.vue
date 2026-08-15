@@ -71,7 +71,7 @@
       <oxd-button
         type="button"
         display-type="ghost"
-        icon="bi-geo-alt"
+        icon-name="geo-alt"
         :label="$t('attendance.geofence_use_my_location')"
         @click="onUseMyLocation"
       />
