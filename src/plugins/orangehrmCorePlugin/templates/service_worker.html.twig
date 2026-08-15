@@ -1,0 +1,12 @@
+{# BR: PWA service worker registration (assetsVersion = build timestamp). #}
+<script type="text/javascript">
+  if ('serviceWorker' in navigator && window.isSecureContext) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker
+        .register('{{ publicPath }}/sw.js?v={{ assetsVersion }}')
+        .catch(function (error) {
+          console.warn('[OHRM PWA] Service worker registration failed:', error);
+        });
+    });
+  }
+</script>

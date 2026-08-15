@@ -20,7 +20,6 @@
 namespace OrangeHRM\Attendance\Api;
 
 use DateTime;
-use OrangeHRM\Attendance\Service\BrazilianWorkTimeCalculator;
 use OrangeHRM\Attendance\Service\TimeBankService;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;

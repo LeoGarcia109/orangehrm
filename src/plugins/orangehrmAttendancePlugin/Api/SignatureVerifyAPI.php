@@ -19,14 +19,11 @@
 
 namespace OrangeHRM\Attendance\Api;
 
-use DateTime;
 use OrangeHRM\Attendance\Service\RecordSignatureService;
-use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
-use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;

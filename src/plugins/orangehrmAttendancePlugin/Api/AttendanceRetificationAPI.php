@@ -37,7 +37,6 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\AttendanceRecord;
 use OrangeHRM\Entity\AttendanceRetification;
-use OrangeHRM\Entity\Employee;
 
 /**
  * CRUD for attendance retifications (Portaria 673/2021).

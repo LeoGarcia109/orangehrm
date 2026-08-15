@@ -1,0 +1,33 @@
+{
+  "name": "OrangeHRM",
+  "short_name": "OrangeHRM",
+  "description": "Gestao de pessoas, ponto eletronico e jornada de trabalho",
+  "id": "com.orangehrm.pwa",
+  "start_url": "./index.php/dashboard/index",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FF7B1D",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "dist/img/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "dist/img/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "dist/img/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

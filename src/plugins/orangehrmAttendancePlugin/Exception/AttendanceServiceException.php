@@ -94,4 +94,24 @@ class AttendanceServiceException extends Exception
     {
         return new self('Valid Timezone Offset and Timezone Name Must Be Provided');
     }
+
+    /**
+     * BR: Geofence is enabled but the punch was sent without GPS coordinates.
+     *
+     * @return static
+     */
+    public static function geofenceCoordinatesMissing(): self
+    {
+        return new self('Geofence Validation Failed - Location Coordinates Required');
+    }
+
+    /**
+     * BR: Geofence is enabled and the punch coordinates are outside every allowed area.
+     *
+     * @return static
+     */
+    public static function geofenceOutsideAllowedArea(): self
+    {
+        return new self('Geofence Validation Failed - Location Outside Allowed Area');
+    }
 }

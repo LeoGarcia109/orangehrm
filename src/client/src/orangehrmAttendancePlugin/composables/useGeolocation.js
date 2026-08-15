@@ -53,6 +53,7 @@ export default function useGeolocation(options = {}) {
         },
         (error) => {
           // Non-blocking: log and resolve null
+          // eslint-disable-next-line no-console
           console.warn(
             '[BR Attendance] Geolocation unavailable:',
             error.message,

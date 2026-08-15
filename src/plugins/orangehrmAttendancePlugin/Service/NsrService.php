@@ -19,8 +19,6 @@
 
 namespace OrangeHRM\Attendance\Service;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 use OrangeHRM\Entity\AttendanceRecord;
 

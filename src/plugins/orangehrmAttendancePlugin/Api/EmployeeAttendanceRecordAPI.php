@@ -27,6 +27,7 @@ use OrangeHRM\Attendance\Api\Model\AttendanceRecordModel;
 use OrangeHRM\Attendance\Api\ValidationRules\EmployeeDataGroupReadPermissionRule;
 use OrangeHRM\Attendance\Dto\AttendanceRecordSearchFilterParams;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
+use OrangeHRM\Attendance\Service\GeofenceService;
 use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
@@ -68,6 +69,10 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_NOTE = 'note';
     public const FILTER_FROM_DATE = 'fromDate';
     public const FILTER_TO_DATE = 'toDate';
+
+    // BR: GPS coordinates captured at punch time (Portaria 673/2021)
+    public const PARAMETER_LATITUDE = 'latitude';
+    public const PARAMETER_LONGITUDE = 'longitude';
 
     public const PARAMETER_RULE_NOTE_MAX_LENGTH = 250;
 
@@ -297,7 +302,16 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     {
         $this->beginTransaction();
         try {
-            list($empNumber, $date, $time, $timezoneOffset, $timezoneName, $note) = $this->getCommonRequestParams();
+            list(
+                $empNumber,
+                $date,
+                $time,
+                $timezoneOffset,
+                $timezoneName,
+                $note,
+                $latitude,
+                $longitude
+            ) = $this->getCommonRequestParams();
             $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
                 WorkflowStateMachine::FLOW_ATTENDANCE,
                 AttendanceRecord::STATE_INITIAL,
@@ -306,6 +320,10 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                 [Employee::class => $empNumber]
             );
             $this->userAllowedPunchInActions(array_keys($allowedWorkflowItems));
+            // BR: geofence enforcement (Portaria 673/2021) — self punches only
+            if ($this->isGeofenceApplicable()) {
+                $this->validateGeofence($latitude, $longitude);
+            }
             $attendanceRecord = new AttendanceRecord();
             $attendanceRecord->getDecorator()->setEmployeeByEmpNumber($empNumber);
             $punchInDateTime = $this->extractPunchDateTime($date . ' ' . $time, $timezoneOffset);
@@ -327,6 +345,9 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                 $timezoneName,
                 $note
             );
+            // BR: persist captured GPS coordinates (nullable — non-blocking when geofence is off)
+            $attendanceRecord->setPunchInLatitude($latitude !== null ? (string)$latitude : null);
+            $attendanceRecord->setPunchInLongitude($longitude !== null ? (string)$longitude : null);
             $attendanceRecord = $this->getAttendanceService()->getAttendanceDao()->savePunchRecord($attendanceRecord);
             $this->commitTransaction();
             return new EndpointResourceResult(AttendanceRecordModel::class, $attendanceRecord);
@@ -369,6 +390,14 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_NOTE
+            ),
+            $this->getRequestParams()->getFloatOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_LATITUDE
+            ),
+            $this->getRequestParams()->getFloatOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_LONGITUDE
             )
         ];
     }
@@ -473,6 +502,21 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NOTE_MAX_LENGTH])
                 ),
                 true
+            ),
+            // BR: GPS coordinates (optional — captured by the mobile punch experience)
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_LATITUDE,
+                    new Rule(Rules::FLOAT_VAL),
+                    new Rule(Rules::BETWEEN, [-90, 90])
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_LONGITUDE,
+                    new Rule(Rules::FLOAT_VAL),
+                    new Rule(Rules::BETWEEN, [-180, 180])
+                )
             )
         ];
     }
@@ -631,7 +675,16 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     public function update(): EndpointResult
     {
         try {
-            list($empNumber, $date, $time, $timezoneOffset, $timezoneName, $note) = $this->getCommonRequestParams();
+            list(
+                $empNumber,
+                $date,
+                $time,
+                $timezoneOffset,
+                $timezoneName,
+                $note,
+                $latitude,
+                $longitude
+            ) = $this->getCommonRequestParams();
             $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
                 WorkflowStateMachine::FLOW_ATTENDANCE,
                 AttendanceRecord::STATE_PUNCHED_IN,
@@ -640,6 +693,10 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                 [Employee::class => $empNumber]
             );
             $this->userAllowedPunchOutActions(array_keys($allowedWorkflowItems));
+            // BR: geofence enforcement (Portaria 673/2021) — self punches only
+            if ($this->isGeofenceApplicable()) {
+                $this->validateGeofence($latitude, $longitude);
+            }
             $lastPunchInRecord = $this->getAttendanceService()
                 ->getAttendanceDao()
                 ->getLastPunchRecordByEmployeeNumberAndActionableList($empNumber, [AttendanceRecord::STATE_PUNCHED_IN]);
@@ -665,6 +722,9 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                 $timezoneName,
                 $note
             );
+            // BR: persist captured GPS coordinates (nullable — non-blocking when geofence is off)
+            $lastPunchInRecord->setPunchOutLatitude($latitude !== null ? (string)$latitude : null);
+            $lastPunchInRecord->setPunchOutLongitude($longitude !== null ? (string)$longitude : null);
             $attendanceRecord = $this->getAttendanceService()->getAttendanceDao()->savePunchRecord($lastPunchInRecord);
             return new EndpointResourceResult(AttendanceRecordModel::class, $attendanceRecord);
         } catch (AttendanceServiceException $e) {
@@ -721,5 +781,36 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             ...$this->getCommonValidationRules()
         );
+    }
+
+    /**
+     * BR: Geofence only applies to self punches (Portaria 673/2021).
+     * Proxy punches by Admin/Supervisor on behalf of an employee are never blocked.
+     *
+     * @return bool
+     */
+    protected function isGeofenceApplicable(): bool
+    {
+        return $this->getAuthUser()->getEmpNumber() === $this->getEmpNumber();
+    }
+
+    /**
+     * BR: Validate punch coordinates against the configured geofence.
+     * Throws BadRequestException when the punch must be refused.
+     *
+     * @param float|null $latitude
+     * @param float|null $longitude
+     * @throws BadRequestException
+     */
+    protected function validateGeofence(?float $latitude, ?float $longitude): void
+    {
+        $result = (new GeofenceService())->validate($latitude, $longitude);
+        if ($result['valid']) {
+            return;
+        }
+        if ($result['reason'] === 'missing_coordinates') {
+            throw AttendanceServiceException::geofenceCoordinatesMissing();
+        }
+        throw AttendanceServiceException::geofenceOutsideAllowedArea();
     }
 }

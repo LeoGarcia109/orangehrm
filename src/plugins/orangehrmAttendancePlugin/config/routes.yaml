@@ -229,3 +229,16 @@ attendance_br_work_time_report_page:
   path: /attendance/brWorkTimeReport
   controller: OrangeHRM\Attendance\Controller\BrazilWorkTimeReportController::handle
   methods: [ GET ]
+
+apiv2_attendance_br_geofence:
+  path: /api/v2/attendance/geofence
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Attendance\Api\GeofenceConfigurationAPI
+
+attendance_mobile_page:
+  path: /attendance/mobile
+  controller: OrangeHRM\Attendance\Controller\MobileAttendanceController::handle
+  methods: [ GET ]

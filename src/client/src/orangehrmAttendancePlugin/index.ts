@@ -24,6 +24,7 @@ import AttendanceSummaryReport from './pages/AttendanceSummaryReport.vue';
 import ViewEmployeeAttendanceSummary from './pages/ViewEmployeeAttendanceSummary.vue';
 import ViewEmployeeAttendanceDetailed from './pages/ViewEmployeeAttendanceDetailed.vue';
 import BrazilWorkTimeReport from './pages/BrazilWorkTimeReport.vue';
+import MobileAttendance from './pages/mobile/MobileAttendance.vue';
 
 export default {
   'attendance-punch-in': PunchIn,
@@ -35,4 +36,5 @@ export default {
   'view-employee-attendance-summary': ViewEmployeeAttendanceSummary,
   'view-employee-attendance-detailed': ViewEmployeeAttendanceDetailed,
   'brazil-work-time-report': BrazilWorkTimeReport,
+  'mobile-attendance': MobileAttendance,
 };

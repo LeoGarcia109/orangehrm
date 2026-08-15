@@ -58,6 +58,35 @@ Implementação da Fase 1 de conformidade com a Portaria SEPRT 673/2021:
 
 Detalhes em [`attendance-br/README.md`](attendance-br/README.md).
 
+## PWA Mobile + Geofence (Fase 4)
+
+Experiência mobile-first de ponto, instalável como PWA (sem lojas de app):
+
+- **Página mobile dedicada** em `/attendance/mobile` — relógio, botão de punch
+  gigante, captura de GPS, status de localização, histórico do dia
+- **Geofence (área restrita)** — punch só é aceito dentro dos locais
+  configurados (raio em metros, validação haversine no servidor). Desativado
+  por padrão; ativa via API ou SQL:
+  `attendance.br.geofence.enabled` = `true` em `hs_hr_config`
+- **GPS persistido** — latitude/longitude agora são aceitos e salvos nos
+  endpoints de punch (`POST/PUT /api/v2/attendance/records[...]`), corrigindo
+  a lacuna em que o frontend enviava mas o backend descartava
+- **Shell PWA** — manifest.webmanifest, service worker (cache do app shell,
+  network-first para navegações), ícones 192/512/maskable, meta tags iOS/Android
+- **Novo endpoint** `GET/PUT /api/v2/attendance/geofence` (configuração; PUT só Admin)
+- **Permissões**: Admin/ESS/Supervisor leem a config; só Admin atualiza.
+  Tela `Mobile Attendance` liberada para Admin, ESS e Supervisor
+
+Como usar (após deploy):
+
+1. Funcionário acessa `https://<servidor>/web/index.php/attendance/mobile`
+2. Android: prompt de instalação automático. iOS: Compartilhar →
+   "Adicionar à Tela de Início"
+3. Admin define áreas permitidas via PUT `/api/v2/attendance/geofence`:
+   `{"enabled": true, "locations": [{"name": "Escritório", "latitude": -23.55, "longitude": -46.63, "radius": 300}]}`
+
+Migração: [`attendance-br/migrations/004_geofence_mobile.sql`](attendance-br/migrations/004_geofence_mobile.sql)
+
 ## Próximas customizações planejadas
 
 - [ ] Integração com e-Social

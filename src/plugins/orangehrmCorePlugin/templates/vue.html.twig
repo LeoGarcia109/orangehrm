@@ -2,6 +2,8 @@
 
 {% block links %}
   <link rel="icon" href="{{ publicPath }}/dist/favicon.ico?v={{ assetsVersion }}">
+  <link rel="manifest" href="{{ publicPath }}/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="{{ publicPath }}/dist/img/icons/icon-192.png?v={{ assetsVersion }}">
   <link href="{{ publicPath }}/dist/css/chunk-vendors.css?v={{ assetsVersion }}" rel="preload" as="style">
   <link href="{{ publicPath }}/dist/css/app.css?v={{ assetsVersion }}" rel="preload" as="style">
   <link href="{{ publicPath }}/dist/js/chunk-vendors.js?v={{ assetsVersion }}" rel="preload" as="script">
@@ -79,4 +81,5 @@
   </script>
   <script src="{{ publicPath }}/dist/js/chunk-vendors.js?v={{ assetsVersion }}"></script>
   <script src="{{ publicPath }}/dist/js/app.js?v={{ assetsVersion }}"></script>
+  {% include 'service_worker.html.twig' %}
 {% endblock %}

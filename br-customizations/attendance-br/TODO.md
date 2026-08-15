@@ -39,3 +39,23 @@ O Vue faz a chamada via `APIService` com `params` (query string), mas pode haver
 3. [ ] Verificar se a resposta da API tem o formato esperado pelo Vue
 4. [ ] Testar com curl autenticado (pegar cookie da sessao)
 5. [ ] Traduzir labels do formulario para portugues
+
+# Fase 4 - PWA Mobile + Geofence (2026-08-15)
+
+## Entregue
+
+- [x] Pagina mobile `/attendance/mobile` (punch com GPS, historico do dia)
+- [x] Backend aceita/persiste latitude/longitude no punch (POST/PUT records)
+- [x] GeofenceService (haversine) + endpoint GET/PUT /api/v2/attendance/geofence
+- [x] Shell PWA: manifest.webmanifest, sw.js, icones, meta tags iOS/Android
+- [x] Migracao 004: permissoes, tela, config defaults, i18n pt_BR
+
+## Pendente (fase 4)
+
+1. [ ] Tela admin para gerenciar areas do geofence (hoje so via API/SQL)
+2. [ ] Notificacoes push (lembrete de punch out) — exige VAPID keys
+3. [ ] Fila offline de punch (bater ponto sem sinal e sincronizar)
+4. [ ] Camera/selfie no punch (prova adicional, opcional)
+5. [ ] Testar instalacao PWA em iOS real (Safari → Adicionar à Tela de Início)
+6. [ ] Menu lateral: link para a pagina mobile (opcional; funcionarios
+      acessam direto pelo link compartilhado)

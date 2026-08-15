@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{# BR: PWA-friendly standalone shell for mobile pages (no side panel / topbar). #}
+
+{% block title %}OrangeHRM Mobile{% endblock %}
+
+{% block links %}
+  <link rel="icon" href="{{ publicPath }}/dist/favicon.ico?v={{ assetsVersion }}">
+  <link rel="manifest" href="{{ publicPath }}/manifest.webmanifest">
+  <meta name="theme-color" content="#FF7B1D">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="OrangeHRM">
+  <link rel="apple-touch-icon" href="{{ publicPath }}/dist/img/icons/icon-192.png?v={{ assetsVersion }}">
+  <link href="{{ publicPath }}/dist/css/chunk-vendors.css?v={{ assetsVersion }}" rel="preload" as="style">
+  <link href="{{ publicPath }}/dist/css/app.css?v={{ assetsVersion }}" rel="preload" as="style">
+  <link href="{{ publicPath }}/dist/js/chunk-vendors.js?v={{ assetsVersion }}" rel="preload" as="script">
+  <link href="{{ publicPath }}/dist/js/app.js?v={{ assetsVersion }}" rel="preload" as="script">
+{% endblock %}
+
+{% block stylesheets %}
+  <link href="{{ publicPath }}/dist/css/chunk-vendors.css?v={{ assetsVersion }}" rel="stylesheet"/>
+  <link href="{{ publicPath }}/dist/css/app.css?v={{ assetsVersion }}" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+  <noscript>
+    <strong>
+      We're sorry but orangehrm doesn't work properly without JavaScript enabled. Please enable it to continue.
+    </strong>
+  </noscript>
+
+  <div id="app">
+    <{{ componentName }}
+    :date-format="{{ dateFormat | json_encode() }}"
+    {% for prop in componentProps %}
+      :{{ prop.getName() }}="{{ prop.getValue() }}"
+    {% endfor %}
+    >
+    </{{ componentName }}>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  <script type="text/javascript">
+      window.appGlobal = {
+        baseUrl: "{{ baseUrl }}",
+        publicPath: "{{ publicPath }}",
+      };
+  </script>
+  <script src="{{ publicPath }}/dist/js/chunk-vendors.js?v={{ assetsVersion }}"></script>
+  <script src="{{ publicPath }}/dist/js/app.js?v={{ assetsVersion }}"></script>
+{% endblock %}
