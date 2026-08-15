@@ -68,8 +68,6 @@
             <oxd-grid-item :span="2">
               <oxd-input-field
                 v-model="location.latitude"
-                type="number"
-                step="any"
                 :label="$t('attendance.latitude')"
                 :rules="locationRules.latitude"
                 :placeholder="'-23.550520'"
@@ -79,8 +77,6 @@
             <oxd-grid-item :span="2">
               <oxd-input-field
                 v-model="location.longitude"
-                type="number"
-                step="any"
                 :label="$t('attendance.longitude')"
                 :rules="locationRules.longitude"
                 :placeholder="'-46.633308'"
@@ -90,10 +86,9 @@
             <oxd-grid-item :span="2">
               <oxd-input-field
                 v-model="location.radius"
-                type="number"
                 :label="$t('attendance.radius_meters')"
                 :rules="locationRules.radius"
-                :min="1"
+                :placeholder="'300'"
                 required
               />
             </oxd-grid-item>
@@ -300,12 +295,15 @@ export default {
     onOpenMap(index) {
       this.mapModalLocation = index;
     },
-    onMapApply({latitude, longitude}) {
+    onMapApply({latitude, longitude, radius}) {
       if (this.mapModalLocation === null) {
         return;
       }
       this.locations[this.mapModalLocation].latitude = latitude.toFixed(6);
       this.locations[this.mapModalLocation].longitude = longitude.toFixed(6);
+      if (radius) {
+        this.locations[this.mapModalLocation].radius = String(radius);
+      }
       this.mapModalLocation = null;
     },
     onRemoveLocation(index) {

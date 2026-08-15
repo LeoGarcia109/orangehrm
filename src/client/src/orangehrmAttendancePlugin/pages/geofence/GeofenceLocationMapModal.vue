@@ -63,9 +63,30 @@
     <oxd-text tag="p" class="orangehrm-geofence-map-hint">
       {{ $t('attendance.geofence_map_hint') }}
     </oxd-text>
-    <oxd-text v-if="selection" tag="p" class="orangehrm-geofence-map-coords">
-      {{ selection.lat.toFixed(6) }}, {{ selection.lng.toFixed(6) }}
-    </oxd-text>
+
+    <oxd-grid
+      :cols="3"
+      class="orangehrm-full-width-grid orangehrm-geofence-map-fields"
+    >
+      <oxd-input-field
+        v-model="latInput"
+        :label="$t('attendance.latitude')"
+        :placeholder="'-23.550520'"
+        @update:model-value="onManualCoords"
+      />
+      <oxd-input-field
+        v-model="lngInput"
+        :label="$t('attendance.longitude')"
+        :placeholder="'-46.633308'"
+        @update:model-value="onManualCoords"
+      />
+      <oxd-input-field
+        v-model="radiusInput"
+        :label="$t('attendance.radius_meters')"
+        :placeholder="'300'"
+        @update:model-value="onRadiusChange"
+      />
+    </oxd-grid>
 
     <div class="orangehrm-geofence-map-actions">
       <oxd-button
@@ -137,6 +158,9 @@ export default {
       marker: null,
       circle: null,
       selection: null,
+      latInput: '',
+      lngInput: '',
+      radiusInput: String(this.radius ?? 300),
       searchQuery: '',
       searchResults: [],
       searchError: null,
@@ -153,7 +177,7 @@ export default {
       return DEFAULT_CENTER;
     },
     radiusMeters() {
-      const radius = parseInt(this.radius, 10);
+      const radius = parseInt(this.radiusInput, 10);
       return Number.isNaN(radius) || radius < 1 ? 300 : radius;
     },
   },
@@ -197,6 +221,8 @@ export default {
     },
     setSelection(lat, lng, silentZoom = false) {
       this.selection = {lat, lng};
+      this.latInput = lat.toFixed(6);
+      this.lngInput = lng.toFixed(6);
       const latLng = L.latLng(lat, lng);
 
       if (!this.marker) {
@@ -261,6 +287,22 @@ export default {
       this.setSelection(lat, lng);
       this.map.setView(L.latLng(lat, lng), 17);
     },
+    onManualCoords() {
+      const lat = parseFloat(this.latInput);
+      const lng = parseFloat(this.lngInput);
+      if (Number.isNaN(lat) || Number.isNaN(lng)) {
+        return;
+      }
+      if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+        return;
+      }
+      this.setSelection(lat, lng, true);
+    },
+    onRadiusChange() {
+      if (this.circle) {
+        this.circle.setRadius(this.radiusMeters);
+      }
+    },
     onUseMyLocation() {
       if (!navigator.geolocation) {
         this.searchError = this.$t('attendance.geofence_no_results');
@@ -286,6 +328,7 @@ export default {
       this.$emit('apply', {
         latitude: this.selection.lat,
         longitude: this.selection.lng,
+        radius: this.radiusMeters,
       });
       this.$emit('close');
     },
@@ -315,10 +358,11 @@ export default {
   margin-bottom: 0.5rem;
 }
 .orangehrm-geofence-map-hint,
-.orangehrm-geofence-map-coords {
+.orangehrm-geofence-map-fields {
   margin: 0.5rem 0 0;
-  font-size: 0.75rem;
-  color: #6c757d;
+}
+.orangehrm-geofence-map-fields {
+  margin-top: 0.75rem;
 }
 .orangehrm-geofence-map-error {
   margin: 0 0 0.5rem;
