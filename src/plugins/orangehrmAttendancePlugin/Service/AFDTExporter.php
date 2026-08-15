@@ -22,6 +22,7 @@ namespace OrangeHRM\Attendance\Service;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use OrangeHRM\Entity\AttendanceRecord;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Organization;
 
 /**
@@ -51,9 +52,12 @@ class AFDTExporter
 
     private EntityManagerInterface $em;
 
+    private EmployerResolverService $employerResolver;
+
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
+        $this->employerResolver = new EmployerResolverService();
     }
 
     /**
@@ -69,8 +73,15 @@ class AFDTExporter
         $organization = $this->em->getRepository(Organization::class)->findOneBy([]);
         $records = $this->fetchRecords($startDate, $endDate, $employeeNumber);
 
+        // BR multi-company: single-employee exports carry the unit CNPJ/CEI.
+        $employer = null;
+        if ($employeeNumber !== null) {
+            $employee = $this->em->find(Employee::class, $employeeNumber);
+            $employer = $this->employerResolver->resolveForEmployee($employee, $organization);
+        }
+
         $lines = [];
-        $lines[] = $this->buildHeader($organization, $startDate, $endDate);
+        $lines[] = $this->buildHeader($organization, $employer, $startDate, $endDate);
 
         $punchCount = 0;
         foreach ($records as $record) {
@@ -101,11 +112,23 @@ class AFDTExporter
         ];
     }
 
-    private function buildHeader(?Organization $org, DateTime $startDate, DateTime $endDate): string
-    {
-        $cnpj = $this->sanitizeDigits($org?->getTaxId() ?? '', 14);
-        $name = $this->padRight($org?->getName() ?? 'EMPREGADOR', 150);
-        $cei = $this->sanitizeDigits($org?->getRegistrationNumber() ?? '', 12);
+    private function buildHeader(
+        ?Organization $org,
+        ?array $employer,
+        DateTime $startDate,
+        DateTime $endDate
+    ): string {
+        $cnpjSource = $employer['cnpj']
+            ?? $this->employerResolver->sanitizeDigits($org?->getTaxId() ?? '')
+            ?? '';
+        $ceiSource = $employer['cei']
+            ?? $this->employerResolver->sanitizeDigits($org?->getRegistrationNumber() ?? '')
+            ?? '';
+        $nameSource = $employer['name'] ?? $org?->getName();
+
+        $cnpj = $this->sanitizeDigits($cnpjSource, 14);
+        $name = $this->padRight($nameSource ?? 'EMPREGADOR', 150);
+        $cei = $this->sanitizeDigits($ceiSource, 12);
         $now = new DateTime();
 
         return self::RECORD_TYPE_HEADER

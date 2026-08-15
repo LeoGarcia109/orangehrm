@@ -43,6 +43,9 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_UNIT_ID = 'unitId';
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
+    // BR: employer identifiers per company unit (multi-company)
+    public const PARAMETER_CNPJ = 'cnpj';
+    public const PARAMETER_CEI = 'cei';
 
     public const FILTER_DEPTH = 'depth';
     public const FILTER_MODE = 'mode';
@@ -53,6 +56,8 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     public const PARAM_RULE_UNIT_ID_MAX_LENGTH = 100;
     public const PARAM_RULE_NAME_MAX_LENGTH = 100;
     public const PARAM_RULE_DESCRIPTION_MAX_LENGTH = 400;
+    public const PARAM_RULE_CNPJ_MAX_LENGTH = 18;
+    public const PARAM_RULE_CEI_MAX_LENGTH = 12;
 
     /**
      * @OA\Get(
@@ -281,6 +286,23 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DESCRIPTION_MAX_LENGTH])
             ),
+            // BR: employer identifiers per company unit (multi-company)
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_CNPJ,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CNPJ_MAX_LENGTH])
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_CEI,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CEI_MAX_LENGTH])
+                ),
+                true
+            ),
         ];
     }
 
@@ -296,9 +318,20 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_DESCRIPTION
         );
+        $cnpj = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_CNPJ
+        );
+        $cei = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_CEI
+        );
         $subunit->setUnitId($unitId);
         $subunit->setName($name);
         $subunit->setDescription($description);
+        // BR: multi-company employer identifiers
+        $subunit->setCnpj($cnpj !== null && trim($cnpj) !== '' ? trim($cnpj) : null);
+        $subunit->setCei($cei !== null && trim($cei) !== '' ? trim($cei) : null);
         return $subunit;
     }
 

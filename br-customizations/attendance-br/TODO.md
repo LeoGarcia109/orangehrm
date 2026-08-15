@@ -52,10 +52,38 @@ O Vue faz a chamada via `APIService` com `params` (query string), mas pode haver
 
 ## Pendente (fase 4)
 
-1. [ ] Tela admin para gerenciar areas do geofence (hoje so via API/SQL)
+1. [x] Tela admin para gerenciar areas do geofence → feita na Fase 5
+      (`/attendance/brGeofence`, por empresa)
 2. [ ] Notificacoes push (lembrete de punch out) — exige VAPID keys
 3. [ ] Fila offline de punch (bater ponto sem sinal e sincronizar)
 4. [ ] Camera/selfie no punch (prova adicional, opcional)
 5. [ ] Testar instalacao PWA em iOS real (Safari → Adicionar à Tela de Início)
 6. [ ] Menu lateral: link para a pagina mobile (opcional; funcionarios
       acessam direto pelo link compartilhado)
+
+# Fase 5 - Multi-empresa (2026-08-15)
+
+## Entregue
+
+- [x] CNPJ/CEI por unidade da estrutura organizacional (colunas em ohrm_subunit
+      + campos nos dialogos SaveOrgUnit/EditOrgUnit)
+- [x] Tabela ohrm_attendance_geofence_location (locais por unidade;
+      subunit_id NULL = conjunto padrao/fallback)
+- [x] GeofenceService reescrito: getLocationsForScope/replaceLocationsForScope/
+      validateForEmployee (locais da unidade do funcionario que bate ponto)
+- [x] GeofenceConfigurationAPI v2: GET ?subunitId= / PUT com upsert+delete
+      por escopo; JSON antigo migrado para a tabela
+- [x] Tela admin /attendance/brGeofence + item de menu (Admin only)
+- [x] EmployerResolverService: AFD/AFDT/e-Social/comprovante usam o CNPJ da
+      unidade do funcionario (fallback: tax_id da organizacao)
+- [x] Migracao 005_multi_company.sql (idempotente)
+
+## Pendente (fase 5 / proximas)
+
+1. [ ] Cadastro em massa de empresas/funcionarios por CNPJ (importacao CSV?)
+2. [ ] Relatorio de jornada agrupado por empresa (o brWorkTimeReport atual
+      nao filtra por unidade)
+3. [ ] AFD multi-empresa: exportar um arquivo por CNPJ em lote (hoje o
+      cabecalho por unidade vale apenas para exportacao por funcionario)
+4. [ ] Selfie/camera no punch (pendente da fase 4)
+5. [ ] Fila offline de punch (pendente da fase 4)

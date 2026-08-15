@@ -87,12 +87,45 @@ Como usar (após deploy):
 
 Migração: [`attendance-br/migrations/004_geofence_mobile.sql`](attendance-br/migrations/004_geofence_mobile.sql)
 
+## Multi-empresa (Fase 5)
+
+Um único RH atendendo várias empresas (CNPJ distintos) na mesma instalação,
+usando a estrutura organizacional nativa (`ohrm_subunit`) — cada unidade pode
+ser uma empresa:
+
+- **CNPJ/CEI por unidade** — colunas `cnpj`/`cei` em `ohrm_subunit`, editáveis
+  nos diálogos de adicionar/editar unidade (Admin → Organização)
+- **Geofence por empresa** — locais de ponto passam a viver na tabela
+  `ohrm_attendance_geofence_location` (por unidade); `subunit_id NULL` =
+  conjunto padrão (fallback para unidades sem locais próprios). O JSON antigo
+  em `hs_hr_config` (`attendance.br.geofence.locations`) é migrado
+  automaticamente para o conjunto padrão
+- **Tela administrativa** `/attendance/brGeofence` (menu Ponto → Locais de
+  Ponto (Geofence)) — escolher empresa, ativar/desativar validação e gerenciar
+  os locais (nome, latitude, longitude, raio)
+- **Exportadores multi-empresa** — AFD, AFDT, eventos e-Social (S-1200/S-1210)
+  e comprovante de punch usam o CNPJ/CEI da unidade do funcionário quando
+  preenchido, caindo para o `tax_id` da organização (`EmployerResolverService`)
+- **Validação no punch** — o geofence valida contra os locais da unidade do
+  funcionário que está batendo o ponto (multi-empresa de verdade)
+
+Endpoints alterados:
+
+- `GET /api/v2/attendance/geofence?subunitId=<id>` — config + locais de uma
+  unidade (sem o parâmetro: conjunto padrão)
+- `PUT /api/v2/attendance/geofence` — `{enabled, subunitId|null, locations[]}`
+  (upsert/delete dos locais da unidade)
+- `POST/PUT /api/v2/admin/subunits` — aceitam `cnpj` e `cei` opcionais
+
+Migração: [`attendance-br/migrations/005_multi_company.sql`](attendance-br/migrations/005_multi_company.sql)
+
 ## Próximas customizações planejadas
 
 - [ ] Integração com e-Social
 - [ ] Holerite brasileiro
 - [x] Ponto eletrônico compatível com Portaria 673/2021
 - [x] Adaptadores de PIS, CNPJ (via attendance-br)
+- [x] Multi-empresa: CNPJ por unidade + geofence por empresa (Fase 5)
 - [ ] Integração com WhatsApp para notificações
 ## Troubleshooting - Docker (IMPORTANTE)
 

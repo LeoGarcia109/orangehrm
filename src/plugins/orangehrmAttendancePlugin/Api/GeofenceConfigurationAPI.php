@@ -26,26 +26,38 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Entity\GeofenceLocation;
+use OrangeHRM\Entity\Subunit;
 
 /**
- * BR: Geofence configuration for attendance punches (Portaria 673/2021).
+ * BR: Geofence configuration for attendance punches (Portaria 673/2021),
+ * multi-company aware.
  *
- * GET  - any authenticated user (the mobile punch page needs it)
+ * Locations are stored per company-structure unit (ohrm_attendance_geofence_
+ * location). scope = subunitId; null means the default location set, used as
+ * fallback for employees whose unit has none. The enabled flag is global.
+ *
+ * GET  - any authenticated user (the mobile punch page reads `enabled`)
  * PUT  - Admin only (enforced by data-group grants in the migration)
  */
 class GeofenceConfigurationAPI extends Endpoint implements ResourceEndpoint
 {
     use ConfigServiceTrait;
+    use EntityManagerHelperTrait;
 
     public const PARAMETER_ENABLED = 'enabled';
+    public const PARAMETER_SUBUNIT_ID = 'subunitId';
     public const PARAMETER_LOCATIONS = 'locations';
+    public const PARAMETER_LOCATION_ID = 'id';
     public const PARAMETER_LOCATION_NAME = 'name';
     public const PARAMETER_LOCATION_LATITUDE = 'latitude';
     public const PARAMETER_LOCATION_LONGITUDE = 'longitude';
@@ -61,6 +73,13 @@ class GeofenceConfigurationAPI extends Endpoint implements ResourceEndpoint
      *     tags={"Attendance/Geofence"},
      *     summary="Get Attendance Geofence Configuration",
      *     operationId="get-attendance-geofence-configuration",
+     *     @OA\Parameter(
+     *         name="subunitId",
+     *         in="query",
+     *         required=false,
+     *         description="Company structure unit scope; omit for the default location set",
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\Response(
      *         response="200",
      *         description="Success",
@@ -79,11 +98,20 @@ class GeofenceConfigurationAPI extends Endpoint implements ResourceEndpoint
      */
     public function getOne(): EndpointResult
     {
+        $subunitId = $this->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_SUBUNIT_ID
+        );
+        $subunit = $this->resolveSubunit($subunitId);
+
         $geofenceService = new GeofenceService();
 
         $geofenceConfiguration = new GeofenceConfiguration();
         $geofenceConfiguration->setEnabled($geofenceService->isEnabled());
-        $geofenceConfiguration->setLocations($geofenceService->getLocations());
+        $geofenceConfiguration->setSubunitId($subunitId);
+        $geofenceConfiguration->setLocations(
+            $this->locationsToArray($geofenceService->getLocationsForScope($subunit))
+        );
 
         return new EndpointResourceResult(GeofenceConfigurationModel::class, $geofenceConfiguration);
     }
@@ -95,6 +123,14 @@ class GeofenceConfigurationAPI extends Endpoint implements ResourceEndpoint
     {
         $paramRules = new ParamRuleCollection();
         $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
+        $paramRules->addParamValidation(
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_SUBUNIT_ID,
+                    new Rule(Rules::POSITIVE)
+                )
+            )
+        );
         return $paramRules;
     }
 
@@ -109,16 +145,24 @@ class GeofenceConfigurationAPI extends Endpoint implements ResourceEndpoint
      *             type="object",
      *             @OA\Property(property="enabled", type="boolean", example="true"),
      *             @OA\Property(
+     *                 property="subunitId",
+     *                 type="integer",
+     *                 nullable=true,
+     *                 description="Company structure unit scope; null = default location set"
+     *             ),
+     *             @OA\Property(
      *                 property="locations",
      *                 type="array",
      *                 @OA\Items(
      *                     type="object",
+     *                     @OA\Property(property="id", type="integer", description="Present on update"),
      *                     @OA\Property(property="name", type="string"),
      *                     @OA\Property(property="latitude", type="number", format="float"),
      *                     @OA\Property(property="longitude", type="number", format="float"),
      *                     @OA\Property(property="radius", type="number", format="float")
      *                 )
-     *             )
+     *             ),
+     *             required={"enabled", "locations"}
      *         )
      *     ),
      *     @OA\Response(
@@ -143,14 +187,23 @@ class GeofenceConfigurationAPI extends Endpoint implements ResourceEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_ENABLED
         );
-        $locations = $this->getRequestParams()->getArrayOrNull(
+        $subunitId = $this->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_SUBUNIT_ID
+        );
+        $subunit = $this->resolveSubunit($subunitId);
+
+        $locations = $this->getRequestParams()->getArray(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_LOCATIONS
-        ) ?? [];
+        );
 
         $normalizedLocations = [];
         foreach ($locations as $location) {
             $normalizedLocations[] = [
+                'id' => isset($location[self::PARAMETER_LOCATION_ID])
+                    ? (int)$location[self::PARAMETER_LOCATION_ID]
+                    : null,
                 'name' => (string)$location[self::PARAMETER_LOCATION_NAME],
                 'latitude' => (float)$location[self::PARAMETER_LOCATION_LATITUDE],
                 'longitude' => (float)$location[self::PARAMETER_LOCATION_LONGITUDE],
@@ -158,12 +211,14 @@ class GeofenceConfigurationAPI extends Endpoint implements ResourceEndpoint
             ];
         }
 
-        $this->getConfigService()->setAttendanceBrGeofenceEnabled($enabled);
-        $this->getConfigService()->setAttendanceBrGeofenceLocations($normalizedLocations);
+        $geofenceService = new GeofenceService();
+        $geofenceService->setEnabled($enabled);
+        $persisted = $geofenceService->replaceLocationsForScope($subunit, $normalizedLocations);
 
         $geofenceConfiguration = new GeofenceConfiguration();
         $geofenceConfiguration->setEnabled($enabled);
-        $geofenceConfiguration->setLocations($normalizedLocations);
+        $geofenceConfiguration->setSubunitId($subunitId);
+        $geofenceConfiguration->setLocations($this->locationsToArray($persisted));
 
         return new EndpointResourceResult(GeofenceConfigurationModel::class, $geofenceConfiguration);
     }
@@ -180,49 +235,105 @@ class GeofenceConfigurationAPI extends Endpoint implements ResourceEndpoint
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    self::PARAMETER_LOCATIONS,
-                    new Rule(Rules::ARRAY_TYPE),
-                    new Rule(Rules::LENGTH, [0, self::PARAM_RULE_LOCATIONS_MAX_COUNT]),
-                    new Rule(
-                        Rules::EACH,
-                        [
-                            new Rules\Composite\AllOf(
-                                new Rule(
-                                    Rules::KEY,
-                                    [
-                                        self::PARAMETER_LOCATION_NAME,
-                                        new Rules\Composite\AllOf(new Rule(Rules::STRING_TYPE))
-                                    ]
-                                ),
-                                new Rule(
-                                    Rules::KEY,
-                                    [
-                                        self::PARAMETER_LOCATION_LATITUDE,
-                                        new Rules\Composite\AllOf(new Rule(Rules::BETWEEN, [-90, 90]))
-                                    ]
-                                ),
-                                new Rule(
-                                    Rules::KEY,
-                                    [
-                                        self::PARAMETER_LOCATION_LONGITUDE,
-                                        new Rules\Composite\AllOf(new Rule(Rules::BETWEEN, [-180, 180]))
-                                    ]
-                                ),
-                                new Rule(
-                                    Rules::KEY,
-                                    [
-                                        self::PARAMETER_LOCATION_RADIUS,
-                                        new Rules\Composite\AllOf(
-                                            new Rule(Rules::BETWEEN, [1, self::PARAM_RULE_LOCATION_RADIUS_MAX])
-                                        )
-                                    ]
-                                )
+                    self::PARAMETER_SUBUNIT_ID,
+                    new Rule(Rules::POSITIVE)
+                )
+            ),
+            new ParamRule(
+                self::PARAMETER_LOCATIONS,
+                new Rule(Rules::ARRAY_TYPE),
+                new Rule(Rules::LENGTH, [0, self::PARAM_RULE_LOCATIONS_MAX_COUNT]),
+                new Rule(
+                    Rules::EACH,
+                    [
+                        new Rules\Composite\AllOf(
+                            new Rule(
+                                Rules::KEY,
+                                [
+                                    self::PARAMETER_LOCATION_ID,
+                                    new Rules\Composite\OneOf(
+                                        new Rule(Rules::NULL_TYPE),
+                                        new Rule(Rules::POSITIVE)
+                                    ),
+                                    false, // optional on create
+                                ]
+                            ),
+                            new Rule(
+                                Rules::KEY,
+                                [
+                                    self::PARAMETER_LOCATION_NAME,
+                                    new Rules\Composite\AllOf(
+                                        new Rule(Rules::STRING_TYPE),
+                                        new Rule(Rules::LENGTH, [1, self::PARAM_RULE_LOCATION_NAME_MAX_LENGTH])
+                                    )
+                                ]
+                            ),
+                            new Rule(
+                                Rules::KEY,
+                                [
+                                    self::PARAMETER_LOCATION_LATITUDE,
+                                    new Rules\Composite\AllOf(new Rule(Rules::BETWEEN, [-90, 90]))
+                                ]
+                            ),
+                            new Rule(
+                                Rules::KEY,
+                                [
+                                    self::PARAMETER_LOCATION_LONGITUDE,
+                                    new Rules\Composite\AllOf(new Rule(Rules::BETWEEN, [-180, 180]))
+                                ]
+                            ),
+                            new Rule(
+                                Rules::KEY,
+                                [
+                                    self::PARAMETER_LOCATION_RADIUS,
+                                    new Rules\Composite\AllOf(
+                                        new Rule(Rules::BETWEEN, [1, self::PARAM_RULE_LOCATION_RADIUS_MAX])
+                                    )
+                                ]
                             )
-                        ]
-                    )
-                ),
-                true
+                        )
+                    ]
+                )
             )
+        );
+    }
+
+    /**
+     * Resolve the scope subunit; null id = default location scope.
+     *
+     * @param int|null $subunitId
+     * @return Subunit|null
+     * @throws RecordNotFoundException
+     */
+    private function resolveSubunit(?int $subunitId): ?Subunit
+    {
+        if ($subunitId === null) {
+            return null;
+        }
+        $subunit = $this->getEntityManager()->find(Subunit::class, $subunitId);
+        if (!$subunit instanceof Subunit) {
+            throw new RecordNotFoundException();
+        }
+        return $subunit;
+    }
+
+    /**
+     * @param GeofenceLocation[] $locations
+     * @return array[]
+     */
+    private function locationsToArray(array $locations): array
+    {
+        return array_map(
+            static function (GeofenceLocation $location): array {
+                return [
+                    'id' => $location->getId(),
+                    'name' => $location->getName(),
+                    'latitude' => (float)$location->getLatitude(),
+                    'longitude' => (float)$location->getLongitude(),
+                    'radius' => (float)$location->getRadius(),
+                ];
+            },
+            array_values($locations)
         );
     }
 

@@ -21,15 +21,22 @@ namespace OrangeHRM\Attendance\Dto;
 
 /**
  * BR: Geofence configuration for attendance punches (Portaria 673/2021).
+ * Multi-company: locations are stored per company-structure unit; the
+ * employee's unit decides which locations apply.
  */
 class GeofenceConfiguration
 {
     private bool $enabled;
 
     /**
-     * @var array[] Each: name, latitude, longitude, radius (meters)
+     * @var int|null Unit the locations belong to (null = default locations)
      */
-    private array $locations;
+    private ?int $subunitId = null;
+
+    /**
+     * @var array[] Each: id, name, latitude, longitude, radius (meters)
+     */
+    private array $locations = [];
 
     /**
      * @return bool
@@ -45,6 +52,22 @@ class GeofenceConfiguration
     public function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getSubunitId(): ?int
+    {
+        return $this->subunitId;
+    }
+
+    /**
+     * @param int|null $subunitId
+     */
+    public function setSubunitId(?int $subunitId): void
+    {
+        $this->subunitId = $subunitId;
     }
 
     /**

@@ -27,11 +27,13 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
  *     schema="Attendance-GeofenceConfigurationModel",
  *     type="object",
  *     @OA\Property(property="enabled", type="boolean"),
+ *     @OA\Property(property="subunitId", type="integer", nullable=true),
  *     @OA\Property(
  *         property="locations",
  *         type="array",
  *         @OA\Items(
  *             type="object",
+ *             @OA\Property(property="id", type="integer"),
  *             @OA\Property(property="name", type="string"),
  *             @OA\Property(property="latitude", type="number", format="float"),
  *             @OA\Property(property="longitude", type="number", format="float"),
@@ -65,9 +67,11 @@ class GeofenceConfigurationModel implements Normalizable
         $config = $this->getGeofenceConfiguration();
         return [
             'enabled' => $config->isEnabled(),
+            'subunitId' => $config->getSubunitId(),
             'locations' => array_map(
                 static function (array $location): array {
                     return [
+                        'id' => $location['id'] ?? null,
                         'name' => $location['name'] ?? '',
                         'latitude' => (float)($location['latitude'] ?? 0),
                         'longitude' => (float)($location['longitude'] ?? 0),

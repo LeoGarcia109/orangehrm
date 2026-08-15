@@ -19,23 +19,26 @@
 
 namespace OrangeHRM\Attendance\Service;
 
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\GeofenceLocation;
+use OrangeHRM\Entity\Subunit;
 
 /**
- * BR: Geofence validation for attendance punches.
+ * BR: Geofence validation for attendance punches (multi-company).
  *
- * When geofence is enabled, punches must include GPS coordinates that fall
- * within at least one configured allowed location (center + radius in
- * meters). Distance is computed with the haversine formula.
+ * Locations live in ohrm_attendance_geofence_location. Each row belongs to a
+ * company-structure unit (subunit_id) — the employee's unit decides which
+ * locations apply. Rows with subunit_id NULL are the default set, used when
+ * the employee's unit has none (or the employee has no unit).
  *
- * Configuration lives in hs_hr_config:
- *   attendance.br.geofence.enabled   => 'true' | 'false'
- *   attendance.br.geofence.locations => JSON array of locations:
- *     [{"name": "Escritório", "latitude": -23.55, "longitude": -46.63, "radius": 300}]
+ * Global on/off switch: hs_hr_config attendance.br.geofence.enabled.
  */
 class GeofenceService
 {
     use ConfigServiceTrait;
+    use EntityManagerHelperTrait;
 
     /**
      * Earth radius in meters (mean value used by haversine).
@@ -51,15 +54,118 @@ class GeofenceService
     }
 
     /**
-     * @return array List of allowed locations (name, latitude, longitude, radius).
+     * @param bool $enabled
      */
-    public function getLocations(): array
+    public function setEnabled(bool $enabled): void
     {
-        return $this->getConfigService()->getAttendanceBrGeofenceLocations();
+        $this->getConfigService()->setAttendanceBrGeofenceEnabled($enabled);
     }
 
     /**
-     * Validate coordinates against the configured geofence.
+     * Locations registered for a unit; falls back to the default set
+     * (subunit_id NULL) when the unit has none.
+     *
+     * @param Subunit|null $subunit
+     * @return GeofenceLocation[]
+     */
+    public function getLocationsForSubunit(?Subunit $subunit): array
+    {
+        $locations = $this->getLocationsForScope($subunit);
+
+        if (!empty($locations) || $subunit === null) {
+            return $locations;
+        }
+
+        // Fall back to default locations
+        return $this->getLocationsForScope(null);
+    }
+
+    /**
+     * Exact locations registered for a scope (unit, or the default set when
+     * null). No fallback — used by the admin configuration API.
+     *
+     * @param Subunit|null $subunit
+     * @return GeofenceLocation[]
+     */
+    public function getLocationsForScope(?Subunit $subunit): array
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->select('gl')
+            ->from(GeofenceLocation::class, 'gl')
+            ->orderBy('gl.name', 'ASC');
+
+        if ($subunit === null) {
+            $qb->where($qb->expr()->isNull('gl.subunit'));
+        } else {
+            $qb->where($qb->expr()->eq('gl.subunit', ':subunit'))
+                ->setParameter('subunit', $subunit->getId());
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Replace the locations of a scope (unit, or the default set when null).
+     * Locations carrying an existing row id are updated, new ones inserted,
+     * and rows of the scope missing from the payload are deleted.
+     *
+     * @param Subunit|null $subunit
+     * @param array[] $locations Each: id?, name, latitude, longitude, radius
+     * @return GeofenceLocation[] Persisted locations
+     */
+    public function replaceLocationsForScope(?Subunit $subunit, array $locations): array
+    {
+        $em = $this->getEntityManager();
+        $existing = [];
+        foreach ($this->getLocationsForScope($subunit) as $location) {
+            $existing[$location->getId()] = $location;
+        }
+
+        $keptIds = [];
+        $result = [];
+        foreach ($locations as $data) {
+            $id = isset($data['id']) ? (int)$data['id'] : null;
+            $isNew = !($id !== null && isset($existing[$id]));
+            $location = $isNew ? new GeofenceLocation() : $existing[$id];
+
+            $location->setSubunit($subunit);
+            $location->setName((string)$data['name']);
+            $location->setLatitude(sprintf('%.8f', (float)$data['latitude']));
+            $location->setLongitude(sprintf('%.8f', (float)$data['longitude']));
+            $location->setRadius((int)round((float)$data['radius']));
+
+            if ($isNew) {
+                $em->persist($location);
+            } else {
+                $keptIds[] = $id;
+            }
+            $result[] = $location;
+        }
+
+        foreach ($existing as $id => $location) {
+            if (!in_array($id, $keptIds, true)) {
+                $em->remove($location);
+            }
+        }
+
+        $em->flush();
+
+        return $result;
+    }
+
+    /**
+     * Effective locations for an employee (own unit, with default fallback).
+     *
+     * @param Employee $employee
+     * @return GeofenceLocation[]
+     */
+    public function getEffectiveLocationsForEmployee(Employee $employee): array
+    {
+        return $this->getLocationsForSubunit($employee->getSubDivision());
+    }
+
+    /**
+     * Validate coordinates against the configured geofence for an employee.
      *
      * Returns an array:
      *   ['valid' => bool, 'reason' => string|null, 'nearestDistance' => float|null]
@@ -67,12 +173,14 @@ class GeofenceService
      * When geofence is disabled, always returns valid.
      * When enabled but no coordinates were captured, returns invalid
      * with reason 'missing_coordinates'.
+     * When enabled but no locations are configured anywhere, punches pass.
      *
+     * @param Employee $employee
      * @param float|null $latitude
      * @param float|null $longitude
      * @return array
      */
-    public function validate(?float $latitude, ?float $longitude): array
+    public function validateForEmployee(Employee $employee, ?float $latitude, ?float $longitude): array
     {
         if (!$this->isEnabled()) {
             return ['valid' => true, 'reason' => null, 'nearestDistance' => null];
@@ -82,27 +190,23 @@ class GeofenceService
             return ['valid' => false, 'reason' => 'missing_coordinates', 'nearestDistance' => null];
         }
 
-        $locations = $this->getLocations();
+        $locations = $this->getEffectiveLocationsForEmployee($employee);
         if (empty($locations)) {
-            // Geofence enabled without any configured location: do not block punches.
             return ['valid' => true, 'reason' => null, 'nearestDistance' => null];
         }
 
         $nearestDistance = null;
         foreach ($locations as $location) {
-            if (!isset($location['latitude'], $location['longitude'], $location['radius'])) {
-                continue;
-            }
             $distance = $this->haversineDistance(
                 $latitude,
                 $longitude,
-                (float)$location['latitude'],
-                (float)$location['longitude']
+                (float)$location->getLatitude(),
+                (float)$location->getLongitude()
             );
             if ($nearestDistance === null || $distance < $nearestDistance) {
                 $nearestDistance = $distance;
             }
-            if ($distance <= (float)$location['radius']) {
+            if ($distance <= (float)$location->getRadius()) {
                 return ['valid' => true, 'reason' => null, 'nearestDistance' => $distance];
             }
         }

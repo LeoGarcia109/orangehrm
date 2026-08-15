@@ -34,6 +34,8 @@ use OrangeHRM\Entity\Subunit;
  *     @OA\Property(property="level", type="integer"),
  *     @OA\Property(property="left", type="integer"),
  *     @OA\Property(property="right", type="integer"),
+ *     @OA\Property(property="cnpj", type="string", nullable=true),
+ *     @OA\Property(property="cei", type="string", nullable=true),
  * )
  */
 class SubunitModel implements Normalizable
@@ -52,6 +54,8 @@ class SubunitModel implements Normalizable
                 'level',
                 'lft',
                 'rgt',
+                'cnpj',
+                'cei',
             ]
         );
         $this->setAttributeNames(
@@ -63,6 +67,8 @@ class SubunitModel implements Normalizable
                 'level',
                 'left',
                 'right',
+                'cnpj',
+                'cei',
             ]
         );
     }

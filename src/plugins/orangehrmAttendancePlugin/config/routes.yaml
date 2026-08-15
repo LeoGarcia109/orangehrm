@@ -242,3 +242,8 @@ attendance_mobile_page:
   path: /attendance/mobile
   controller: OrangeHRM\Attendance\Controller\MobileAttendanceController::handle
   methods: [ GET ]
+
+attendance_br_geofence_locations_page:
+  path: /attendance/brGeofence
+  controller: OrangeHRM\Attendance\Controller\GeofenceLocationsController::handle
+  methods: [ GET ]

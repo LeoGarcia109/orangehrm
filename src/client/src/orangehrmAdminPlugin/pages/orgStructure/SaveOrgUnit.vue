@@ -50,6 +50,22 @@
           :rules="rules.description"
         />
       </oxd-form-row>
+      <!-- BR: employer identifiers per company unit (multi-company) -->
+      <oxd-form-row>
+        <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+          <oxd-input-field
+            v-model="orgUnit.cnpj"
+            :label="$t('admin.cnpj')"
+            :rules="rules.cnpj"
+            :placeholder="'00.000.000/0000-00'"
+          />
+          <oxd-input-field
+            v-model="orgUnit.cei"
+            :label="$t('admin.cei')"
+            :rules="rules.cei"
+          />
+        </oxd-grid>
+      </oxd-form-row>
       <oxd-text tag="p" class="level-label">
         {{ $t('admin.this_unit_will_be_added_under') }}
         <b>
@@ -84,6 +100,8 @@ const orgUnitModel = {
   unitId: '',
   name: '',
   description: '',
+  cnpj: '',
+  cei: '',
 };
 
 export default {
@@ -115,6 +133,8 @@ export default {
         unitId: [shouldNotExceedCharLength(100)],
         name: [required, shouldNotExceedCharLength(100)],
         description: [shouldNotExceedCharLength(400)],
+        cnpj: [shouldNotExceedCharLength(18)],
+        cei: [shouldNotExceedCharLength(12)],
       },
     };
   },

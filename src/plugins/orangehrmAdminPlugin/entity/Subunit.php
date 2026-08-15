@@ -87,6 +87,25 @@ class Subunit implements NestedSetInterface
     private ?int $level;
 
     /**
+     * BR: CNPJ da empresa/unidade (multi-company). Usado no AFD/e-Social
+     * em vez do CNPJ unico da organizacao quando preenchido.
+     *
+     * @var string|null
+     *
+     * @ORM\Column(name="cnpj", type="string", length=18, nullable=true)
+     */
+    private ?string $cnpj = null;
+
+    /**
+     * BR: CEI/CNO da unidade (empregador pessoa fisica / obra).
+     *
+     * @var string|null
+     *
+     * @ORM\Column(name="cei", type="string", length=12, nullable=true)
+     */
+    private ?string $cei = null;
+
+    /**
      * @var NodeInterface|null
      */
     private ?NodeInterface $node = null;
@@ -153,6 +172,42 @@ class Subunit implements NestedSetInterface
     public function setDescription(?string $description): void
     {
         $this->description = $description;
+    }
+
+    /**
+     * BR: CNPJ da empresa/unidade (multi-company).
+     *
+     * @return string|null
+     */
+    public function getCnpj(): ?string
+    {
+        return $this->cnpj;
+    }
+
+    /**
+     * @param string|null $cnpj
+     */
+    public function setCnpj(?string $cnpj): void
+    {
+        $this->cnpj = $cnpj;
+    }
+
+    /**
+     * BR: CEI/CNO da unidade.
+     *
+     * @return string|null
+     */
+    public function getCei(): ?string
+    {
+        return $this->cei;
+    }
+
+    /**
+     * @param string|null $cei
+     */
+    public function setCei(?string $cei): void
+    {
+        $this->cei = $cei;
     }
 
     /**

@@ -38,9 +38,12 @@ class PunchReceiptService
 {
     private EntityManagerInterface $em;
 
+    private EmployerResolverService $employerResolver;
+
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
+        $this->employerResolver = new EmployerResolverService();
     }
 
     /**
@@ -54,8 +57,10 @@ class PunchReceiptService
         $org = $this->em->getRepository(Organization::class)->findOneBy([]);
         $employee = $record->getEmployee();
 
-        $cnpj = $this->formatCnpj($org?->getTaxId() ?? '');
-        $orgName = $org?->getName() ?? 'EMPRESA NAO INFORMADA';
+        // BR multi-company: receipt identifies the employee's employer unit
+        $employer = $this->employerResolver->resolveForEmployee($employee, $org);
+        $cnpj = $this->formatCnpj($employer['cnpj'] ?? '');
+        $orgName = $employer['name'] ?? $org?->getName() ?? 'EMPRESA NAO INFORMADA';
         $empName = trim($employee->getFirstName() . ' ' . $employee->getLastName());
         $empId = $employee->getEmployeeId() ?? '-';
         $pis = method_exists($employee, 'getPisNumber') ? ($employee->getPisNumber() ?? '-') : '-';

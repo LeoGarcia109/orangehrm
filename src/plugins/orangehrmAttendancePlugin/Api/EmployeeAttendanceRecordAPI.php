@@ -795,8 +795,9 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * BR: Validate punch coordinates against the configured geofence.
-     * Throws BadRequestException when the punch must be refused.
+     * BR: Validate punch coordinates against the configured geofence for
+     * the punching employee's company unit (multi-company). Throws
+     * BadRequestException when the punch must be refused.
      *
      * @param float|null $latitude
      * @param float|null $longitude
@@ -804,7 +805,11 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      */
     protected function validateGeofence(?float $latitude, ?float $longitude): void
     {
-        $result = (new GeofenceService())->validate($latitude, $longitude);
+        $employee = $this->getEntityManager()->find(Employee::class, $this->getAuthUser()->getEmpNumber());
+        if (!$employee instanceof Employee) {
+            return;
+        }
+        $result = (new GeofenceService())->validateForEmployee($employee, $latitude, $longitude);
         if ($result['valid']) {
             return;
         }

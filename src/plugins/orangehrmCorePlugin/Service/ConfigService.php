@@ -55,7 +55,6 @@ class ConfigService
     public const KEY_SHOW_SYSTEM_CHECK_SCREEN = 'core.show_system_check_screen';
     // BR: geofence enforcement for attendance punches (Portaria 673/2021)
     public const KEY_ATTENDANCE_BR_GEOFENCE_ENABLED = 'attendance.br.geofence.enabled';
-    public const KEY_ATTENDANCE_BR_GEOFENCE_LOCATIONS = 'attendance.br.geofence.locations';
     public const MAX_PASSWORD_LENGTH = 64;
     public const KEY_MIN_PASSWORD_LENGTH = 'auth.password_policy.min_password_length';
     public const KEY_MIN_UPPERCASE_LETTERS = 'auth.password_policy.min_uppercase_letters';
@@ -621,33 +620,5 @@ class ConfigService
     public function setAttendanceBrGeofenceEnabled(bool $value): void
     {
         $this->_setConfigValue(self::KEY_ATTENDANCE_BR_GEOFENCE_ENABLED, $value ? 'true' : 'false');
-    }
-
-    /**
-     * BR: Allowed punch locations. Each entry: name, latitude, longitude, radius (meters).
-     *
-     * @return array
-     */
-    public function getAttendanceBrGeofenceLocations(): array
-    {
-        $value = $this->_getConfigValue(self::KEY_ATTENDANCE_BR_GEOFENCE_LOCATIONS);
-        if ($value === null || $value === '') {
-            return [];
-        }
-        $decoded = json_decode($value, true);
-        return is_array($decoded) ? $decoded : [];
-    }
-
-    /**
-     * BR: Persist allowed punch locations as JSON.
-     *
-     * @param array $locations
-     */
-    public function setAttendanceBrGeofenceLocations(array $locations): void
-    {
-        $this->_setConfigValue(
-            self::KEY_ATTENDANCE_BR_GEOFENCE_LOCATIONS,
-            json_encode(array_values($locations), JSON_UNESCAPED_UNICODE)
-        );
     }
 }

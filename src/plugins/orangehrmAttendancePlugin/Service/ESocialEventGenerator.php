@@ -45,11 +45,13 @@ class ESocialEventGenerator
 
     private EntityManagerInterface $em;
     private BrazilianWorkTimeCalculator $calculator;
+    private EmployerResolverService $employerResolver;
 
     public function __construct(EntityManagerInterface $em, ?BrazilianWorkTimeCalculator $calculator = null)
     {
         $this->em = $em;
         $this->calculator = $calculator ?? new BrazilianWorkTimeCalculator();
+        $this->employerResolver = new EmployerResolverService();
     }
 
     /**
@@ -67,7 +69,8 @@ class ESocialEventGenerator
         }
 
         $org = $this->em->getRepository(Organization::class)->findOneBy([]);
-        $cnpj = preg_replace('/\D/', '', $org?->getTaxId() ?? '');
+        // BR multi-company: the employee's unit CNPJ wins over the org tax id
+        $cnpj = $this->employerResolver->resolveForEmployee($employee, $org)['cnpj'] ?? '';
 
         [$year, $month] = explode('-', $referencePeriod);
         $startDate = new DateTime("{$year}-{$month}-01");
@@ -142,7 +145,8 @@ class ESocialEventGenerator
         }
 
         $org = $this->em->getRepository(Organization::class)->findOneBy([]);
-        $cnpj = preg_replace('/\D/', '', $org?->getTaxId() ?? '');
+        // BR multi-company: the employee's unit CNPJ wins over the org tax id
+        $cnpj = $this->employerResolver->resolveForEmployee($employee, $org)['cnpj'] ?? '';
         $cpf = $this->getEmployeeCpf($employee);
         $eventId = $this->generateEventId($cnpj);
 

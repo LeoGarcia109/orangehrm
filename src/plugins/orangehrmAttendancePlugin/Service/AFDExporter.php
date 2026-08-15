@@ -45,9 +45,12 @@ class AFDExporter
 
     private EntityManagerInterface $em;
 
+    private EmployerResolverService $employerResolver;
+
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
+        $this->employerResolver = new EmployerResolverService();
     }
 
     /**
@@ -63,8 +66,18 @@ class AFDExporter
         $organization = $this->em->getRepository(Organization::class)->findOneBy([]);
         $records = $this->fetchAttendanceRecords($startDate, $endDate, $employeeNumber);
 
+        // BR multi-company: AFD spec = one file per employer. When the export
+        // targets a single employee, the header carries that employee's unit
+        // CNPJ/CEI (falling back to the organization). Mixed-company exports
+        // keep the organization header.
+        $employer = null;
+        if ($employeeNumber !== null) {
+            $employee = $this->em->find(Employee::class, $employeeNumber);
+            $employer = $this->employerResolver->resolveForEmployee($employee, $organization);
+        }
+
         $lines = [];
-        $lines[] = $this->buildHeaderLine($organization, $startDate, $endDate);
+        $lines[] = $this->buildHeaderLine($organization, $employer, $startDate, $endDate);
 
         $punchCount = 0;
         foreach ($records as $record) {
@@ -106,13 +119,31 @@ class AFDExporter
 
     /**
      * Header record (type 1).
+     *
+     * @param Organization|null $org
+     * @param array|null $employer BR multi-company override (cnpj, cei, name)
+     * @param DateTime $startDate
+     * @param DateTime $endDate
+     * @return string
      */
-    private function buildHeaderLine(?Organization $org, DateTime $startDate, DateTime $endDate): string
-    {
-        $cnpj = $this->sanitizeDigits($org?->getTaxId() ?? '', 14);
-        $employerName = $this->padRight($org?->getName() ?? 'EMPREGADOR NAO INFORMADO', 150);
+    private function buildHeaderLine(
+        ?Organization $org,
+        ?array $employer,
+        DateTime $startDate,
+        DateTime $endDate
+    ): string {
+        $cnpjSource = $employer['cnpj']
+            ?? $this->employerResolver->sanitizeDigits($org?->getTaxId() ?? '')
+            ?? '';
+        $ceiSource = $employer['cei']
+            ?? $this->employerResolver->sanitizeDigits($org?->getRegistrationNumber() ?? '')
+            ?? '';
+        $nameSource = $employer['name'] ?? $org?->getName();
+
+        $cnpj = $this->sanitizeDigits($cnpjSource, 14);
+        $employerName = $this->padRight($nameSource ?? 'EMPREGADOR NAO INFORMADO', 150);
         $workplaceName = $this->padRight($org?->getName() ?? 'LOCAL NAO INFORMADO', 150);
-        $cei = $this->sanitizeDigits($org?->getRegistrationNumber() ?? '', 12);
+        $cei = $this->sanitizeDigits($ceiSource, 12);
         $address = $this->buildAddress($org);
 
         $now = new DateTime();
