@@ -86,6 +86,15 @@ pelo celular (PWA). O registro feito fora dos locais cadastrados é
 | **Longitude** | Coordenada decimal (ex.: `-46.633308`) |
 | **Raio (metros)** | Tolerância ao redor do ponto — ex.: `300` |
 
+   Para marcar as coordenadas sem digitar nada, clique no **ícone de pino**
+   (📍) da linha do local — abre um **mini-mapa** onde você pode:
+
+   - **Buscar o endereço** da empresa pelo nome/rua e escolher o resultado
+   - **Clicar no mapa** para marcar o ponto exato (recomendado)
+   - Usar **"Usar minha localização"** se estiver no local
+
+   A latitude/longitude são preenchidas automaticamente.
+
 4. Adicione quantos locais precisar (até 20 por empresa)
 5. Marque/desmarque **Ativar validação de localização (geofence)** — o
    interruptor é global (vale para todas as empresas)
@@ -93,9 +102,11 @@ pelo celular (PWA). O registro feito fora dos locais cadastrados é
 
 ### Como obter latitude e longitude
 
-Opção mais simples: abra o endereço no **Google Maps**, clique com o botão
-direito no local → as coordenadas aparecem no topo do menu (clique para
-copiar). Use sempre o formato decimal com ponto (ex.: `-23.550520`).
+Use o **mini-mapa** (ícone 📍 na linha do local): busca por endereço, clique
+no ponto ou "usar minha localização". Se preferir digitar manualmente: abra
+o endereço no **Google Maps**, clique com o botão direito no local → as
+coordenadas aparecem no topo do menu (clique para copiar). Use sempre o
+formato decimal com ponto (ex.: `-23.550520`).
 
 ### Como escolher o raio
 
