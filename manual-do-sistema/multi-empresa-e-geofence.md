@@ -22,7 +22,8 @@ Cada empresa vira uma **unidade da estrutura organizacional**. Assim:
 ## 1. Criar uma empresa
 
 1. Acesse o sistema como Admin
-2. Menu **Admin → Organization → Structure** (Estrutura Organizacional)
+2. Menu **Administrador → Organização → Estrutura**
+   (em inglês: Admin → Organization → Structure)
 3. Na árvore, clique em **+** na unidade sob a qual a nova empresa ficará
    (para empresas independentes, use a raiz)
 4. No diálogo **Adicionar unidade**, preencha:
@@ -43,7 +44,7 @@ Cada empresa vira uma **unidade da estrutura organizacional**. Assim:
 
 ### Editar o CNPJ de uma empresa já criada
 
-1. **Admin → Organization → Structure**
+1. **Administrador → Organização → Estrutura**
 2. Clique no ícone de **editar** (lápis) da unidade
 3. Ajuste os campos **CNPJ** e **CEI/CNO** e salve
 
@@ -54,7 +55,7 @@ Cada empresa vira uma **unidade da estrutura organizacional**. Assim:
 O ponto, o geofence e os arquivos fiscais usam a empresa **vinculada ao
 funcionário**. Para vincular:
 
-1. Menu **PIM → Employee List** → clique no funcionário
+1. Menu **Gestão de Pessoas → Lista de Funcionários** → clique no funcionário
 2. Aba **Job** (Cargo)
 3. No campo **Sub-Unit / Sub-unidade**, selecione a empresa
 4. **Salvar**
@@ -70,7 +71,7 @@ Aqui você define **onde** os funcionários de cada empresa podem bater ponto
 pelo celular (PWA). O registro feito fora dos locais cadastrados é
 **recusado pelo servidor**.
 
-1. Menu **Time → Attendance → Locais de Ponto (Geofence)**
+1. Menu **Ponto → Frequência → Locais de Ponto (Geofence)**
    (ou acesse direto: `https://rh.leogarcia.com.br/web/index.php/attendance/brGeofence`)
 2. No campo **Empresa (unidade da estrutura)**, escolha:
    - **Padrão (todas as empresas sem locais próprios)** — locais válidos
@@ -130,7 +131,7 @@ copiar). Use sempre o formato decimal com ponto (ex.: `-23.550520`).
 | **Comprovante de ponto** | O recibo impresso mostra o CNPJ/nome da empresa do funcionário |
 
 Se a unidade **não tiver CNPJ preenchido**, o sistema usa automaticamente o
-CNPJ cadastrado em **Admin → Organization → General Information**.
+CNPJ cadastrado em **Administrador → Organização → Informações Gerais**.
 
 ---
 
@@ -157,8 +158,8 @@ Sim — na tela de locais, clique no ícone de **lixeira** da linha e salve.
 
 ## Resumo rápido
 
-1. **Admin → Organization → Structure** → criar unidade com **CNPJ**
-2. **PIM → funcionário → aba Job** → vincular à empresa
-3. **Time → Attendance → Locais de Ponto (Geofence)** → escolher empresa,
+1. **Administrador → Organização → Estrutura** → criar unidade com **CNPJ**
+2. **Gestão de Pessoas → funcionário → aba Cargo** → vincular à empresa
+3. **Ponto → Frequência → Locais de Ponto (Geofence)** → escolher empresa,
    adicionar locais, ativar validação, salvar
 4. Testar pelo PWA no celular
