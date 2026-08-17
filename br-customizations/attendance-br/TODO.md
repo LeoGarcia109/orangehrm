@@ -1,44 +1,30 @@
 # Pendencias - Relatorio de Jornada BR
 
-## Problema atual (2026-07-30)
+## Relatorio em branco (2026-07-30) - RESOLVIDO em 2026-08-17
 
-A pagina `/attendance/brWorkTimeReport` carrega os cabecalhos mas NAO retorna dados
-ao clicar em "Gerar Relatorio". O servico backend funciona (testado via CLI),
-as permissoes estao corretas, mas a chamada HTTP do Vue retorna vazio.
+Era a hipotese 2 da lista original. `WorkTimeReportAPI::getAll()` montava
+`new EndpointCollectionResult(ArrayModel::class, [[$result]], ...)` com um nivel
+de array a mais, serializando como `data: [[{...}]]`. O Vue faz
+`this.report = data[0]`, recebia um array em vez do objeto e todos os campos
+resolviam para undefined. Como array nao-vazio e truthy, o `v-if="report"`
+passava e os cards apareciam vazios. Corrigido para `[$result]`.
 
-## Causa provavel
+Nao tinha nada a ver com permissao nem com o formato do empNumber.
 
-O Vue faz a chamada via `APIService` com `params` (query string), mas pode haver:
-1. Cache de permissao na sessao do usuario (precisa relogar apos inserir permissoes)
-2. O formato de resposta do `EndpointCollectionResult` com `ArrayModel` pode nao
-   estar sendo parseado corretamente pelo Vue (espera `response.data.data[0]`)
-3. O `employee-autocomplete` pode estar enviando `empNumber` como objeto em vez de int
+Outros tres bugs da mesma familia (contrato backend/frontend divergente)
+foram corrigidos junto:
 
-## Como debuggar
+- Dropdown de empresas do geofence em branco: `oxd-select` renderiza
+  `option.label`, e as opcoes eram montadas com `name`.
+- PUT do geofence sempre 422: rota injeta `id: 0` e as regras de update nao
+  excluiam `CommonParams::PARAMETER_ID`.
+- AFD/AFDT com 500: `EndpointResourceResult` recebia um `ParameterBag` na
+  posicao do model. Viraram controllers de download (`Controller/File/`).
 
-1. Abrir DevTools > Network no navegador
-2. Acessar Time > Attendance > Relatorio de Jornada
-3. Selecionar funcionario + data e clicar "Gerar Relatorio"
-4. Verificar a request para `/api/v2/attendance/br/work-time-report`
-   - Status code (deve ser 200)
-   - Query params enviados (empNumber deve ser int, fromDate/toDate em Y-m-d)
-   - Response body (deve ter `data[0].workedFormatted` etc.)
+## Pendente
 
-## O que ja foi verificado (funciona via CLI)
-
-- TimeBankService.calculatePeriod(1, '2026-07-30', '2026-07-30', 1) retorna dados corretos
-- ohrm_api_permission tem entrada para WorkTimeReportAPI com can_read=1
-- ohrm_user_role_data_group tem permissao para role Admin (id=1)
-- Rota sem `id: 0`, API implementa CollectionEndpoint com getAll()
-- AFDExporter gera arquivo corretamente
-
-## Proximos passos
-
-1. [ ] Debuggar a chamada HTTP no navegador (DevTools > Network)
-2. [ ] Verificar se o Vue envia empNumber como int ou objeto
-3. [ ] Verificar se a resposta da API tem o formato esperado pelo Vue
-4. [ ] Testar com curl autenticado (pegar cookie da sessao)
-5. [ ] Traduzir labels do formulario para portugues
+1. [ ] Traduzir labels do formulario para portugues (ainda em ingles/hardcoded)
+2. [ ] Relatorio nao filtra por empresa/unidade (ver Fase 5, item 2)
 
 # Fase 4 - PWA Mobile + Geofence (2026-08-15)
 
@@ -87,3 +73,79 @@ O Vue faz a chamada via `APIService` com `params` (query string), mas pode haver
       cabecalho por unidade vale apenas para exportacao por funcionario)
 4. [ ] Selfie/camera no punch (pendente da fase 4)
 5. [ ] Fila offline de punch (pendente da fase 4)
+
+# Roadmap de conformidade (2026-08-17)
+
+Levantado consultando o banco e o codigo, nao a documentacao.
+
+Premissas confirmadas com o Leo:
+- A raiz "Grupo HRR" nao tem funcionarios; ela so agrupa as ~30 empresas, e o
+  CNPJ vive em cada unidade filha. Logo NAO faz sentido preencher CNPJ na raiz.
+- Funcionario unico atual e de teste; PIS vazio nao e problema hoje.
+- **Geofence sera obrigatorio para as empresas selecionadas**, bloqueando o
+  ponto fora do raio. Esse requisito nao e atendido hoje (bloco P0 abaixo).
+
+## P0 - Geofence por empresa - FEITO (2026-08-17, migracao 006)
+
+1. [x] Flag `ohrm_subunit.geofence_required` por unidade; a chave global
+      `attendance.br.geofence.enabled` vira chave-mestra.
+2. [x] Fail-closed: empresa que exige geofence sem local cadastrado RECUSA o
+      ponto (antes liberava em silencio).
+3. [x] Funcionario sem unidade e recusado (`missing_subunit`).
+4. [x] Resolucao sobe a arvore (departamento -> empresa -> raiz); o conjunto
+      padrao (`subunit_id NULL`) saiu da validacao.
+5. [x] Tela: switch "Exigir geofence nesta empresa" + aviso quando marcada sem
+      local cadastrado.
+
+## P1 - Inviolabilidade dos registros (marcado "Feito", nao opera)
+
+5. [ ] **Assinatura nao roda no fluxo de punch.**
+      `RecordSignatureService` so e referenciado por `SignatureVerifyAPI`, ou
+      seja, so assina quando alguem chama o endpoint de verificacao. Dos 5
+      registros existentes, 4 estao com `record_hash` NULL.
+      -> Chamar no punch-out (AttendanceDao/AttendanceService).
+
+6. [ ] **`attendance.br.signature_secret` nao existe em `hs_hr_config`.**
+      `computeHash()` faz `$this->secretKey ?? ''`; sem o segredo o hash e um
+      SHA-256 de campos publicos (NSR, id, horarios, state). Quem tiver escrita
+      no banco adultera o registro e recalcula um hash valido.
+      -> Definir o segredo ANTES de assinar em massa, senao os hashes precisam
+      ser refeitos. Fazer 6 antes de 5.
+
+## P2 - Antes de cadastrar as empresas reais
+
+7. [ ] **CNPJ por empresa sem validacao.** `EmployerResolverService` cai no
+      `tax_id` da organizacao quando a unidade nao tem CNPJ. Como a raiz nao tem
+      (e nem deve ter), uma empresa cadastrada sem CNPJ gera AFD com
+      `000000000000` no cabecalho, silenciosamente.
+      -> Validar formato do CNPJ no cadastro da unidade e avisar quando faltar.
+
+8. [ ] **PIS/NIS obrigatorio para funcionario real.** Hoje vazio (so o usuario
+      de teste). O AFD identifica o trabalhador pelo PIS.
+
+9. [ ] **Cadastro em massa das ~30 empresas** (ver Fase 5, item 1).
+
+## P3 - Limpeza e documentacao
+
+10. [ ] **`NsrService` e codigo morto.** O NSR real e atribuido em
+      `AttendanceDao::getNextNsr()` com `SELECT ... FOR UPDATE` (funciona); o
+      servico duplica a logica e ninguem chama. Remover.
+
+11. [ ] **Admin batendo por terceiro valida o geofence do admin.**
+      `validateGeofence` usa `getAuthUser()->getEmpNumber()` mesmo na rota
+      `/employees/{empNumber}/records`. Avaliar se e o desejado.
+
+12. [ ] **Norma de referencia inconsistente.** Os docs citam "Portaria SEPRT
+      673/2021", "Portaria 1.510/2009" e "Portaria 671/673" em lugares
+      diferentes. Uniformizar -- confirmando com contador/juridico, nao pelo
+      codigo.
+
+13. [ ] **e-Social nao implantado** (`ohrm_br_esocial_config` vazio). O gerador
+      S-1200/S-1210 existe; falta configuracao e processo.
+
+## Consequencia operacional a decidir
+
+Com geofence exigindo coordenadas, batida sem GPS e recusada
+(`missing_coordinates`). A tela desktop padrao (`/attendance/punchIn`) nao envia
+coordenadas, entao funcionarios de empresa com geofence terao de usar a pagina
+mobile (`/attendance/mobile`). Confirmar que e o fluxo desejado.

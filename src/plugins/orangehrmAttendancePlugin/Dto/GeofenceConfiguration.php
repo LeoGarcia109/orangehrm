@@ -34,9 +34,30 @@ class GeofenceConfiguration
     private ?int $subunitId = null;
 
     /**
+     * @var bool Whether this unit (and everything below it) enforces geofence
+     */
+    private bool $geofenceRequired = false;
+
+    /**
      * @var array[] Each: id, name, latitude, longitude, radius (meters)
      */
     private array $locations = [];
+
+    /**
+     * @return bool
+     */
+    public function isGeofenceRequired(): bool
+    {
+        return $this->geofenceRequired;
+    }
+
+    /**
+     * @param bool $geofenceRequired
+     */
+    public function setGeofenceRequired(bool $geofenceRequired): void
+    {
+        $this->geofenceRequired = $geofenceRequired;
+    }
 
     /**
      * @return bool

@@ -114,4 +114,27 @@ class AttendanceServiceException extends Exception
     {
         return new self('Geofence Validation Failed - Location Outside Allowed Area');
     }
+
+    /**
+     * BR: the employee is not posted to any company-structure unit, so there is
+     * no way to tell which company's fence applies.
+     *
+     * @return static
+     */
+    public static function geofenceMissingSubunit(): self
+    {
+        return new self('Geofence Validation Failed - Employee Has No Company Unit');
+    }
+
+    /**
+     * BR: the employee's company requires geofence but has no location
+     * registered anywhere up its chain. Refused rather than waved through: an
+     * unconfigured company must not accept punches from anywhere.
+     *
+     * @return static
+     */
+    public static function geofenceNotConfigured(): self
+    {
+        return new self('Geofence Validation Failed - No Location Registered For This Company');
+    }
 }

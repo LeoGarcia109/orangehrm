@@ -106,6 +106,16 @@ class Subunit implements NestedSetInterface
     private ?string $cei = null;
 
     /**
+     * BR: exige geofence para quem esta nesta unidade ou abaixo dela. Fica na
+     * empresa; os funcionarios podem estar em departamentos filhos.
+     *
+     * @var bool
+     *
+     * @ORM\Column(name="geofence_required", type="boolean", options={"default" : false})
+     */
+    private bool $geofenceRequired = false;
+
+    /**
      * @var NodeInterface|null
      */
     private ?NodeInterface $node = null;
@@ -208,6 +218,24 @@ class Subunit implements NestedSetInterface
     public function setCei(?string $cei): void
     {
         $this->cei = $cei;
+    }
+
+    /**
+     * BR: exige geofence nesta unidade e nas abaixo dela.
+     *
+     * @return bool
+     */
+    public function isGeofenceRequired(): bool
+    {
+        return $this->geofenceRequired;
+    }
+
+    /**
+     * @param bool $geofenceRequired
+     */
+    public function setGeofenceRequired(bool $geofenceRequired): void
+    {
+        $this->geofenceRequired = $geofenceRequired;
     }
 
     /**

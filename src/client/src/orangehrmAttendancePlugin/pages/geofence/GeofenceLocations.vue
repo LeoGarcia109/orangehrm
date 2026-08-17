@@ -45,6 +45,24 @@
           </oxd-grid>
         </oxd-form-row>
 
+        <oxd-form-row v-if="scopeId !== null">
+          <div class="orangehrm-geofence-field-row">
+            <oxd-text tag="p" class="orangehrm-geofence-field-label">
+              {{ $t('attendance.geofence_required_here') }}
+            </oxd-text>
+            <oxd-switch-input v-model="geofenceRequired" />
+          </div>
+          <oxd-text tag="p" class="orangehrm-geofence-hint">
+            {{ $t('attendance.geofence_required_hint') }}
+          </oxd-text>
+        </oxd-form-row>
+
+        <oxd-form-row v-if="showNoLocationWarning">
+          <oxd-text tag="p" class="orangehrm-geofence-warning">
+            {{ $t('attendance.geofence_no_location_warning') }}
+          </oxd-text>
+        </oxd-form-row>
+
         <oxd-divider />
 
         <oxd-text tag="p" class="orangehrm-geofence-hint">
@@ -203,6 +221,7 @@ export default {
     return {
       isLoading: false,
       enabled: false,
+      geofenceRequired: false,
       scopeSelection: null, // oxd-select model: {id, label} object or null
       units: [],
       locations: [],
@@ -227,6 +246,15 @@ export default {
     scopeId() {
       // null = default location set; a number selects a company unit
       return this.scopeSelection?.id ?? null;
+    },
+    showNoLocationWarning() {
+      // A company that enforces geofence with no location registered refuses
+      // every punch, so say it here rather than let it surface at 8am Monday.
+      return (
+        this.scopeId !== null &&
+        this.geofenceRequired &&
+        this.locations.length === 0
+      );
     },
     scopeOptions() {
       // oxd-select renders `option.label`; anything else shows up as a blank row
@@ -278,6 +306,7 @@ export default {
       return this.geofenceHttp.getAll(params).then((response) => {
         const {data} = response.data;
         this.enabled = Boolean(data.enabled);
+        this.geofenceRequired = Boolean(data.geofenceRequired);
         this.locations = (data.locations || []).map((location) => ({
           id: location.id ?? null,
           name: location.name,
@@ -319,6 +348,7 @@ export default {
       const payload = {
         enabled: this.enabled,
         subunitId: this.scopeId,
+        geofenceRequired: this.geofenceRequired,
         locations: this.locations.map((location) => ({
           id: location.id,
           name: location.name,
@@ -334,6 +364,7 @@ export default {
         })
         .then((response) => {
           const {data} = response.data;
+          this.geofenceRequired = Boolean(data.geofenceRequired);
           this.locations = (data.locations || []).map((location) => ({
             id: location.id ?? null,
             name: location.name,
@@ -372,5 +403,13 @@ export default {
   align-items: flex-end;
   justify-content: flex-end;
   padding-bottom: 0.75rem;
+}
+.orangehrm-geofence-warning {
+  margin: 0 0 1rem;
+  padding: 0.5rem 0.75rem;
+  border-left: 3px solid #ffa62f;
+  background-color: #fff6e6;
+  font-size: 0.8rem;
+  color: #8a5300;
 }
 </style>

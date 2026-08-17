@@ -517,6 +517,12 @@ export default {
           'attendance.geofence_validation_failed_location_outside_allowed_area',
         );
       }
+      if (message.includes('Employee Has No Company Unit')) {
+        return this.$t('attendance.geofence_missing_subunit');
+      }
+      if (message.includes('No Location Registered For This Company')) {
+        return this.$t('attendance.geofence_not_configured');
+      }
       return message;
     },
     onLogout() {

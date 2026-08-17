@@ -148,7 +148,18 @@ Apos qualquer `docker cp` para `/var/www/html/web/dist/`:
 docker exec orangehrm-web bash -c "chown -R www-data:www-data /var/www/html/web/dist/ && chmod -R 755 /var/www/html/web/dist/"
 ```
 
-**3. Apos `composer dump-autoload` (regenera cache como root):**
+**3. Coluna nova numa entidade nao aparece (le sempre o valor default):**
+
+O Doctrine cacheia o mapeamento em `src/cache/doctrine_metadata/`. Limpar so
+`src/cache/orangehrm/` NAO basta: a coluna existe no banco, o arquivo da
+entidade esta certo, e mesmo assim a propriedade volta o default. Apos alterar
+qualquer `entity/*.php`:
+
+```bash
+docker exec orangehrm-web bash -c "rm -rf /var/www/html/src/cache/doctrine_metadata/* /var/www/html/src/cache/doctrine_queries/* /var/www/html/src/cache/orangehrm/* && chown -R www-data:www-data /var/www/html/src/cache/"
+```
+
+**4. Apos `composer dump-autoload` (regenera cache como root):**
 
 ```bash
 docker exec orangehrm-web bash -c "cd /var/www/html/src && php composer.phar dump-autoload && chown -R www-data:www-data /var/www/html/src/cache/"

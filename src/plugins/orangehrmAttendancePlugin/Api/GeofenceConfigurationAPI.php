@@ -43,8 +43,12 @@ use OrangeHRM\Entity\Subunit;
  * multi-company aware.
  *
  * Locations are stored per company-structure unit (ohrm_attendance_geofence_
- * location). scope = subunitId; null means the default location set, used as
- * fallback for employees whose unit has none. The enabled flag is global.
+ * location). scope = subunitId; null means the legacy default set, which no
+ * longer takes part in enforcement.
+ *
+ * `enabled` is the global master switch. `geofenceRequired` is per unit and
+ * turns enforcement on for that unit and everything below it -- it only
+ * applies to a real scope, so it is ignored when subunitId is null.
  *
  * GET  - any authenticated user (the mobile punch page reads `enabled`)
  * PUT  - Admin only (enforced by data-group grants in the migration)
@@ -57,6 +61,7 @@ class GeofenceConfigurationAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_ENABLED = 'enabled';
     public const PARAMETER_SUBUNIT_ID = 'subunitId';
     public const PARAMETER_LOCATIONS = 'locations';
+    public const PARAMETER_GEOFENCE_REQUIRED = 'geofenceRequired';
     public const PARAMETER_LOCATION_ID = 'id';
     public const PARAMETER_LOCATION_NAME = 'name';
     public const PARAMETER_LOCATION_LATITUDE = 'latitude';
@@ -109,6 +114,7 @@ class GeofenceConfigurationAPI extends Endpoint implements ResourceEndpoint
         $geofenceConfiguration = new GeofenceConfiguration();
         $geofenceConfiguration->setEnabled($geofenceService->isEnabled());
         $geofenceConfiguration->setSubunitId($subunitId);
+        $geofenceConfiguration->setGeofenceRequired($subunit !== null && $subunit->isGeofenceRequired());
         $geofenceConfiguration->setLocations(
             $this->locationsToArray($geofenceService->getLocationsForScope($subunit))
         );
@@ -149,6 +155,11 @@ class GeofenceConfigurationAPI extends Endpoint implements ResourceEndpoint
      *                 type="integer",
      *                 nullable=true,
      *                 description="Company structure unit scope; null = default location set"
+     *             ),
+     *             @OA\Property(
+     *                 property="geofenceRequired",
+     *                 type="boolean",
+     *                 description="Unit (and everything below it) enforces geofence; ignored for the default scope"
      *             ),
      *             @OA\Property(
      *                 property="locations",
@@ -211,13 +222,26 @@ class GeofenceConfigurationAPI extends Endpoint implements ResourceEndpoint
             ];
         }
 
+        $geofenceRequired = $this->getRequestParams()->getBooleanOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_GEOFENCE_REQUIRED
+        );
+
         $geofenceService = new GeofenceService();
         $geofenceService->setEnabled($enabled);
         $persisted = $geofenceService->replaceLocationsForScope($subunit, $normalizedLocations);
 
+        // The flag lives on the unit, so the default scope (no unit) has none.
+        if ($subunit !== null && $geofenceRequired !== null) {
+            $subunit->setGeofenceRequired($geofenceRequired);
+            $this->getEntityManager()->persist($subunit);
+            $this->getEntityManager()->flush();
+        }
+
         $geofenceConfiguration = new GeofenceConfiguration();
         $geofenceConfiguration->setEnabled($enabled);
         $geofenceConfiguration->setSubunitId($subunitId);
+        $geofenceConfiguration->setGeofenceRequired($subunit !== null && $subunit->isGeofenceRequired());
         $geofenceConfiguration->setLocations($this->locationsToArray($persisted));
 
         return new EndpointResourceResult(GeofenceConfigurationModel::class, $geofenceConfiguration);
@@ -237,6 +261,12 @@ class GeofenceConfigurationAPI extends Endpoint implements ResourceEndpoint
                 new ParamRule(
                     self::PARAMETER_SUBUNIT_ID,
                     new Rule(Rules::POSITIVE)
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_GEOFENCE_REQUIRED,
+                    new Rule(Rules::BOOL_TYPE)
                 )
             ),
             new ParamRule(

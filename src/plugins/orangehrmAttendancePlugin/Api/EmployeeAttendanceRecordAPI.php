@@ -813,9 +813,15 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
         if ($result['valid']) {
             return;
         }
-        if ($result['reason'] === 'missing_coordinates') {
-            throw AttendanceServiceException::geofenceCoordinatesMissing();
+        switch ($result['reason']) {
+            case 'missing_subunit':
+                throw AttendanceServiceException::geofenceMissingSubunit();
+            case 'geofence_not_configured':
+                throw AttendanceServiceException::geofenceNotConfigured();
+            case 'missing_coordinates':
+                throw AttendanceServiceException::geofenceCoordinatesMissing();
+            default:
+                throw AttendanceServiceException::geofenceOutsideAllowedArea();
         }
-        throw AttendanceServiceException::geofenceOutsideAllowedArea();
     }
 }
