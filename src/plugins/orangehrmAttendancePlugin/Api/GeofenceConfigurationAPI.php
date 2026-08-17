@@ -228,7 +228,7 @@ class GeofenceConfigurationAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
+        $paramRules = new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_ENABLED,
                 new Rule(Rules::BOOL_TYPE)
@@ -296,6 +296,10 @@ class GeofenceConfigurationAPI extends Endpoint implements ResourceEndpoint
                 )
             )
         );
+        // This is a singleton resource: the route supplies `id: 0`, which strict
+        // validation would otherwise reject as an unexpected parameter.
+        $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
+        return $paramRules;
     }
 
     /**
