@@ -103,10 +103,15 @@ class AFDExportAPI extends Endpoint implements CollectionEndpoint
                 self::PARAMETER_TO_DATE,
                 new Rule(Rules::API_DATE)
             ),
-            new ParamRule(
-                self::PARAMETER_EMP_NUMBER,
-                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS),
-                new Rule(Rules::NOT_REQUIRED)
+            // NOT_REQUIRED must not sit alongside the real rule: ParamRule composes
+            // its rules with AllOf, and NotRequired only accepts empty values, so
+            // `AllOf(InAccessibleEmpNumbers, NotRequired)` rejects every empNumber.
+            // notRequiredParamRule() rebuilds it as OneOf(NotRequired, AllOf(...)).
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_EMP_NUMBER,
+                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+                )
             ),
         );
     }
