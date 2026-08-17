@@ -203,7 +203,7 @@ export default {
     return {
       isLoading: false,
       enabled: false,
-      scopeSelection: null, // oxd-select model: {id, name} object or null
+      scopeSelection: null, // oxd-select model: {id, label} object or null
       units: [],
       locations: [],
       mapModalLocation: null, // index of the location being picked on the map
@@ -229,14 +229,19 @@ export default {
       return this.scopeSelection?.id ?? null;
     },
     scopeOptions() {
+      // oxd-select renders `option.label`; anything else shows up as a blank row
       const options = [
         {
           id: null,
-          name: this.$t('attendance.geofence_scope_default'),
+          label: this.$t('attendance.geofence_scope_default'),
         },
       ];
       this.units.forEach((unit) => {
-        options.push({id: unit.id, name: unit.name});
+        options.push({
+          id: unit.id,
+          label: unit.name,
+          _indent: unit.level,
+        });
       });
       return options;
     },
