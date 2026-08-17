@@ -81,9 +81,12 @@ class WorkTimeReportAPI extends Endpoint implements CollectionEndpoint
         $balance = $timeBankService->getCurrentBalance($empNumber);
         $result['accumulatedBalance'] = $balance;
 
+        // One record in the collection. The extra nesting of [[$result]] would
+        // serialise as data[[{...}]], so data[0] came back as an array and every
+        // field the report page reads off it resolved to undefined.
         return new EndpointCollectionResult(
             ArrayModel::class,
-            [[$result]],
+            [$result],
             new ParameterBag([CommonParams::PARAMETER_TOTAL => 1])
         );
     }
