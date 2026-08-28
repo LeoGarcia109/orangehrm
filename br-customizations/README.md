@@ -119,6 +119,42 @@ Endpoints alterados:
 
 Migração: [`attendance-br/migrations/005_multi_company.sql`](attendance-br/migrations/005_multi_company.sql)
 
+## Assinatura dos registros (inviolabilidade)
+
+Cada registro de ponto recebe um HMAC-SHA256 quando o dia é fechado, para que
+uma alteração posterior no banco não passe despercebida (Portaria 671/2021).
+
+- **Quando assina** — no punch-out, dentro de `AttendanceDao::savePunchRecord`.
+  Registro ainda aberto (`PUNCHED IN`, ou `PUNCHED OUT` sem hora de saída) não
+  é assinado: as duas batidas moram na mesma linha, e assinar antes marcaria o
+  próprio punch-out como adulteração.
+- **O que é assinado** — `NSR | emp_number | punch_in_utc | punch_out_utc |
+  state`, com a chave `attendance.br.signature_secret` de `hs_hr_config`.
+- **Verificação** — `GET /api/v2/attendance/br/signature/verify?fromDate=&toDate=`
+  devolve `INTEGRAL` ou `VIOLATED`; `POST` no mesmo caminho assina em lote os
+  registros de um período que ainda estejam sem hash.
+
+### O segredo — leia antes de mexer
+
+A migração [`007_signature_secret.sql`](attendance-br/migrations/007_signature_secret.sql)
+cria a chave com `SHA2(RANDOM_BYTES(64), 256)` e **não sobrescreve** uma chave
+existente.
+
+- **Guarde a chave no backup junto com o banco.** Trocar ou perder o segredo
+  invalida o hash de todos os registros já assinados — eles passam a aparecer
+  como `VIOLATED`, sem que ninguém tenha adulterado nada.
+- **Não existe chave de fallback.** Sem o segredo o serviço recusa assinar, e
+  o punch-out falha. É deliberado: um registro gravado sem hash é um registro
+  sem prova de inviolabilidade, e antes disso o código caía numa chave
+  derivada do hostname — pública, e diferente a cada recriação do container.
+- **Limite conhecido:** o segredo mora no mesmo banco que os registros. Isso
+  detecta edição direta por quem não conhece o esquema, mas não impede quem
+  tem escrita no MySQL de ler a chave e recalcular um hash válido. Mover a
+  chave para fora do banco (env var ou arquivo) fecharia essa brecha —
+  o valor precisa ser exatamente o mesmo, senão os hashes atuais quebram.
+- **Hashes anteriores à 007 não valem nada** — foram gerados com a chave de
+  hostname e outro algoritmo. Precisam ser descartados e reassinados.
+
 ## Próximas customizações planejadas
 
 - [ ] Integração com e-Social
@@ -126,6 +162,7 @@ Migração: [`attendance-br/migrations/005_multi_company.sql`](attendance-br/mig
 - [x] Ponto eletrônico compatível com Portaria 673/2021
 - [x] Adaptadores de PIS, CNPJ (via attendance-br)
 - [x] Multi-empresa: CNPJ por unidade + geofence por empresa (Fase 5)
+- [x] Assinatura dos registros no punch-out (migração 007)
 - [ ] Integração com WhatsApp para notificações
 ## Troubleshooting - Docker (IMPORTANTE)
 

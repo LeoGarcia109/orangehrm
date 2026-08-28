@@ -21,6 +21,7 @@ namespace OrangeHRM\Attendance\Service;
 
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Entity\AttendanceRecord;
 
 /**
@@ -31,8 +32,12 @@ use OrangeHRM\Entity\AttendanceRecord;
  * subsequent modification to those fields will cause verification to fail,
  * providing cryptographic proof of tampering.
  *
- * Hash input: NSR | employee_id | punch_in_utc_time | punch_out_utc_time | state | secret_key
- * The secret_key is stored in the application config (hs_hr_config).
+ * Signed payload: NSR | employee_id | punch_in_utc_time | punch_out_utc_time | state,
+ * keyed with the secret from hs_hr_config (`attendance.br.signature_secret`).
+ * The key is what makes the hash evidence: without it the digest covers only
+ * public columns, so whoever edited them could recompute a matching hash.
+ * Signing therefore refuses to run when the secret is absent, rather than
+ * quietly producing a forgeable value.
  */
 class RecordSignatureService
 {
@@ -40,12 +45,11 @@ class RecordSignatureService
     private const CONFIG_KEY_SECRET = 'attendance.br.signature_secret';
 
     private EntityManagerInterface $em;
-    private ?string $secretKey;
+    private ?string $secretKey = null;
 
-    public function __construct(EntityManagerInterface $em, ?string $secretKey = null)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-        $this->secretKey = $secretKey ?? $this->loadSecretFromConfig();
     }
 
     /**
@@ -57,7 +61,7 @@ class RecordSignatureService
      */
     public function signRecord(AttendanceRecord $record): string
     {
-        $hash = $this->computeHash($record);
+        $hash = self::computeHash($record, $this->secret());
 
         // Use direct SQL to avoid triggering Doctrine change tracking issues
         $conn = $this->em->getConnection();
@@ -77,7 +81,7 @@ class RecordSignatureService
      */
     public function verifyRecord(AttendanceRecord $record): array
     {
-        $expected = $this->computeHash($record);
+        $expected = self::computeHash($record, $this->secret());
         $actual = $this->getStoredHash($record->getId());
 
         return [
@@ -163,7 +167,7 @@ class RecordSignatureService
         $count = 0;
         while ($id = $result->fetchOne()) {
             $record = $this->em->find(AttendanceRecord::class, (int)$id);
-            if ($record !== null) {
+            if ($record !== null && self::isSignable($record)) {
                 $this->signRecord($record);
                 $count++;
             }
@@ -173,20 +177,41 @@ class RecordSignatureService
     }
 
     /**
-     * Compute the SHA-256 hash for a record's immutable fields.
+     * The keyed hash over the fields a fraud would have to change.
+     *
+     * Static and secret-in-hand so the rule can be exercised without a
+     * database, and so no caller can accidentally sign with an empty key.
+     *
+     * @throws AttendanceServiceException when the secret is missing
      */
-    private function computeHash(AttendanceRecord $record): string
+    public static function computeHash(AttendanceRecord $record, string $secret): string
     {
+        if ($secret === '') {
+            throw AttendanceServiceException::signatureSecretNotConfigured();
+        }
+
         $payload = implode('|', [
             $record->getNsr() ?? 0,
             $record->getEmployee()->getEmpNumber(),
             $record->getPunchInUtcTime()?->format('Y-m-d H:i:s') ?? '',
             $record->getPunchOutUtcTime()?->format('Y-m-d H:i:s') ?? '',
             $record->getState(),
-            $this->secretKey ?? '',
         ]);
 
-        return hash(self::HASH_ALGORITHM, $payload);
+        return hash_hmac(self::HASH_ALGORITHM, $payload, $secret);
+    }
+
+    /**
+     * Whether the record is final enough to sign.
+     *
+     * OrangeHRM keeps both punches on one row, so the row only stops changing
+     * legitimately at punch-out. Signing earlier would flag the punch-out
+     * itself as tampering.
+     */
+    public static function isSignable(AttendanceRecord $record): bool
+    {
+        return $record->getState() === AttendanceRecord::STATE_PUNCHED_OUT
+            && $record->getPunchOutUtcTime() !== null;
     }
 
     /**
@@ -204,27 +229,30 @@ class RecordSignatureService
     }
 
     /**
-     * Load the signature secret from hs_hr_config.
-     * Falls back to a derived key if not configured.
+     * The signature secret from hs_hr_config, read once per request.
+     *
+     * There is deliberately no fallback key: a derived one would let signing
+     * succeed while producing hashes anybody could reproduce, and would change
+     * silently on the next deploy, turning every past record into a false
+     * "VIOLATED".
+     *
+     * @throws AttendanceServiceException when the secret is missing
      */
-    private function loadSecretFromConfig(): ?string
+    private function secret(): string
     {
-        try {
-            $conn = $this->em->getConnection();
-            $result = $conn->executeQuery(
-                "SELECT `value` FROM hs_hr_config WHERE `name` = ?",
-                [self::CONFIG_KEY_SECRET]
-            );
-            $value = $result->fetchOne();
-            if ($value !== false && !empty($value)) {
-                return (string)$value;
-            }
-        } catch (\Throwable $e) {
-            // Table might not exist yet or config not set
+        if ($this->secretKey !== null) {
+            return $this->secretKey;
         }
 
-        // Fallback: derive from a fixed salt (less secure, but functional)
-        // In production, set attendance.br.signature_secret in hs_hr_config
-        return 'ohrm-br-attendance-' . php_uname('n');
+        $value = $this->em->getConnection()->executeQuery(
+            "SELECT `value` FROM hs_hr_config WHERE `name` = ?",
+            [self::CONFIG_KEY_SECRET]
+        )->fetchOne();
+
+        if ($value === false || (string)$value === '') {
+            throw AttendanceServiceException::signatureSecretNotConfigured();
+        }
+
+        return $this->secretKey = (string)$value;
     }
 }

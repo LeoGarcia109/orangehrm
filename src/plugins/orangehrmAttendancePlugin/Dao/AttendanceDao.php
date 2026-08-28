@@ -26,6 +26,7 @@ use Doctrine\ORM\QueryBuilder;
 use OrangeHRM\Attendance\Dto\AttendanceRecordSearchFilterParams;
 use OrangeHRM\Attendance\Dto\EmployeeAttendanceSummarySearchFilterParams;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
+use OrangeHRM\Attendance\Service\RecordSignatureService;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\AttendanceRecord;
 use OrangeHRM\Entity\Employee;
@@ -55,6 +56,13 @@ class AttendanceDao extends BaseDao
             $attendanceRecord,
             $isNew ? 'CREATE' : 'UPDATE'
         );
+        // BR: Sign the record once the day is closed. Unlike the audit log this
+        // is not best-effort: a punch-out stored without its hash is a record
+        // with no tamper evidence, so a missing secret has to surface here
+        // instead of being discovered months later during an inspection.
+        if (RecordSignatureService::isSignable($attendanceRecord)) {
+            (new RecordSignatureService($this->getEntityManager()))->signRecord($attendanceRecord);
+        }
         return $attendanceRecord;
     }
 

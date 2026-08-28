@@ -26,6 +26,16 @@ class AttendanceServiceException extends Exception
     /**
      * @return static
      */
+    public static function signatureSecretNotConfigured(): self
+    {
+        return new self(
+            'Segredo de assinatura nao configurado: defina attendance.br.signature_secret em hs_hr_config'
+        );
+    }
+
+    /**
+     * @return static
+     */
     public static function punchOutAlreadyExist(): self
     {
         return new self('Cannot Proceed Punch Out Employee Already Punched Out');

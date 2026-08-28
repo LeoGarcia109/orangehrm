@@ -97,20 +97,47 @@ Premissas confirmadas com o Leo:
 5. [x] Tela: switch "Exigir geofence nesta empresa" + aviso quando marcada sem
       local cadastrado.
 
-## P1 - Inviolabilidade dos registros (marcado "Feito", nao opera)
+## P1 - Inviolabilidade dos registros - FEITO (2026-08-28, migracao 007)
 
-5. [ ] **Assinatura nao roda no fluxo de punch.**
-      `RecordSignatureService` so e referenciado por `SignatureVerifyAPI`, ou
-      seja, so assina quando alguem chama o endpoint de verificacao. Dos 5
-      registros existentes, 4 estao com `record_hash` NULL.
-      -> Chamar no punch-out (AttendanceDao/AttendanceService).
+6. [x] **Segredo criado.** `attendance.br.signature_secret` agora existe em
+      `hs_hr_config`, gerado com `SHA2(RANDOM_BYTES(64), 256)` pela migracao
+      007 (idempotente: nao sobrescreve um segredo ja existente).
+      O fallback derivado do hostname foi **removido** — ele deixava o codigo
+      assinar com uma chave publica e trocava sozinho a cada deploy. Sem o
+      segredo o servico agora recusa assinar
+      (`AttendanceServiceException::signatureSecretNotConfigured`).
+      O hash passou de `sha256(campos|segredo)` para
+      `hash_hmac('sha256', campos, segredo)`.
 
-6. [ ] **`attendance.br.signature_secret` nao existe em `hs_hr_config`.**
-      `computeHash()` faz `$this->secretKey ?? ''`; sem o segredo o hash e um
-      SHA-256 de campos publicos (NSR, id, horarios, state). Quem tiver escrita
-      no banco adultera o registro e recalcula um hash valido.
-      -> Definir o segredo ANTES de assinar em massa, senao os hashes precisam
-      ser refeitos. Fazer 6 antes de 5.
+5. [x] **Assinatura roda no fluxo de punch.** `AttendanceDao::savePunchRecord`
+      assina o registro quando ele fica final (`isSignable`: state
+      `PUNCHED OUT` **e** `punch_out_utc_time` preenchido). Registro ainda
+      aberto nao e assinado — na mesma linha ficam as duas batidas, e assinar
+      antes marcaria o proprio punch-out como adulteracao.
+
+      Diferente do audit log, **nao e best-effort**: se o segredo sumir, o
+      punch-out falha em vez de gravar um registro sem prova de
+      inviolabilidade. Decisao consciente, mesma politica fail-closed do P0.
+
+      Verificado contra o banco real (dentro de transacao revertida): punch-in
+      nao assina; punch-out assina; `UPDATE` direto no `punch_out_utc_time`
+      derruba a verificacao para `VIOLATED`; sem a chave, recusa.
+
+      Testes: `RecordSignatureTest`, 12 casos sobre o hash e a regra de quando
+      assinar, sem banco.
+
+### Pendente do P1
+
+- [ ] **Reassinar os 5 registros existentes** (`backfill_signatures.php`).
+      O registro 1 tem hash gerado antes da 007, com a chave derivada do
+      hostname e o algoritmo antigo: ele **nao prova nada** e nunca vai
+      conferir. Os outros 4 estao com `record_hash` NULL. Precisa descartar o
+      hash antigo e reassinar os 5 — sao registros do usuario de teste.
+
+- [ ] **Registro que fica aberto nunca e assinado.** Se o funcionario esquece
+      o punch-out, a linha fica sem hash ate ser fechada. O
+      `verifyPeriod` reporta isso como `unsigned`, mas ninguem olha.
+      -> Avaliar alerta ou fechamento automatico.
 
 ## P2 - Antes de cadastrar as empresas reais
 
