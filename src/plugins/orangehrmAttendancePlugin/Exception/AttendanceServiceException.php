@@ -24,6 +24,31 @@ use Exception;
 class AttendanceServiceException extends Exception
 {
     /**
+     * @param string|null $unitName
+     * @return static
+     */
+    public static function employerNotIdentified(?string $unitName): self
+    {
+        $where = $unitName !== null ? "\"{$unitName}\"" : 'no cadastro do empregador';
+        return new self(
+            "CNPJ ausente ou invalido em {$where}. O AFD identifica o empregador pelo CNPJ; "
+            . 'corrija o cadastro em Admin -> Organizacao antes de exportar.'
+        );
+    }
+
+    /**
+     * @param string $employeeName
+     * @return static
+     */
+    public static function employeePisMissing(string $employeeName): self
+    {
+        return new self(
+            "PIS/NIS ausente ou invalido no cadastro de {$employeeName}. O AFD identifica o "
+            . 'trabalhador pelo PIS; preencha o campo em PIM -> Dados Pessoais antes de exportar.'
+        );
+    }
+
+    /**
      * @return static
      */
     public static function signatureSecretNotConfigured(): self

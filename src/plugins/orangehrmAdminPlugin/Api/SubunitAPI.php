@@ -291,9 +291,9 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_CNPJ,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CNPJ_MAX_LENGTH])
-                ),
-                true
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CNPJ_MAX_LENGTH]),
+                    new Rule(Rules::CNPJ)
+                )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(

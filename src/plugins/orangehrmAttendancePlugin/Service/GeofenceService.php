@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Attendance\Service;
 
+use OrangeHRM\Attendance\Traits\Service\SubunitChainTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\Employee;
@@ -49,6 +50,7 @@ class GeofenceService
 {
     use ConfigServiceTrait;
     use EntityManagerHelperTrait;
+    use SubunitChainTrait;
 
     /**
      * Earth radius in meters (mean value used by haversine).
@@ -161,28 +163,6 @@ class GeofenceService
         $em->flush();
 
         return $result;
-    }
-
-    /**
-     * The employee's unit and its ancestors, nearest first, ending at the root.
-     *
-     * Walked as a nested set: an ancestor encloses the node's lft/rgt bounds.
-     *
-     * @param Subunit $subunit
-     * @return Subunit[]
-     */
-    public function getSubunitChain(Subunit $subunit): array
-    {
-        $qb = $this->getEntityManager()->createQueryBuilder()
-            ->select('s')
-            ->from(Subunit::class, 's')
-            ->where('s.lft <= :lft')
-            ->andWhere('s.rgt >= :rgt')
-            ->setParameter('lft', $subunit->getLft())
-            ->setParameter('rgt', $subunit->getRgt())
-            ->orderBy('s.lft', 'DESC');
-
-        return $qb->getQuery()->getResult();
     }
 
     /**

@@ -139,18 +139,50 @@ Premissas confirmadas com o Leo:
       `verifyPeriod` reporta isso como `unsigned`, mas ninguem olha.
       -> Avaliar alerta ou fechamento automatico.
 
-## P2 - Antes de cadastrar as empresas reais
+## P2 - Antes de cadastrar as empresas reais - PARCIAL (2026-08-28)
 
-7. [ ] **CNPJ por empresa sem validacao.** `EmployerResolverService` cai no
-      `tax_id` da organizacao quando a unidade nao tem CNPJ. Como a raiz nao tem
-      (e nem deve ter), uma empresa cadastrada sem CNPJ gera AFD com
-      `000000000000` no cabecalho, silenciosamente.
-      -> Validar formato do CNPJ no cadastro da unidade e avisar quando faltar.
+7. [x] **CNPJ validado no cadastro e exigido na exportacao.**
+      `Rules::CNPJ` (do Respect\Validation, que ja vinha no projeto) passou a
+      valer no `SubunitAPI`: CNPJ com digito trocado ou `00.000.000/0000-00` e
+      recusado ao salvar a unidade. String vazia continua limpando o campo.
 
-8. [ ] **PIS/NIS obrigatorio para funcionario real.** Hoje vazio (so o usuario
-      de teste). O AFD identifica o trabalhador pelo PIS.
+      Achado no caminho: **`EmployerResolverService` nao subia a arvore.** Ele
+      so olhava a lotacao imediata do funcionario, entao funcionario em
+      departamento abaixo da empresa nao encontrava CNPJ nenhum e caia no
+      `tax_id` da raiz -- que e NULL por decisao. Agora sobe a cadeia como o
+      geofence, parando na unidade mais proxima que declarou CNPJ. A subida
+      virou `SubunitChainTrait`, compartilhado com o `GeofenceService`, para os
+      dois nunca discordarem sobre a qual empresa o funcionario pertence.
+
+      CNPJ invalido e tratado como ausente e **nao** sobe para a empresa acima:
+      arquivar o funcionario sob a empresa errada e pior do que recusar.
+
+8. [x] **PIS/NIS exigido na exportacao.** `Rules::PIS` no
+      `EmployeePersonalDetailAPI` recusa digito verificador errado. O AFD/AFDT
+      recusa exportar quando o funcionario nao tem PIS valido, nomeando quem
+      esta pendente. O fallback para "Other Id" continua, mas so quando o que
+      esta la e mesmo um PIS -- numero de cracha nao entra mais no arquivo.
+
+      **Consequencia imediata:** o AFD nao gera enquanto o funcionario de teste
+      estiver sem PIS e sem lotacao. Era esse o ponto: antes gerava um arquivo
+      com `000000000000` que so seria recusado pelo auditor.
+
+      Guardas em `BrExportGuard`, 9 testes; validadores em
+      `Core\Utility\BrazilianDocument`, 18 testes.
+
+### Pendente do P2
 
 9. [ ] **Cadastro em massa das ~30 empresas** (ver Fase 5, item 1).
+
+10. [ ] **Campo de PIS aceita 12 caracteres, entao PIS pontuado
+      (`120.64487.89-3`, 14 caracteres) e recusado pelo tamanho antes de chegar
+      na validacao.** So digitos funciona. Avaliar aumentar o limite ou
+      normalizar na tela.
+
+11. [ ] **e-Social e comprovante de punch nao tem essas guardas.** Usam o mesmo
+      `EmployerResolverService` (entao ja subem a arvore), mas ainda formatam
+      zeros quando falta CNPJ/PIS. Fazer quando o e-Social for implantado
+      (P3, item 13).
 
 ## P3 - Limpeza e documentacao
 

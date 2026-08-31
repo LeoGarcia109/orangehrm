@@ -401,8 +401,8 @@ class EmployeePersonalDetailAPI extends Endpoint implements ResourceEndpoint
                 self::PARAMETER_PIS_NUMBER,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, 12]),
-            ),
-            true
+                new Rule(Rules::PIS)
+            )
         );
         return new ParamRuleCollection(...$paramRules);
     }

@@ -119,6 +119,29 @@ Endpoints alterados:
 
 Migração: [`attendance-br/migrations/005_multi_company.sql`](attendance-br/migrations/005_multi_company.sql)
 
+## CNPJ e PIS — o que os arquivos fiscais exigem
+
+Todo campo do AFD/AFDT é de largura fixa e preenchido com zeros à esquerda, então
+um CNPJ ou PIS ausente produzia um arquivo bem-formado que não identifica
+ninguém — aceito na exportação, recusado pelo auditor meses depois.
+
+- **No cadastro** — CNPJ da unidade (Admin → Organização) e PIS/NIS do
+  funcionário (PIM → Dados Pessoais) passam por dígito verificador. Campo em
+  branco continua limpando o valor; o que é recusado é número inventado.
+- **Na exportação** — AFD e AFDT recusam gerar quando falta CNPJ do empregador
+  ou PIS válido de algum funcionário do período, e a mensagem nomeia qual
+  empresa ou qual pessoa corrigir.
+- **Qual empresa assina** — a resolução sobe a árvore da estrutura
+  organizacional a partir da lotação do funcionário e para na unidade mais
+  próxima que declarou CNPJ (`SubunitChainTrait`, o mesmo caminho que o
+  geofence percorre). Funcionário em departamento herda o CNPJ da empresa acima.
+- **CNPJ inválido é tratado como ausente** e não sobe para a empresa acima —
+  arquivar o funcionário sob a empresa errada é pior do que recusar a exportação.
+
+A aritmética dos dígitos vem do `Respect\Validation`, que já era dependência do
+projeto (`Rules::CNPJ`, `Rules::PIS`). `Core\Utility\BrazilianDocument` existe
+para que os exportadores, fora da camada de API, deem a mesma resposta.
+
 ## Assinatura dos registros (inviolabilidade)
 
 Cada registro de ponto recebe um HMAC-SHA256 quando o dia é fechado, para que
@@ -163,6 +186,7 @@ existente.
 - [x] Adaptadores de PIS, CNPJ (via attendance-br)
 - [x] Multi-empresa: CNPJ por unidade + geofence por empresa (Fase 5)
 - [x] Assinatura dos registros no punch-out (migração 007)
+- [x] CNPJ e PIS validados no cadastro e exigidos no AFD/AFDT
 - [ ] Integração com WhatsApp para notificações
 ## Troubleshooting - Docker (IMPORTANTE)
 

@@ -74,11 +74,14 @@ class AFDTExporter
         $records = $this->fetchRecords($startDate, $endDate, $employeeNumber);
 
         // BR multi-company: single-employee exports carry the unit CNPJ/CEI.
-        $employer = null;
-        if ($employeeNumber !== null) {
-            $employee = $this->em->find(Employee::class, $employeeNumber);
-            $employer = $this->employerResolver->resolveForEmployee($employee, $organization);
-        }
+        $employer = $employeeNumber !== null
+            ? $this->employerResolver->resolveForEmployee(
+                $this->em->find(Employee::class, $employeeNumber),
+                $organization
+            )
+            : $this->employerResolver->resolveFromChain([], $organization);
+        // Refuses here rather than shipping a header full of zeros.
+        BrExportGuard::cnpjFor($employer);
 
         $lines = [];
         $lines[] = $this->buildHeader($organization, $employer, $startDate, $endDate);
@@ -114,19 +117,14 @@ class AFDTExporter
 
     private function buildHeader(
         ?Organization $org,
-        ?array $employer,
+        array $employer,
         DateTime $startDate,
         DateTime $endDate
     ): string {
-        $cnpjSource = $employer['cnpj']
-            ?? $this->employerResolver->sanitizeDigits($org?->getTaxId() ?? '')
-            ?? '';
-        $ceiSource = $employer['cei']
-            ?? $this->employerResolver->sanitizeDigits($org?->getRegistrationNumber() ?? '')
-            ?? '';
+        $ceiSource = $employer['cei'] ?? '';
         $nameSource = $employer['name'] ?? $org?->getName();
 
-        $cnpj = $this->sanitizeDigits($cnpjSource, 14);
+        $cnpj = $this->sanitizeDigits(BrExportGuard::cnpjFor($employer), 14);
         $name = $this->padRight($nameSource ?? 'EMPREGADOR', 150);
         $cei = $this->sanitizeDigits($ceiSource, 12);
         $now = new DateTime();
@@ -149,7 +147,7 @@ class AFDTExporter
     {
         $lines = [];
         $employee = $record->getEmployee();
-        $pis = $this->getEmployeePis($employee);
+        $pis = BrExportGuard::pisFor($employee);
         $sourceType = $record->isRectified() ? self::SOURCE_RECTIFIED : self::SOURCE_ORIGINAL;
 
         if ($record->getPunchInUserTime() !== null) {
@@ -199,14 +197,6 @@ class AFDTExporter
         }
 
         return $qb->getQuery()->getResult();
-    }
-
-    private function getEmployeePis($employee): string
-    {
-        if (method_exists($employee, 'getPisNumber') && !empty($employee->getPisNumber())) {
-            return $this->sanitizeDigits($employee->getPisNumber(), 12);
-        }
-        return $this->sanitizeDigits($employee->getOtherId() ?? '', 12);
     }
 
     private function sanitizeDigits(string $value, int $length): string

@@ -70,11 +70,14 @@ class AFDExporter
         // targets a single employee, the header carries that employee's unit
         // CNPJ/CEI (falling back to the organization). Mixed-company exports
         // keep the organization header.
-        $employer = null;
-        if ($employeeNumber !== null) {
-            $employee = $this->em->find(Employee::class, $employeeNumber);
-            $employer = $this->employerResolver->resolveForEmployee($employee, $organization);
-        }
+        $employer = $employeeNumber !== null
+            ? $this->employerResolver->resolveForEmployee(
+                $this->em->find(Employee::class, $employeeNumber),
+                $organization
+            )
+            : $this->employerResolver->resolveFromChain([], $organization);
+        // Refuses here rather than shipping a header full of zeros.
+        BrExportGuard::cnpjFor($employer);
 
         $lines = [];
         $lines[] = $this->buildHeaderLine($organization, $employer, $startDate, $endDate);
@@ -128,19 +131,14 @@ class AFDExporter
      */
     private function buildHeaderLine(
         ?Organization $org,
-        ?array $employer,
+        array $employer,
         DateTime $startDate,
         DateTime $endDate
     ): string {
-        $cnpjSource = $employer['cnpj']
-            ?? $this->employerResolver->sanitizeDigits($org?->getTaxId() ?? '')
-            ?? '';
-        $ceiSource = $employer['cei']
-            ?? $this->employerResolver->sanitizeDigits($org?->getRegistrationNumber() ?? '')
-            ?? '';
+        $ceiSource = $employer['cei'] ?? '';
         $nameSource = $employer['name'] ?? $org?->getName();
 
-        $cnpj = $this->sanitizeDigits($cnpjSource, 14);
+        $cnpj = $this->sanitizeDigits(BrExportGuard::cnpjFor($employer), 14);
         $employerName = $this->padRight($nameSource ?? 'EMPREGADOR NAO INFORMADO', 150);
         $workplaceName = $this->padRight($org?->getName() ?? 'LOCAL NAO INFORMADO', 150);
         $cei = $this->sanitizeDigits($ceiSource, 12);
@@ -172,7 +170,7 @@ class AFDExporter
     {
         $lines = [];
         $employee = $record->getEmployee();
-        $pis = $this->getEmployeePis($employee);
+        $pis = BrExportGuard::pisFor($employee);
 
         // Punch-in line
         if ($record->getPunchInUserTime() !== null) {
@@ -239,22 +237,6 @@ class AFDExporter
         }
 
         return $qb->getQuery()->getResult();
-    }
-
-    /**
-     * Get the PIS/NIS number for an employee.
-     * Falls back to otherId if pis_number is not set.
-     */
-    private function getEmployeePis(Employee $employee): string
-    {
-        // The pis_number column is added by our migration.
-        // Access via getter if the entity has been extended, otherwise use otherId.
-        if (method_exists($employee, 'getPisNumber') && !empty($employee->getPisNumber())) {
-            return $this->sanitizeDigits($employee->getPisNumber(), 12);
-        }
-
-        // Fallback: use other_id field
-        return $this->sanitizeDigits($employee->getOtherId() ?? '', 12);
     }
 
     private function buildAddress(?Organization $org): string
