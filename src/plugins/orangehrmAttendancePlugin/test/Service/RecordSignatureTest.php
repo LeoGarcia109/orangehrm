@@ -29,7 +29,7 @@ use OrangeHRM\Tests\Util\TestCase;
 /**
  * The record signature, isolated from the database.
  *
- * Portaria 671/2021 requires a time record to be tamper-evident: whoever
+ * Portaria 673/2021 requires a time record to be tamper-evident: whoever
  * changes a punch after the fact must not be able to leave the record looking
  * untouched. That only holds while the hash depends on a secret -- a digest of
  * public fields alone can be recomputed by anyone who edited them.

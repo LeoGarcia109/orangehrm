@@ -23,7 +23,7 @@ use DateTime;
 use OrangeHRM\Attendance\Service\AFDTExporter;
 
 /**
- * BR: AFDT (Arquivo Fonte de Dados Tratado) download -- Portaria 671/673.
+ * BR: AFDT (Arquivo Fonte de Dados Tratado) download -- Portaria 673/2021.
  *
  * GET /api/v2/attendance/br/afdt-export?fromDate=2026-08-01&toDate=2026-08-17&empNumber=1
  */

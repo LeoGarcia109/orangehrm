@@ -142,10 +142,22 @@ A aritmética dos dígitos vem do `Respect\Validation`, que já era dependência
 projeto (`Rules::CNPJ`, `Rules::PIS`). `Core\Utility\BrazilianDocument` existe
 para que os exportadores, fora da camada de API, deem a mesma resposta.
 
+## Norma de referência — pendente de confirmação
+
+Todo o módulo BR cita **Portaria SEPRT 673/2021** como norma de referência. Os
+layouts de arquivo (AFD, Anexo I; AFDT, Anexo II) são citados como herdados da
+**Portaria 1.510/2009**, que é de onde o formato vem.
+
+**Isso ainda não foi confirmado com contador ou jurídico.** A citação foi
+uniformizada para o código parar de dizer três coisas diferentes em lugares
+diferentes, não porque a referência tenha sido verificada em fonte oficial. Se
+o seu contador apontar outra norma, a troca é mecânica — é só texto de
+comentário e documentação, nada de comportamento depende disso.
+
 ## Assinatura dos registros (inviolabilidade)
 
 Cada registro de ponto recebe um HMAC-SHA256 quando o dia é fechado, para que
-uma alteração posterior no banco não passe despercebida (Portaria 671/2021).
+uma alteração posterior no banco não passe despercebida (Portaria 673/2021).
 
 - **Quando assina** — no punch-out, dentro de `AttendanceDao::savePunchRecord`.
   Registro ainda aberto (`PUNCHED IN`, ou `PUNCHED OUT` sem hora de saída) não

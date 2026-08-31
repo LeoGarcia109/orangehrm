@@ -73,7 +73,6 @@ attendance-br/
 │   ├── AttendanceAuditService.php    # Auditoria
 │   ├── BrazilianWorkTimeCalculator.php # HE + Noturno + Intervalos
 │   ├── ESocialEventGenerator.php     # XML e-Social (S-1200, S-1210)
-│   ├── NsrService.php                # NSR sequencial
 │   ├── PunchReceiptService.php       # Comprovante HTML/PDF
 │   ├── RecordSignatureService.php    # Hash SHA-256
 │   └── TimeBankService.php           # Banco de horas

@@ -23,7 +23,7 @@ use DateTime;
 use OrangeHRM\Attendance\Service\AFDExporter;
 
 /**
- * BR: AFD (Arquivo Fonte de Dados) download -- Portaria 671/673.
+ * BR: AFD (Arquivo Fonte de Dados) download -- Portaria 673/2021.
  *
  * GET /api/v2/attendance/br/afd-export?fromDate=2026-08-01&toDate=2026-08-17&empNumber=1
  */

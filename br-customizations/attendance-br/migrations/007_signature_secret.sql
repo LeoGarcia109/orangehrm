@@ -2,7 +2,7 @@
 -- OrangeHRM BR - Migracao 007: segredo de assinatura dos registros de ponto
 -- ============================================================================
 --
--- O hash de inviolabilidade (Portaria 671/2021) so vale enquanto depende de um
+-- O hash de inviolabilidade (Portaria 673/2021) so vale enquanto depende de um
 -- segredo. Sem ele o hash e um digest de colunas publicas: quem alterou o
 -- registro recalcula o valor e a adulteracao fica invisivel.
 --

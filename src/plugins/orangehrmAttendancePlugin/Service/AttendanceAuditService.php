@@ -56,6 +56,26 @@ class AttendanceAuditService
     }
 
     /**
+     * BR: log a punch recorded on somebody else's behalf at a company that
+     * requires geofence.
+     *
+     * The fence could not be evaluated for this punch, so the reason goes on
+     * its own row rather than being left to be inferred from changed_by not
+     * matching the employee.
+     */
+    public function logProxyPunch(AttendanceRecord $record, string $justification): void
+    {
+        $this->persistLog(
+            $record,
+            AttendanceAuditLog::ACTION_PROXY_PUNCH,
+            null,
+            null,
+            $this->serializeRecord($record),
+            $justification
+        );
+    }
+
+    /**
      * Log a field-level update on an attendance record.
      * Call this BEFORE applying the change (so old_value is still available).
      *

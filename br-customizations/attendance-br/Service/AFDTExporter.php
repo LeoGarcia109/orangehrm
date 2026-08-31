@@ -32,7 +32,8 @@ use OrangeHRM\Entity\Organization;
  * rectified, or manually included) and whether it was pre-assigned by the
  * employer's time-tracking software.
  *
- * Layout per Portaria 1.510/2009, Annex II:
+ * Norm of record: Portaria SEPRT 673/2021 (layout from Portaria 1.510/2009,
+ * Annex II):
  *   Type 1 - Header (same as AFD)
  *   Type 2 - Treated punch records (adds source type and rectification flag)
  *   Type 9 - Trailer

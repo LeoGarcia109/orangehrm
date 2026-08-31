@@ -27,7 +27,9 @@ use OrangeHRM\Attendance\Api\Model\AttendanceRecordModel;
 use OrangeHRM\Attendance\Api\ValidationRules\EmployeeDataGroupReadPermissionRule;
 use OrangeHRM\Attendance\Dto\AttendanceRecordSearchFilterParams;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
+use OrangeHRM\Attendance\Service\AttendanceAuditService;
 use OrangeHRM\Attendance\Service\GeofenceService;
+use OrangeHRM\Attendance\Service\ProxyPunchGuard;
 use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
@@ -320,9 +322,12 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                 [Employee::class => $empNumber]
             );
             $this->userAllowedPunchInActions(array_keys($allowedWorkflowItems));
-            // BR: geofence enforcement (Portaria 673/2021) — self punches only
+            // BR: geofence enforcement (Portaria 673/2021) — self punches only;
+            // a punch recorded for someone else has to say why instead.
             if ($this->isGeofenceApplicable()) {
                 $this->validateGeofence($latitude, $longitude);
+            } else {
+                $this->validateProxyPunch($note);
             }
             $attendanceRecord = new AttendanceRecord();
             $attendanceRecord->getDecorator()->setEmployeeByEmpNumber($empNumber);
@@ -349,6 +354,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             $attendanceRecord->setPunchInLatitude($latitude !== null ? (string)$latitude : null);
             $attendanceRecord->setPunchInLongitude($longitude !== null ? (string)$longitude : null);
             $attendanceRecord = $this->getAttendanceService()->getAttendanceDao()->savePunchRecord($attendanceRecord);
+            $this->logProxyPunchIfApplicable($attendanceRecord, $note);
             $this->commitTransaction();
             return new EndpointResourceResult(AttendanceRecordModel::class, $attendanceRecord);
         } catch (AttendanceServiceException $e) {
@@ -693,9 +699,12 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                 [Employee::class => $empNumber]
             );
             $this->userAllowedPunchOutActions(array_keys($allowedWorkflowItems));
-            // BR: geofence enforcement (Portaria 673/2021) — self punches only
+            // BR: geofence enforcement (Portaria 673/2021) — self punches only;
+            // a punch recorded for someone else has to say why instead.
             if ($this->isGeofenceApplicable()) {
                 $this->validateGeofence($latitude, $longitude);
+            } else {
+                $this->validateProxyPunch($note);
             }
             $lastPunchInRecord = $this->getAttendanceService()
                 ->getAttendanceDao()
@@ -726,6 +735,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             $lastPunchInRecord->setPunchOutLatitude($latitude !== null ? (string)$latitude : null);
             $lastPunchInRecord->setPunchOutLongitude($longitude !== null ? (string)$longitude : null);
             $attendanceRecord = $this->getAttendanceService()->getAttendanceDao()->savePunchRecord($lastPunchInRecord);
+            $this->logProxyPunchIfApplicable($attendanceRecord, $note);
             return new EndpointResourceResult(AttendanceRecordModel::class, $attendanceRecord);
         } catch (AttendanceServiceException $e) {
             throw $this->getBadRequestException($e->getMessage());
@@ -803,6 +813,51 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      * @param float|null $longitude
      * @throws BadRequestException
      */
+    /**
+     * BR: a punch recorded on somebody else's behalf cannot be geofenced --
+     * the coordinates are the operator's, not the worker's. At a company that
+     * demands geofence it must carry a reason, which lands in the audit trail.
+     *
+     * @param string|null $note
+     * @throws AttendanceServiceException
+     */
+    protected function validateProxyPunch(?string $note): void
+    {
+        ProxyPunchGuard::assertJustified(false, $this->isGeofenceRequiredForTarget(), $note);
+    }
+
+    /**
+     * BR: whether the employee being punched for belongs to a company that
+     * switched geofence on, with the master switch taken into account.
+     *
+     * @return bool
+     */
+    protected function isGeofenceRequiredForTarget(): bool
+    {
+        $employee = $this->getEntityManager()->find(Employee::class, $this->getEmpNumber());
+        if (!$employee instanceof Employee) {
+            return false;
+        }
+        $geofenceService = new GeofenceService();
+        return $geofenceService->isEnabled() && $geofenceService->isRequiredForEmployee($employee);
+    }
+
+    /**
+     * BR: record the reason a punch was made for someone else, so the bypass
+     * is queryable rather than inferred from changed_by not matching.
+     *
+     * @param AttendanceRecord $record
+     * @param string|null $note
+     */
+    protected function logProxyPunchIfApplicable(AttendanceRecord $record, ?string $note): void
+    {
+        if ($this->isGeofenceApplicable() || !$this->isGeofenceRequiredForTarget()) {
+            return;
+        }
+        (new AttendanceAuditService($this->getEntityManager()))
+            ->logProxyPunch($record, (string)$note);
+    }
+
     protected function validateGeofence(?float $latitude, ?float $longitude): void
     {
         $employee = $this->getEntityManager()->find(Employee::class, $this->getAuthUser()->getEmpNumber());

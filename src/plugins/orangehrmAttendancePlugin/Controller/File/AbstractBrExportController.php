@@ -30,7 +30,7 @@ use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 
 /**
- * BR: shared plumbing for the Portaria 671/673 fiscal exports (AFD, AFDT).
+ * BR: shared plumbing for the Portaria 673/2021 fiscal exports (AFD, AFDT).
  *
  * These are plain-text files handed to a labour inspector, so they are served as
  * attachments rather than through the REST stack -- an EndpointResult would

@@ -35,6 +35,8 @@ class AttendanceAuditLog
     public const ACTION_UPDATE = 'UPDATE';
     public const ACTION_DELETE = 'DELETE';
     public const ACTION_RECTIFY = 'RECTIFY';
+    // BR: punch recorded on somebody else's behalf, bypassing the geofence
+    public const ACTION_PROXY_PUNCH = 'PROXY_PUNCH';
 
     /**
      * @var int

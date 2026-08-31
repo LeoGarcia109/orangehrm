@@ -24,6 +24,18 @@ use Exception;
 class AttendanceServiceException extends Exception
 {
     /**
+     * @return static
+     */
+    public static function proxyPunchNeedsJustification(): self
+    {
+        return new self(
+            'Batida registrada para outro funcionario em empresa que exige geofence precisa de '
+            . 'justificativa. Escreva no campo de observacao o motivo (ex.: esqueceu de bater na '
+            . 'saida) -- ele fica na trilha de auditoria junto com quem registrou.'
+        );
+    }
+
+    /**
      * @param string|null $unitName
      * @return static
      */

@@ -184,20 +184,41 @@ Premissas confirmadas com o Leo:
       zeros quando falta CNPJ/PIS. Fazer quando o e-Social for implantado
       (P3, item 13).
 
-## P3 - Limpeza e documentacao
+## P3 - Limpeza e documentacao - QUASE FECHADO (2026-08-28, migracao 008)
 
-10. [ ] **`NsrService` e codigo morto.** O NSR real e atribuido em
-      `AttendanceDao::getNextNsr()` com `SELECT ... FOR UPDATE` (funciona); o
-      servico duplica a logica e ninguem chama. Remover.
+10. [x] **`NsrService` removido.** Era codigo morto: o NSR real sempre saiu de
+      `AttendanceDao::getNextNsr()` com `SELECT ... FOR UPDATE`, e ninguem
+      chamava o servico.
 
-11. [ ] **Admin batendo por terceiro valida o geofence do admin.**
-      `validateGeofence` usa `getAuthUser()->getEmpNumber()` mesmo na rota
-      `/employees/{empNumber}/records`. Avaliar se e o desejado.
+11. [x] **Batida por terceiro agora exige justificativa.**
+      Achado ao investigar: nao era o geofence do admin sendo validado -- o
+      `isGeofenceApplicable()` ja limitava a validacao a batidas proprias.
+      O problema era outro e maior: **a batida por terceiro pulava o geofence
+      por completo**, e era a unica rota em volta de uma cerca que a empresa
+      tornou obrigatoria.
 
-12. [ ] **Norma de referencia inconsistente.** Os docs citam "Portaria SEPRT
-      673/2021", "Portaria 1.510/2009" e "Portaria 671/673" em lugares
-      diferentes. Uniformizar -- confirmando com contador/juridico, nao pelo
-      codigo.
+      Nao da para validar a cerca nesse caso: as coordenadas sao de quem opera
+      a tela, nao do trabalhador. Entao a batida continua permitida (esquecer
+      de bater tem de ser corrigivel) mas, em empresa que exige geofence,
+      precisa de motivo com pelo menos 5 caracteres.
+
+      A justificativa vira uma linha propria na trilha
+      (`action = 'PROXY_PUNCH'`, migracao 008), para o desvio ser consultavel
+      e nao apenas dedutivel de `changed_by <> employee_id`.
+
+      `ProxyPunchGuard`, 7 testes. Conferido contra os dados reais: na Acacia
+      recusa sem motivo e aceita com; no Grupo HRR, que nao exige, nada muda.
+
+12. [x] **Norma uniformizada em "Portaria SEPRT 673/2021"** (escolha do Leo).
+      Os layouts de arquivo continuam citados como herdados da Portaria
+      1.510/2009 (AFD, Anexo I; AFDT, Anexo II), que e de onde o formato vem.
+
+      **Continua pendente de confirmacao com contador/juridico.** A busca web
+      falhou no ambiente, entao a citacao nao foi verificada em fonte oficial;
+      foi so uniformizada para o codigo parar de dizer tres coisas diferentes.
+      Ressalva registrada no README. Nada de comportamento depende disso.
+
+### Pendente do P3
 
 13. [ ] **e-Social nao implantado** (`ohrm_br_esocial_config` vazio). O gerador
       S-1200/S-1210 existe; falta configuracao e processo.
