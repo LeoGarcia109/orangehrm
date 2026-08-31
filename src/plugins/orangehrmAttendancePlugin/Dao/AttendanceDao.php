@@ -28,6 +28,7 @@ use OrangeHRM\Attendance\Dto\EmployeeAttendanceSummarySearchFilterParams;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Attendance\Service\RecordSignatureService;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\AttendanceRecord;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkflowStateMachine;
@@ -38,6 +39,8 @@ use OrangeHRM\Time\Dto\AttendanceReportSearchFilterParams;
 
 class AttendanceDao extends BaseDao
 {
+    use AuthUserTrait;
+
     /**
      * @param  AttendanceRecord  $attendanceRecord
      * @return AttendanceRecord
@@ -109,13 +112,18 @@ class AttendanceDao extends BaseDao
 
     /**
      * BR: Get the current authenticated employee number for audit logging.
+     *
+     * This used to call a static `Services::getContainer()` that does not
+     * exist, inside a catch-all -- so every audit row was written with no
+     * author, silently. An audit trail that cannot say who changed a punch is
+     * most of the way to no audit trail at all.
      */
     private function getCurrentEmpNumber(): ?int
     {
         try {
-            $authUser = \OrangeHRM\Framework\Services::getContainer()->get(\OrangeHRM\Framework\Services::AUTH_USER);
-            return $authUser->getEmpNumber();
+            return $this->getAuthUser()->getEmpNumber();
         } catch (\Throwable $e) {
+            // CLI context or no authenticated user
             return null;
         }
     }

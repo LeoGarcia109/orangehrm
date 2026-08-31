@@ -41,11 +41,43 @@ foram corrigidos junto:
 1. [x] Tela admin para gerenciar areas do geofence → feita na Fase 5
       (`/attendance/brGeofence`, por empresa)
 2. [ ] Notificacoes push (lembrete de punch out) — exige VAPID keys
-3. [ ] Fila offline de punch (bater ponto sem sinal e sincronizar)
+3. [x] **Fila offline de punch (2026-08-31, migracao 009).**
+
+      Bater sem sinal guarda a batida no aparelho (`localStorage`) com o
+      **horario e o GPS do momento em que o botao foi apertado**, nao os da
+      sincronizacao — e essa a batida que de fato aconteceu, e e ela que o
+      geofence e a folha precisam ver.
+
+      Descoberta que definiu o desenho: o punch proprio ja recusava qualquer
+      horario fora de ±180 segundos do relogio do servidor
+      (`MyAttendanceRecordAPI::isCurrantDateTimeValid`), que e justamente o que
+      impede o funcionario de escolher o proprio horario. Batida offline nao
+      tem como satisfazer isso. Entao aceitar a fila **afrouxa esse controle**,
+      e o afrouxamento e explicito:
+
+      - o empregador liga `attendance.br.offline_punch.enabled` (ja ligada);
+      - `attendance.br.offline_punch.max_hours` (24h) limita ate onde a batida
+        pode ser retroativa; passado isso vira correcao, que pertence ao fluxo
+        de retificacao com pedido e aprovacao;
+      - batida no futuro alem de 180s de tolerancia e recusada;
+      - toda batida que chega por essa via ganha linha propria na trilha
+        (`action = 'OFFLINE_SYNC'`).
+
+      A fila esvazia na ordem em que foi criada e para na primeira que nao sai:
+      punch-out replicado antes do punch-in seria recusado por nao haver
+      registro aberto. Batida que o servidor respondeu recusando sai da fila e
+      e reportada na tela, senao travaria todas as seguintes para sempre.
+
+      `OfflinePunchWindow` (7 testes PHP) e `useOfflinePunchQueue`
+      (12 testes Jest).
+
 4. [ ] Camera/selfie no punch (prova adicional, opcional)
 5. [ ] Testar instalacao PWA em iOS real (Safari → Adicionar à Tela de Início)
 6. [ ] Menu lateral: link para a pagina mobile (opcional; funcionarios
       acessam direto pelo link compartilhado)
+7. [ ] Central de notificacoes (RH → rede / posto / individual) e assinatura
+      mensal da folha de ponto — pedidos pelo Leo em 2026-08-31, desenho
+      pendente de aprovacao antes de implementar.
 
 # Fase 5 - Multi-empresa (2026-08-15)
 
@@ -217,6 +249,21 @@ Premissas confirmadas com o Leo:
       falhou no ambiente, entao a citacao nao foi verificada em fonte oficial;
       foi so uniformizada para o codigo parar de dizer tres coisas diferentes.
       Ressalva registrada no README. Nada de comportamento depende disso.
+
+### Corrigido de passagem (2026-08-31)
+
+14. [x] **A trilha de auditoria nunca gravava o autor.**
+      `AttendanceDao::getCurrentEmpNumber()` chamava um
+      `Services::getContainer()` estatico que nao existe, dentro de um
+      `catch (\Throwable)` — entao toda linha CREATE/UPDATE era gravada com
+      `changed_by_emp_number` NULL, em silencio. As duas linhas que existiam
+      no banco estavam assim.
+
+      Passou a usar o `AuthUserTrait`, que e o idioma que o resto do codigo ja
+      usa. Conferido: agora grava `changed_by_emp_number = 1`.
+
+      Isso importa para o P3 item 11: a justificativa da batida por terceiro
+      so vale como prova se der para dizer quem bateu.
 
 ### Pendente do P3
 

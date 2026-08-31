@@ -37,6 +37,8 @@ class AttendanceAuditLog
     public const ACTION_RECTIFY = 'RECTIFY';
     // BR: punch recorded on somebody else's behalf, bypassing the geofence
     public const ACTION_PROXY_PUNCH = 'PROXY_PUNCH';
+    // BR: punch taken without signal, carrying a time the server never saw
+    public const ACTION_OFFLINE_SYNC = 'OFFLINE_SYNC';
 
     /**
      * @var int

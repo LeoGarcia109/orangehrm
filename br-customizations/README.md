@@ -142,6 +142,50 @@ A aritmética dos dígitos vem do `Respect\Validation`, que já era dependência
 projeto (`Rules::CNPJ`, `Rules::PIS`). `Core\Utility\BrazilianDocument` existe
 para que os exportadores, fora da camada de API, deem a mesma resposta.
 
+## Fila offline de ponto
+
+Bater ponto sem sinal guarda a batida no aparelho e a envia quando a conexão
+volta. O que fica guardado é o **horário e o GPS do momento em que o botão foi
+apertado** — não os da sincronização — porque é essa a batida que aconteceu.
+
+### O que isso custa, e por quê
+
+O punch próprio normalmente é preso ao relógio do servidor com margem de 180
+segundos, e é isso que impede o funcionário de escolher o próprio horário. Uma
+batida feita sem sinal não tem como satisfazer essa regra: só o aparelho a
+presenciou. **Aceitar a fila afrouxa esse controle** — não há como ter as duas
+coisas.
+
+O afrouxamento é explícito e limitado:
+
+| Chave | Padrão | O que faz |
+|---|---|---|
+| `attendance.br.offline_punch.enabled` | `true` | Sem ela ligada, batida sincronizada é recusada |
+| `attendance.br.offline_punch.max_hours` | `24` | Até onde a batida pode ser retroativa |
+
+- Passada a janela, deixa de ser sincronização e vira correção — que pertence
+  ao fluxo de retificação, com pedido e aprovação.
+- Batida no futuro além de 180 segundos de tolerância é recusada (relógio do
+  aparelho adiantado).
+- Toda batida que chega por essa via ganha linha própria na trilha
+  (`action = 'OFFLINE_SYNC'`), para não se confundir com uma batida que o
+  servidor presenciou ao vivo.
+- O geofence continua valendo: valida as coordenadas capturadas no momento da
+  batida, não as da sincronização.
+
+Para desligar: `UPDATE hs_hr_config SET value = 'false' WHERE name =
+'attendance.br.offline_punch.enabled';`
+
+### Como a fila se comporta
+
+Esvazia na ordem em que foi criada e para na primeira que não sai — punch-out
+enviado antes do seu punch-in seria recusado por não haver registro aberto.
+Batida que o servidor respondeu recusando sai da fila e é reportada na tela;
+mantê-la travaria todas as seguintes para sempre.
+
+Migração: [`attendance-br/migrations/009_offline_punch.sql`](attendance-br/migrations/009_offline_punch.sql)
+· strings: [`i18n/010_offline_punch_i18n.sql`](i18n/010_offline_punch_i18n.sql)
+
 ## Norma de referência — pendente de confirmação
 
 Todo o módulo BR cita **Portaria SEPRT 673/2021** como norma de referência. Os
@@ -199,6 +243,7 @@ existente.
 - [x] Multi-empresa: CNPJ por unidade + geofence por empresa (Fase 5)
 - [x] Assinatura dos registros no punch-out (migração 007)
 - [x] CNPJ e PIS validados no cadastro e exigidos no AFD/AFDT
+- [x] Fila offline de ponto no mobile (migração 009)
 - [ ] Integração com WhatsApp para notificações
 ## Troubleshooting - Docker (IMPORTANTE)
 

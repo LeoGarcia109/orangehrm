@@ -76,6 +76,25 @@ class AttendanceAuditService
     }
 
     /**
+     * BR: log a punch that arrived through the offline queue.
+     *
+     * Its time was witnessed by the device, not the server, so the record has
+     * to be visible as such -- both to whoever reviews the sheet and to an
+     * auditor asking why a punch is not pinned to the server clock.
+     */
+    public function logOfflineSync(AttendanceRecord $record): void
+    {
+        $this->persistLog(
+            $record,
+            AttendanceAuditLog::ACTION_OFFLINE_SYNC,
+            null,
+            null,
+            $this->serializeRecord($record),
+            'Batida registrada sem sinal e sincronizada depois'
+        );
+    }
+
+    /**
      * Log a field-level update on an attendance record.
      * Call this BEFORE applying the change (so old_value is still available).
      *

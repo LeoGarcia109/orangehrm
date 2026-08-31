@@ -26,6 +26,39 @@ class AttendanceServiceException extends Exception
     /**
      * @return static
      */
+    public static function offlinePunchDisabled(): self
+    {
+        return new self(
+            'Sincronizacao de ponto offline esta desativada. Ative em '
+            . 'attendance.br.offline_punch.enabled para aceitar batidas feitas sem sinal.'
+        );
+    }
+
+    /**
+     * @return static
+     */
+    public static function offlinePunchInTheFuture(): self
+    {
+        return new self(
+            'A batida sincronizada esta no futuro. Verifique o relogio do aparelho.'
+        );
+    }
+
+    /**
+     * @param int $maxHours
+     * @return static
+     */
+    public static function offlinePunchTooOld(int $maxHours): self
+    {
+        return new self(
+            "A batida sincronizada e mais antiga que a janela de {$maxHours} horas. "
+            . 'Registre a correcao pelo fluxo de retificacao, que tem pedido e aprovacao.'
+        );
+    }
+
+    /**
+     * @return static
+     */
     public static function proxyPunchNeedsJustification(): self
     {
         return new self(

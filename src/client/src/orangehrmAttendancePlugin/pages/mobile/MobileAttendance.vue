@@ -63,6 +63,24 @@
         </span>
       </section>
 
+      <section v-if="pendingCount" class="ohrm-mobile__pending">
+        <span class="ohrm-mobile__pending-text">
+          <i class="oxd-icon bi-cloud-arrow-up"></i>
+          {{ pendingCount }} {{ $t('attendance.offline_punch_pending') }}
+        </span>
+        <button
+          class="ohrm-mobile__pending-action"
+          :disabled="isSyncing"
+          @click="flushQueue"
+        >
+          {{ $t('attendance.offline_punch_sync_now') }}
+        </button>
+      </section>
+
+      <section v-if="offlineNotice" class="ohrm-mobile__offline-notice">
+        {{ offlineNotice }}
+      </section>
+
       <section class="ohrm-mobile__punch">
         <button
           class="ohrm-mobile__punch-button"
@@ -205,6 +223,9 @@ import {APIService} from '@ohrm/core/util/services/api.service';
 import {convertPHPDateFormat} from '@ohrm/oxd';
 import useLocale from '@/core/util/composable/useLocale';
 import useGeolocation from '@/orangehrmAttendancePlugin/composables/useGeolocation';
+import useOfflinePunchQueue, {
+  isUndelivered,
+} from '@/orangehrmAttendancePlugin/composables/useOfflinePunchQueue';
 
 const GEO_STALE_MS = 30000;
 
@@ -234,11 +255,13 @@ export default {
     // Geofence/business errors are surfaced inline with translated messages
     recordsHttp.setIgnorePath('/api/v2/attendance/records');
     const {getCoordinates} = useGeolocation();
+    const offlineQueue = useOfflinePunchQueue();
 
     return {
       locale,
       recordsHttp,
       getCoordinates,
+      offlineQueue,
       userDateFormat,
       timeFormat,
       jsTimeFormat,
@@ -261,6 +284,9 @@ export default {
       currentTime: '',
       clockTimer: null,
       punchError: null,
+      pendingCount: 0,
+      isSyncing: false,
+      offlineNotice: null,
       historyDate: null,
       historyRecords: [],
       historyLoading: false,
@@ -330,14 +356,20 @@ export default {
     this.updateClock();
     this.clockTimer = setInterval(this.updateClock, 15000);
     this.refreshLocation();
+    this.pendingCount = this.offlineQueue.size();
+    window.addEventListener('online', this.flushQueue);
     Promise.all([this.loadStatus(), this.loadGeofence(), this.loadToday()])
       .catch(() => null)
       .finally(() => {
         this.isLoading = false;
+        // Anything queued from a previous session goes out before the employee
+        // has a chance to punch again on top of it.
+        if (this.pendingCount) this.flushQueue();
       });
   },
   beforeUnmount() {
     if (this.clockTimer) clearInterval(this.clockTimer);
+    window.removeEventListener('online', this.flushQueue);
   },
   methods: {
     updateClock() {
@@ -446,12 +478,29 @@ export default {
         this.locationStatus = 'denied';
       }
     },
+    buildPunchPayload(now) {
+      const timezone = guessTimezone();
+      return {
+        date: `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
+          2,
+          '0',
+        )}-${String(now.getDate()).padStart(2, '0')}`,
+        time: `${String(now.getHours()).padStart(2, '0')}:${String(
+          now.getMinutes(),
+        ).padStart(2, '0')}`,
+        note: this.punchNote || null,
+        timezoneOffset: timezone.offset,
+        timezoneName: timezone.name,
+        latitude: this.lastCoordinates?.latitude ?? null,
+        longitude: this.lastCoordinates?.longitude ?? null,
+      };
+    },
     async onPunch() {
       if (this.isLoading) return;
       this.isLoading = true;
       this.punchError = null;
+      this.offlineNotice = null;
 
-      const timezone = guessTimezone();
       const now = new Date();
 
       // Fresh coordinates when stale (geofence is enforced server-side)
@@ -467,24 +516,11 @@ export default {
         }
       }
 
+      const method = this.isPunchedIn ? 'PUT' : 'POST';
+      const payload = this.buildPunchPayload(now);
+
       this.recordsHttp
-        .request({
-          method: this.isPunchedIn ? 'PUT' : 'POST',
-          data: {
-            date: `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
-              2,
-              '0',
-            )}-${String(now.getDate()).padStart(2, '0')}`,
-            time: `${String(now.getHours()).padStart(2, '0')}:${String(
-              now.getMinutes(),
-            ).padStart(2, '0')}`,
-            note: this.punchNote || null,
-            timezoneOffset: timezone.offset,
-            timezoneName: timezone.name,
-            latitude: this.lastCoordinates?.latitude ?? null,
-            longitude: this.lastCoordinates?.longitude ?? null,
-          },
-        })
+        .request({method, data: payload})
         .then(() => {
           this.punchNote = '';
           return this.$toast.saveSuccess();
@@ -493,6 +529,12 @@ export default {
           return Promise.all([this.loadStatus(), this.loadToday()]);
         })
         .catch((error) => {
+          // A request that never reached the server is not a refusal: the
+          // punch happened, and losing it would cost the employee the hours.
+          if (isUndelivered(error)) {
+            this.queuePunch(method, payload);
+            return;
+          }
           // APIService rejects with the response object for ignored paths
           const message =
             error?.data?.error?.message ??
@@ -504,6 +546,44 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
+    },
+    queuePunch(method, payload) {
+      const stored = this.offlineQueue.enqueue(method, payload);
+      if (!stored) {
+        // Storage refused it, so there is nowhere to keep the punch. Saying so
+        // beats a success message over a punch that no longer exists.
+        this.punchError = this.$t('attendance.offline_punch_not_stored');
+        return;
+      }
+      this.punchNote = '';
+      this.pendingCount = this.offlineQueue.size();
+      this.offlineNotice = this.$t('attendance.offline_punch_saved');
+      // Flip locally so the next punch queues as the matching out (or in).
+      this.isPunchedIn = !this.isPunchedIn;
+    },
+    async flushQueue() {
+      if (this.isSyncing || !this.offlineQueue.size()) return;
+      this.isSyncing = true;
+
+      const result = await this.offlineQueue.flush((item) =>
+        this.recordsHttp.request({method: item.method, data: item.payload}),
+      );
+
+      this.pendingCount = result.pending;
+      if (result.rejected.length) {
+        const message =
+          result.rejected[0].error?.data?.error?.message ??
+          result.rejected[0].error?.response?.data?.error?.message ??
+          null;
+        this.punchError = this.translatePunchError(message);
+      }
+      if (result.synced) {
+        this.offlineNotice = this.$t('attendance.offline_punch_synced');
+        await Promise.all([this.loadStatus(), this.loadToday()]).catch(
+          () => null,
+        );
+      }
+      this.isSyncing = false;
     },
     translatePunchError(message) {
       if (!message) return this.$t('general.error');
@@ -522,6 +602,9 @@ export default {
       }
       if (message.includes('No Location Registered For This Company')) {
         return this.$t('attendance.geofence_not_configured');
+      }
+      if (message.includes('janela de')) {
+        return this.$t('attendance.offline_punch_too_old');
       }
       return message;
     },

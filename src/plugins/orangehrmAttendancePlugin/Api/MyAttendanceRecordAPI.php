@@ -23,10 +23,12 @@ use DateTime;
 use DateTimeZone;
 use Exception;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
+use OrangeHRM\Attendance\Service\OfflinePunchWindow;
 use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
 use OrangeHRM\Entity\WorkflowStateMachine;
 
@@ -34,6 +36,7 @@ class MyAttendanceRecordAPI extends EmployeeAttendanceRecordAPI
 {
     use AttendanceServiceTrait;
     use AuthUserTrait;
+    use ConfigServiceTrait;
     use NumberHelperTrait;
 
     /**
@@ -61,6 +64,20 @@ class MyAttendanceRecordAPI extends EmployeeAttendanceRecordAPI
     {
         $timezone = $this->getDateTimeHelper()->getTimezoneByTimezoneOffset($timezoneOffset);
         $userDateTime = new DateTime($dateTime, $timezone);
+
+        // BR: a punch taken without signal cannot match the server clock --
+        // only the device witnessed it. It is checked against the offline
+        // window instead, which the employer opts into and bounds.
+        if ($this->isOfflineSync()) {
+            OfflinePunchWindow::assertAcceptable(
+                $this->getConfigService()->getAttendanceBrOfflinePunchEnabled(),
+                $userDateTime,
+                $this->getDateTimeHelper()->getNow($timezone),
+                $this->getConfigService()->getAttendanceBrOfflinePunchMaxHours()
+            );
+            return $userDateTime;
+        }
+
         //user can change current time config disabled and system generated date time is not valid
         if (!$this->getAttendanceService()->canUserChangeCurrentTime() && !$this->isCurrantDateTimeValid(
             $dateTime,

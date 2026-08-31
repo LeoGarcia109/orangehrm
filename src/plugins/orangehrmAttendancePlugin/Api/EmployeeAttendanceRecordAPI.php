@@ -69,6 +69,8 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_TIMEZONE_OFFSET = 'timezoneOffset';
     public const PARAMETER_TIMEZONE_NAME = 'timezoneName';
     public const PARAMETER_NOTE = 'note';
+    // BR: the punch was taken without signal and is being synced now
+    public const PARAMETER_OFFLINE_SYNC = 'offlineSync';
     public const FILTER_FROM_DATE = 'fromDate';
     public const FILTER_TO_DATE = 'toDate';
 
@@ -355,6 +357,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             $attendanceRecord->setPunchInLongitude($longitude !== null ? (string)$longitude : null);
             $attendanceRecord = $this->getAttendanceService()->getAttendanceDao()->savePunchRecord($attendanceRecord);
             $this->logProxyPunchIfApplicable($attendanceRecord, $note);
+            $this->logOfflineSyncIfApplicable($attendanceRecord);
             $this->commitTransaction();
             return new EndpointResourceResult(AttendanceRecordModel::class, $attendanceRecord);
         } catch (AttendanceServiceException $e) {
@@ -522,6 +525,13 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                     self::PARAMETER_LONGITUDE,
                     new Rule(Rules::FLOAT_VAL),
                     new Rule(Rules::BETWEEN, [-180, 180])
+                )
+            ),
+            // BR: punch replayed from the offline queue
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_OFFLINE_SYNC,
+                    new Rule(Rules::BOOL_VAL)
                 )
             )
         ];
@@ -736,6 +746,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             $lastPunchInRecord->setPunchOutLongitude($longitude !== null ? (string)$longitude : null);
             $attendanceRecord = $this->getAttendanceService()->getAttendanceDao()->savePunchRecord($lastPunchInRecord);
             $this->logProxyPunchIfApplicable($attendanceRecord, $note);
+            $this->logOfflineSyncIfApplicable($attendanceRecord);
             return new EndpointResourceResult(AttendanceRecordModel::class, $attendanceRecord);
         } catch (AttendanceServiceException $e) {
             throw $this->getBadRequestException($e->getMessage());
@@ -813,6 +824,33 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      * @param float|null $longitude
      * @throws BadRequestException
      */
+    /**
+     * BR: whether this request is replaying a punch taken without signal.
+     *
+     * @return bool
+     */
+    protected function isOfflineSync(): bool
+    {
+        return $this->getRequestParams()->getBooleanOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_OFFLINE_SYNC
+        ) === true;
+    }
+
+    /**
+     * BR: mark a punch that arrived through the offline queue, so a record
+     * carrying a time the server never saw is visible as such in the trail.
+     *
+     * @param AttendanceRecord $record
+     */
+    protected function logOfflineSyncIfApplicable(AttendanceRecord $record): void
+    {
+        if (!$this->isOfflineSync()) {
+            return;
+        }
+        (new AttendanceAuditService($this->getEntityManager()))->logOfflineSync($record);
+    }
+
     /**
      * BR: a punch recorded on somebody else's behalf cannot be geofenced --
      * the coordinates are the operator's, not the worker's. At a company that

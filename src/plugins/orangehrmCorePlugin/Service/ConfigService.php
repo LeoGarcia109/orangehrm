@@ -55,6 +55,8 @@ class ConfigService
     public const KEY_SHOW_SYSTEM_CHECK_SCREEN = 'core.show_system_check_screen';
     // BR: geofence enforcement for attendance punches (Portaria 673/2021)
     public const KEY_ATTENDANCE_BR_GEOFENCE_ENABLED = 'attendance.br.geofence.enabled';
+    public const KEY_ATTENDANCE_BR_OFFLINE_PUNCH_ENABLED = 'attendance.br.offline_punch.enabled';
+    public const KEY_ATTENDANCE_BR_OFFLINE_PUNCH_MAX_HOURS = 'attendance.br.offline_punch.max_hours';
     public const MAX_PASSWORD_LENGTH = 64;
     public const KEY_MIN_PASSWORD_LENGTH = 'auth.password_policy.min_password_length';
     public const KEY_MIN_UPPERCASE_LETTERS = 'auth.password_policy.min_uppercase_letters';
@@ -620,5 +622,30 @@ class ConfigService
     public function setAttendanceBrGeofenceEnabled(bool $value): void
     {
         $this->_setConfigValue(self::KEY_ATTENDANCE_BR_GEOFENCE_ENABLED, $value ? 'true' : 'false');
+    }
+
+    /**
+     * BR: Whether punches queued offline may be synced with the time the
+     * device recorded, instead of the server clock.
+     *
+     * Off by default in the sense that an absent key means no: turning it on
+     * is what allows a punch to carry a time the server never saw.
+     *
+     * @return bool
+     */
+    public function getAttendanceBrOfflinePunchEnabled(): bool
+    {
+        return $this->_getConfigValue(self::KEY_ATTENDANCE_BR_OFFLINE_PUNCH_ENABLED) === 'true';
+    }
+
+    /**
+     * BR: How far back a synced offline punch may reach, in hours.
+     *
+     * @return int
+     */
+    public function getAttendanceBrOfflinePunchMaxHours(): int
+    {
+        $value = (int)$this->_getConfigValue(self::KEY_ATTENDANCE_BR_OFFLINE_PUNCH_MAX_HOURS);
+        return $value > 0 ? $value : 24;
     }
 }
