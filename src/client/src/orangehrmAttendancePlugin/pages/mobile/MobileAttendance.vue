@@ -30,7 +30,33 @@
         <i class="oxd-icon bi-clock-history"></i>
         {{ $t('attendance.history') }}
       </button>
+      <button
+        class="ohrm-mobile__tab"
+        :class="{'ohrm-mobile__tab--active': tab === 'announcements'}"
+        @click="tab = 'announcements'"
+      >
+        <i class="oxd-icon bi-megaphone"></i>
+        {{ $t('attendance.announcements') }}
+        <span v-if="pendingAckCount" class="ohrm-mobile__tab-badge">
+          {{ pendingAckCount }}
+        </span>
+      </button>
+      <button
+        class="ohrm-mobile__tab"
+        :class="{'ohrm-mobile__tab--active': tab === 'absences'}"
+        @click="tab = 'absences'"
+      >
+        <i class="oxd-icon bi-file-earmark-medical"></i>
+        {{ $t('attendance.absences') }}
+      </button>
     </nav>
+
+    <mobile-announcements
+      v-if="tab === 'announcements'"
+      @pending-changed="pendingAckCount = $event"
+    />
+
+    <mobile-absences v-if="tab === 'absences'" />
 
     <template v-if="tab === 'punch'">
       <section class="ohrm-mobile__clock-card">
@@ -223,6 +249,8 @@ import {APIService} from '@ohrm/core/util/services/api.service';
 import {convertPHPDateFormat} from '@ohrm/oxd';
 import useLocale from '@/core/util/composable/useLocale';
 import useGeolocation from '@/orangehrmAttendancePlugin/composables/useGeolocation';
+import MobileAnnouncements from './MobileAnnouncements.vue';
+import MobileAbsences from './MobileAbsences.vue';
 import useOfflinePunchQueue, {
   isUndelivered,
 } from '@/orangehrmAttendancePlugin/composables/useOfflinePunchQueue';
@@ -231,6 +259,10 @@ const GEO_STALE_MS = 30000;
 
 export default {
   name: 'MobileAttendance',
+  components: {
+    'mobile-announcements': MobileAnnouncements,
+    'mobile-absences': MobileAbsences,
+  },
   props: {
     // Injected by mobile.html.twig — same shape oxd-layout normally provides
     dateFormat: {
@@ -285,6 +317,7 @@ export default {
       clockTimer: null,
       punchError: null,
       pendingCount: 0,
+      pendingAckCount: 0,
       isSyncing: false,
       offlineNotice: null,
       historyDate: null,
@@ -358,6 +391,7 @@ export default {
     this.refreshLocation();
     this.pendingCount = this.offlineQueue.size();
     window.addEventListener('online', this.flushQueue);
+    this.loadPendingAck();
     Promise.all([this.loadStatus(), this.loadGeofence(), this.loadToday()])
       .catch(() => null)
       .finally(() => {
@@ -395,6 +429,21 @@ export default {
               .filter(Boolean)
               .join(' ');
           }
+        });
+    },
+    loadPendingAck() {
+      // The badge has to be right before the employee opens the tab -- an
+      // acknowledgement nobody knows is owed does not get given.
+      return this.recordsHttp
+        .request({
+          method: 'GET',
+          url: '/api/v2/attendance/br/announcements',
+        })
+        .then((response) => {
+          this.pendingAckCount = response.data.meta?.pendingAck ?? 0;
+        })
+        .catch(() => {
+          this.pendingAckCount = 0;
         });
     },
     loadGeofence() {

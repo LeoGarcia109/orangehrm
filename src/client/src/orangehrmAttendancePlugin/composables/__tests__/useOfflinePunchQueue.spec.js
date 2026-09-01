@@ -15,9 +15,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import useOfflinePunchQueue, {
-  isUndelivered,
-} from '../useOfflinePunchQueue';
+import useOfflinePunchQueue, {isUndelivered} from '../useOfflinePunchQueue';
 
 /**
  * The queue holds punches taken without signal until they reach the server.
@@ -82,10 +80,7 @@ describe('useOfflinePunchQueue', () => {
     queue.enqueue('POST', payload());
     queue.enqueue('PUT', payload());
 
-    expect(queue.list().map((item) => item.method)).toEqual([
-      'POST',
-      'PUT',
-    ]);
+    expect(queue.list().map((item) => item.method)).toEqual(['POST', 'PUT']);
   });
 
   /**

@@ -425,3 +425,269 @@ $ohrm-mobile-bg: #f7f7f7;
     text-align: center;
   }
 }
+
+// BR: caixa de entrada — comunicados do RH e justificativa de falta
+.ohrm-mobile {
+  &__tab-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.1rem;
+    height: 1.1rem;
+    margin-left: 0.25rem;
+    padding: 0 0.25rem;
+    border-radius: 0.55rem;
+    background-color: #e4405f;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+  }
+
+  &__inbox,
+  &__absences {
+    padding: 0 1rem 1rem;
+  }
+
+  &__notice {
+    margin-bottom: 0.75rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.5rem;
+    background-color: #fff;
+    overflow: hidden;
+
+    &--pending {
+      border-color: #ffb74d;
+    }
+  }
+
+  &__notice-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.85rem 1rem;
+    cursor: pointer;
+  }
+
+  &__notice-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1f2d3d;
+  }
+
+  &__notice-date {
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    color: #8a8a8a;
+  }
+
+  &__notice-body {
+    padding: 0 1rem 0.9rem;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  &__notice-text {
+    margin: 0.75rem 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #3c3c3c;
+    white-space: pre-line;
+  }
+
+  &__notice-pending {
+    padding: 0 1rem 0.75rem;
+    font-size: 0.75rem;
+    color: #8a5300;
+  }
+
+  &__notice-ack {
+    width: 100%;
+    padding: 0.65rem;
+    border: none;
+    border-radius: 0.4rem;
+    background-color: #ff7b1c;
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.6;
+    }
+  }
+
+  &__notice-acked {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: #2e7d32;
+  }
+
+  &__absence-new {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border: 1px dashed #b8b8b8;
+    border-radius: 0.5rem;
+    background: none;
+    font-size: 0.88rem;
+    color: #ff7b1c;
+    cursor: pointer;
+  }
+
+  &__absence-form {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.5rem;
+    background-color: #fafafa;
+  }
+
+  &__field {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-size: 0.78rem;
+    color: #5c5c5c;
+
+    > span {
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    em {
+      color: #e4405f;
+      font-style: normal;
+    }
+  }
+
+  &__field-row {
+    display: flex;
+    gap: 0.75rem;
+
+    > * {
+      flex: 1;
+    }
+  }
+
+  &__input {
+    width: 100%;
+    padding: 0.55rem 0.6rem;
+    border: 1px solid #d0d0d0;
+    border-radius: 0.35rem;
+    font-size: 0.85rem;
+    font-family: inherit;
+    background-color: #fff;
+  }
+
+  &__file-name {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.72rem;
+    color: #2e7d32;
+  }
+
+  &__absence-error {
+    margin: 0.5rem 0;
+    font-size: 0.78rem;
+    color: #e4405f;
+  }
+
+  &__absence-cancel,
+  &__absence-submit {
+    padding: 0.65rem;
+    border-radius: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  &__absence-cancel {
+    border: 1px solid #d0d0d0;
+    background-color: #fff;
+    color: #5c5c5c;
+  }
+
+  &__absence-submit {
+    border: none;
+    background-color: #ff7b1c;
+    color: #fff;
+
+    &:disabled {
+      opacity: 0.6;
+    }
+  }
+
+  &__absence-card {
+    margin-bottom: 0.75rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.5rem;
+    background-color: #fff;
+  }
+
+  &__absence-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  &__absence-reason {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #1f2d3d;
+  }
+
+  &__absence-status {
+    flex-shrink: 0;
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.75rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+
+    &.is-pending {
+      background-color: #fff4e5;
+      color: #8a5300;
+    }
+
+    &.is-approved {
+      background-color: #e6f4ea;
+      color: #2e7d32;
+    }
+
+    &.is-rejected {
+      background-color: #fdecef;
+      color: #c62828;
+    }
+  }
+
+  &__absence-dates {
+    margin-top: 0.35rem;
+    font-size: 0.78rem;
+    color: #6c6c6c;
+  }
+
+  &__absence-clip {
+    margin-left: 0.35rem;
+    color: #ff7b1c;
+  }
+
+  &__absence-note,
+  &__absence-decision {
+    margin: 0.5rem 0 0;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: #3c3c3c;
+  }
+
+  &__absence-decision {
+    padding-top: 0.5rem;
+    border-top: 1px solid #f0f0f0;
+    color: #c62828;
+  }
+}
