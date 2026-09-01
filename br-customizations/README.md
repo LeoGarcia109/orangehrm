@@ -142,6 +142,48 @@ A aritmética dos dígitos vem do `Respect\Validation`, que já era dependência
 projeto (`Rules::CNPJ`, `Rules::PIS`). `Core\Utility\BrazilianDocument` existe
 para que os exportadores, fora da camada de API, deem a mesma resposta.
 
+## Caixa de entrada — avisos e justificativa de falta
+
+Duas conversas entre RH e funcionário, nas mesmas abas do app mobile.
+
+### Avisos do RH
+
+O RH publica em `Ponto → Avisos` escolhendo o alcance: toda a rede, uma
+empresa/posto, ou uma pessoa. O alcance **sobe a árvore** da estrutura
+organizacional — aviso para a Acácia do Sul encontra quem está nos
+departamentos abaixo dela, e não vaza para a empresa ao lado.
+
+- **Ciência registrada** — marcando "Exigir ciência", o funcionário precisa
+  clicar em *Estou ciente*, e isso fica gravado com data. É o que transforma
+  "avisamos" em algo demonstrável.
+- **Leitura e ciência são recibos separados.** Abrir o aviso grava a leitura;
+  só a primeira conta, porque a pergunta é quando chegou, não quantas vezes
+  abriu.
+- A tela do RH mostra, por aviso, quantos leram e quantos deram ciência.
+
+### Justificativa de falta
+
+O funcionário envia em `Faltas`, no mobile: período, motivo, observação e
+documento. O campo de arquivo usa `capture="environment"`, então **no celular
+abre a câmera direto** — fotografar o atestado é um toque.
+
+- **Atestado médico e declaração de comparecimento exigem o documento.** Sem
+  ele não há o que pesar, só uma alegação.
+- O RH decide em `Ponto → Justificativas de Falta`. **Recusar exige motivo** —
+  sem ele o funcionário não tem como corrigir o pedido. **Decidir duas vezes é
+  recusado**, para uma aprovação não virar recusa depois de comunicada.
+- O download do atestado tem acesso mais estreito que o resto do módulo: é
+  informação de saúde de pessoa nomeada, então só o próprio funcionário ou
+  quem já enxerga os registros dele.
+
+**O AFD não é tocado.** Ele registra marcações, não ausências — a justificativa
+é um registro paralelo, para o espelho de ponto. Misturar as duas coisas
+quebraria o arquivo fiscal.
+
+Migrações: [`010_inbox.sql`](attendance-br/migrations/010_inbox.sql),
+[`011_inbox_screens.sql`](attendance-br/migrations/011_inbox_screens.sql)
+· strings: [`i18n/011_inbox_i18n.sql`](i18n/011_inbox_i18n.sql)
+
 ## Fila offline de ponto
 
 Bater ponto sem sinal guarda a batida no aparelho e a envia quando a conexão
@@ -244,6 +286,7 @@ existente.
 - [x] Assinatura dos registros no punch-out (migração 007)
 - [x] CNPJ e PIS validados no cadastro e exigidos no AFD/AFDT
 - [x] Fila offline de ponto no mobile (migração 009)
+- [x] Avisos do RH com ciência registrada e justificativa de falta com anexo
 - [ ] Integração com WhatsApp para notificações
 ## Troubleshooting - Docker (IMPORTANTE)
 

@@ -1,0 +1,68 @@
+/*
+ * BR: tabelas simples das telas de caixa de entrada do RH.
+ * O OXD nao expoe um data-table reutilizavel para estes casos, entao a tabela
+ * e propria -- mas herda as cores e os espacamentos do tema.
+ */
+
+.ohrm-br-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+
+  th,
+  td {
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top;
+  }
+
+  th {
+    font-weight: 600;
+    color: #5c5c5c;
+    white-space: nowrap;
+  }
+
+  &__note {
+    max-width: 22rem;
+    white-space: pre-line;
+  }
+
+  &__decision {
+    margin-top: 0.35rem;
+    padding-top: 0.35rem;
+    border-top: 1px solid #f5f5f5;
+    color: #c62828;
+  }
+}
+
+.ohrm-br-status {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  &.is-pending {
+    background-color: #fff4e5;
+    color: #8a5300;
+  }
+
+  &.is-approved {
+    background-color: #e6f4ea;
+    color: #2e7d32;
+  }
+
+  &.is-rejected {
+    background-color: #fdecef;
+    color: #c62828;
+  }
+}
+
+.ohrm-br-error {
+  margin: 0.5rem 0;
+  font-size: 0.8rem;
+  color: #e4405f;
+}

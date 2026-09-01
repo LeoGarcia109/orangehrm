@@ -267,3 +267,20 @@ apiv2_attendance_br_absences:
   methods: [ GET, POST, PUT ]
   defaults:
     _api: OrangeHRM\Attendance\Api\AbsenceJustificationAPI
+
+attendance_br_announcements_page:
+  path: /attendance/brAnnouncements
+  controller: OrangeHRM\Attendance\Controller\BrAnnouncementsController::handle
+  methods: [ GET ]
+
+attendance_br_absences_page:
+  path: /attendance/brAbsences
+  controller: OrangeHRM\Attendance\Controller\BrAbsencesController::handle
+  methods: [ GET ]
+
+attendance_br_absence_document:
+  path: /attendance/brAbsenceDocument/{id}
+  controller: OrangeHRM\Attendance\Controller\File\AbsenceDocumentDownload::handle
+  methods: [ GET ]
+  requirements:
+    id: '\d+'

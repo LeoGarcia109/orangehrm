@@ -26,6 +26,8 @@ import ViewEmployeeAttendanceDetailed from './pages/ViewEmployeeAttendanceDetail
 import BrazilWorkTimeReport from './pages/BrazilWorkTimeReport.vue';
 import MobileAttendance from './pages/mobile/MobileAttendance.vue';
 import GeofenceLocations from './pages/geofence/GeofenceLocations.vue';
+import BrAnnouncements from './pages/inbox/BrAnnouncements.vue';
+import BrAbsences from './pages/inbox/BrAbsences.vue';
 
 export default {
   'attendance-punch-in': PunchIn,
@@ -39,4 +41,6 @@ export default {
   'brazil-work-time-report': BrazilWorkTimeReport,
   'mobile-attendance': MobileAttendance,
   'geofence-locations': GeofenceLocations,
+  'br-announcements': BrAnnouncements,
+  'br-absences': BrAbsences,
 };

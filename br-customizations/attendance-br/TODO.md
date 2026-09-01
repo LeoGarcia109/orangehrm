@@ -75,9 +75,54 @@ foram corrigidos junto:
 5. [ ] Testar instalacao PWA em iOS real (Safari → Adicionar à Tela de Início)
 6. [ ] Menu lateral: link para a pagina mobile (opcional; funcionarios
       acessam direto pelo link compartilhado)
-7. [ ] Central de notificacoes (RH → rede / posto / individual) e assinatura
-      mensal da folha de ponto — pedidos pelo Leo em 2026-08-31, desenho
-      pendente de aprovacao antes de implementar.
+7. [x] **Central de notificacoes e justificativa de falta (2026-09-01,
+      migracoes 010 e 011).**
+
+      Duas conversas entre RH e funcionario na mesma caixa de entrada.
+
+      **Avisos** — RH publica para a rede, para uma empresa/posto ou para uma
+      pessoa. O alcance sobe a arvore como o geofence e o CNPJ, entao aviso
+      para a Acacia encontra quem esta nos departamentos abaixo e nao vaza
+      para a empresa ao lado. Comunicado pode exigir ciencia: o funcionario
+      clica "estou ciente" e fica datado. Leitura e ciencia sao recibos
+      separados; so a primeira leitura conta.
+
+      **Faltas** — funcionario envia periodo, motivo, observacao e documento
+      (o input usa `capture=environment`, entao no celular abre a camera).
+      Atestado e declaracao exigem o documento: sem ele nao ha o que pesar.
+      RH aprova ou recusa; recusar exige motivo; decidir duas vezes e
+      recusado.
+
+      Telas do RH: `/attendance/brAnnouncements` (publicar + quem leu/deu
+      ciencia) e `/attendance/brAbsences` (fila, aprovar/recusar, abrir o
+      documento). O download do atestado tem acesso mais estreito que o resto
+      do modulo — e informacao de saude de pessoa nomeada.
+
+      O AFD nao foi tocado: ele registra marcacoes, nao ausencias.
+
+      `AnnouncementAudience` (10 testes) e `AbsenceJustificationRules` (15).
+
+### Pendente da caixa de entrada
+
+8. [ ] **Assinatura mensal da folha de ponto.** Nao construida: nao consegui
+      confirmar se a legislacao exige (a busca web falhou no ambiente) e o
+      Leo nao decidiu se o funcionario pode contestar a folha ou apenas
+      assinar. Desenho pensado: espelho do mes assinado com o mesmo HMAC dos
+      registros, entao alterar qualquer batida invalida a assinatura da folha
+      inteira.
+
+9. [ ] **Notificacao de aviso novo so aparece ao abrir o app.** Sem push
+      (item 2 desta fase), o funcionario precisa entrar para ver. O contador
+      de ciencia pendente ja carrega junto com a tela de ponto.
+
+10. [ ] **Comunicado nao pode ser editado nem removido depois de publicado.**
+      Falta decidir se apagar deve existir, e o que acontece com os recibos.
+
+11. [ ] **`ESocialEventAPI` tem o bug de formato do `data[[...]]`.** Passa
+      `[$events]` para o `EndpointCollectionResult`, entao a lista inteira
+      vira um unico item — a mesma familia do bug do relatorio de jornada,
+      corrigido na af80ca24d. Nao mexi porque o e-Social nao esta implantado
+      e nao teria como conferir; corrigir junto com o P3 item 13.
 
 # Fase 5 - Multi-empresa (2026-08-15)
 
