@@ -691,3 +691,91 @@ $ohrm-mobile-bg: #f7f7f7;
     color: #c62828;
   }
 }
+
+// BR: assinatura mensal da folha, no topo da aba de historico
+.ohrm-mobile {
+  &__sheet {
+    margin: 0 1rem 1rem;
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.5rem;
+    background-color: #fff;
+  }
+
+  &__sheet-head {
+    margin-bottom: 0.75rem;
+  }
+
+  &__sheet-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1f2d3d;
+  }
+
+  &__sheet-figures {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 0.85rem;
+  }
+
+  &__sheet-figure {
+    display: block;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #1f2d3d;
+  }
+
+  &__sheet-caption {
+    font-size: 0.72rem;
+    color: #8a8a8a;
+  }
+
+  &__sheet-signed {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: #2e7d32;
+  }
+
+  &__sheet-broken {
+    width: 100%;
+    margin-top: 0.35rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.35rem;
+    background-color: #fdecef;
+    color: #c62828;
+    font-weight: 600;
+  }
+
+  &__sheet-blocker {
+    margin: 0;
+    padding: 0.6rem 0.75rem;
+    border-radius: 0.4rem;
+    background-color: #fff4e5;
+    color: #8a5300;
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+
+  &__sheet-sign {
+    width: 100%;
+    padding: 0.7rem;
+    border: none;
+    border-radius: 0.4rem;
+    background-color: #ff7b1c;
+    color: #fff;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+}

@@ -164,6 +164,8 @@
     </template>
 
     <template v-if="tab === 'history'">
+      <mobile-timesheet />
+
       <section class="ohrm-mobile__history-nav">
         <button class="ohrm-mobile__history-arrow" @click="onHistoryPrev">
           <i class="oxd-icon bi-chevron-left"></i>
@@ -251,6 +253,7 @@ import useLocale from '@/core/util/composable/useLocale';
 import useGeolocation from '@/orangehrmAttendancePlugin/composables/useGeolocation';
 import MobileAnnouncements from './MobileAnnouncements.vue';
 import MobileAbsences from './MobileAbsences.vue';
+import MobileTimesheet from './MobileTimesheet.vue';
 import useOfflinePunchQueue, {
   isUndelivered,
 } from '@/orangehrmAttendancePlugin/composables/useOfflinePunchQueue';
@@ -262,6 +265,7 @@ export default {
   components: {
     'mobile-announcements': MobileAnnouncements,
     'mobile-absences': MobileAbsences,
+    'mobile-timesheet': MobileTimesheet,
   },
   props: {
     // Injected by mobile.html.twig — same shape oxd-layout normally provides

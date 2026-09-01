@@ -142,6 +142,36 @@ A aritmética dos dígitos vem do `Respect\Validation`, que já era dependência
 projeto (`Rules::CNPJ`, `Rules::PIS`). `Core\Utility\BrazilianDocument` existe
 para que os exportadores, fora da camada de API, deem a mesma resposta.
 
+## Assinatura mensal da folha
+
+No fim do mês o funcionário assina a própria folha, na aba de histórico do
+mobile, **confirmando a senha**. O uso é servir de prova numa reclamatória, e é
+isso que define o desenho: não basta registrar que assinou, é preciso
+demonstrar **o que exatamente** foi assinado e que aquilo não mudou depois.
+
+- **A assinatura é um HMAC sobre os hashes dos registros do mês**, na ordem do
+  NSR, com o mesmo segredo da migração 007. Batida alterada, incluída, removida
+  ou reordenada depois quebra a assinatura.
+- **Duas adulterações, duas verificações.** Um `UPDATE` direto no banco não
+  mexe na coluna `record_hash` — o registro só deixa de gerar aquele hash. Já
+  quem reassina o registro para encobrir muda a coluna. A verificação cobre as
+  duas: cada registro tem de continuar gerando o hash guardado, **e** o conjunto
+  tem de bater com a assinatura.
+- **Confirma a senha ao assinar**, e guarda IP e user agent — "deixaram a
+  sessão aberta no celular do encarregado" é a primeira coisa que se alega
+  contra uma assinatura.
+- **Só o mês fechado pode ser assinado.** Assinar mês em curso prenderia uma
+  folha que a próxima batida muda. Batida em aberto no período impede assinar,
+  e a tela diz qual é o impedimento.
+- O RH vê em `Ponto → Assinaturas da Folha` quem assinou, quando, de qual IP, e
+  se a folha continua íntegra.
+
+**Ressalva:** o efeito jurídico (dispensar testemunha em reclamatória) não foi
+verificado — confirme com seu jurídico. O que o sistema garante é a prova
+técnica: quem assinou, quando, e que os registros não mudaram desde então.
+
+Migração: [`012_timesheet_signature.sql`](attendance-br/migrations/012_timesheet_signature.sql)
+
 ## Caixa de entrada — avisos e justificativa de falta
 
 Duas conversas entre RH e funcionário, nas mesmas abas do app mobile.
@@ -287,6 +317,7 @@ existente.
 - [x] CNPJ e PIS validados no cadastro e exigidos no AFD/AFDT
 - [x] Fila offline de ponto no mobile (migração 009)
 - [x] Avisos do RH com ciência registrada e justificativa de falta com anexo
+- [x] Assinatura mensal da folha pelo funcionário (migração 012)
 - [ ] Integração com WhatsApp para notificações
 ## Troubleshooting - Docker (IMPORTANTE)
 

@@ -28,6 +28,7 @@ import MobileAttendance from './pages/mobile/MobileAttendance.vue';
 import GeofenceLocations from './pages/geofence/GeofenceLocations.vue';
 import BrAnnouncements from './pages/inbox/BrAnnouncements.vue';
 import BrAbsences from './pages/inbox/BrAbsences.vue';
+import BrTimesheets from './pages/inbox/BrTimesheets.vue';
 
 export default {
   'attendance-punch-in': PunchIn,
@@ -43,4 +44,5 @@ export default {
   'geofence-locations': GeofenceLocations,
   'br-announcements': BrAnnouncements,
   'br-absences': BrAbsences,
+  'br-timesheets': BrTimesheets,
 };

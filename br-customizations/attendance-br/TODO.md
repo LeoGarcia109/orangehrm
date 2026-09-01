@@ -104,12 +104,42 @@ foram corrigidos junto:
 
 ### Pendente da caixa de entrada
 
-8. [ ] **Assinatura mensal da folha de ponto.** Nao construida: nao consegui
-      confirmar se a legislacao exige (a busca web falhou no ambiente) e o
-      Leo nao decidiu se o funcionario pode contestar a folha ou apenas
-      assinar. Desenho pensado: espelho do mes assinado com o mesmo HMAC dos
-      registros, entao alterar qualquer batida invalida a assinatura da folha
-      inteira.
+8. [x] **Assinatura mensal da folha (2026-09-01, migracao 012).**
+
+      O funcionario assina a folha do mes fechado na aba de historico do
+      mobile, **confirmando a senha**. Escolha do Leo: so assinar, sem
+      contestar; o uso e judicial (segundo ele, dispensa testemunha em
+      reclamatoria -- **nao confirmado**, ver ressalva da norma).
+
+      A assinatura e um HMAC sobre os hashes dos registros do mes, na ordem do
+      NSR, com o mesmo segredo da 007. Guarda tambem IP e user agent, porque
+      "deixaram a sessao aberta" e a primeira coisa que se alega contra uma
+      assinatura.
+
+      **Furo encontrado pela propria sonda e corrigido:** a primeira versao
+      comparava so os `record_hash` guardados, e um UPDATE direto no banco nao
+      mexe nessa coluna -- entao a folha continuava "integra" depois de a
+      batida ser alterada, e so quebrava se o fraudador reassinasse o
+      registro. Exatamente ao contrario do que importa. Agora o `isIntact()`
+      faz as duas verificacoes: cada registro tem de continuar gerando o hash
+      guardado (pega o UPDATE cru) **e** o conjunto tem de bater com a
+      assinatura (pega a reassinatura). Conferido nos dados reais: as duas
+      adulteracoes derrubam a folha.
+
+      Regras: mes tem de estar fechado (assinar mes em curso prenderia uma
+      folha que a proxima batida muda); batida em aberto impede assinar;
+      assinar duas vezes e recusado.
+
+      `TimesheetSignatureRules`, 23 testes.
+
+### Pendente da assinatura da folha
+
+12. [ ] **Ninguem avisa o funcionario que a folha abriu para assinatura.** Ele
+      precisa entrar na aba de historico. Resolver junto com push (fase 4,
+      item 2) ou publicando um comunicado automatico no dia 1.
+
+13. [ ] **Folha quebrada nao notifica ninguem.** A tela do RH mostra, mas so
+      quem abrir vai ver. Vale um alerta quando `broken > 0`.
 
 9. [ ] **Notificacao de aviso novo so aparece ao abrir o app.** Sem push
       (item 2 desta fase), o funcionario precisa entrar para ver. O contador

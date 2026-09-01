@@ -24,6 +24,55 @@ use Exception;
 class AttendanceServiceException extends Exception
 {
     /**
+     * @return static
+     */
+    public static function timesheetHasOpenRecord(): self
+    {
+        return new self(
+            'Ha batida em aberto no periodo: feche o ponto antes de assinar a folha. '
+            . 'Um registro sem hora de saida ainda pode mudar, entao nao da para assinar por ele.'
+        );
+    }
+
+    /**
+     * @param string $signedAt
+     * @return static
+     */
+    public static function timesheetAlreadySigned(string $signedAt): self
+    {
+        return new self("Esta folha ja foi assinada em {$signedAt}.");
+    }
+
+    /**
+     * @param string $referenceMonth
+     * @return static
+     */
+    public static function timesheetMonthNotClosed(string $referenceMonth): self
+    {
+        return new self(
+            "O mes {$referenceMonth} ainda nao terminou. A folha e assinada depois do "
+            . 'fechamento do mes -- assinar antes prenderia uma folha que a proxima batida muda.'
+        );
+    }
+
+    /**
+     * @param string $referenceMonth
+     * @return static
+     */
+    public static function timesheetMonthInvalid(string $referenceMonth): self
+    {
+        return new self("Mes de referencia invalido: {$referenceMonth}. Use o formato AAAA-MM.");
+    }
+
+    /**
+     * @return static
+     */
+    public static function timesheetPasswordMismatch(): self
+    {
+        return new self('Senha incorreta. A assinatura da folha exige confirmar a senha.');
+    }
+
+    /**
      * @param string $reasonType
      * @return static
      */
