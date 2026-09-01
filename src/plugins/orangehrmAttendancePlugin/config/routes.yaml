@@ -245,3 +245,25 @@ attendance_br_geofence_locations_page:
   path: /attendance/brGeofence
   controller: OrangeHRM\Attendance\Controller\GeofenceLocationsController::handle
   methods: [ GET ]
+
+# BR: caixa de entrada — comunicados do RH e justificativa de falta
+apiv2_attendance_br_announcements:
+  path: /api/v2/attendance/br/announcements
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\AnnouncementAPI
+
+apiv2_attendance_br_announcement_receipt:
+  path: /api/v2/attendance/br/announcements/receipt
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\AnnouncementAckAPI
+
+apiv2_attendance_br_absences:
+  path: /api/v2/attendance/br/absences
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, PUT ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\AbsenceJustificationAPI

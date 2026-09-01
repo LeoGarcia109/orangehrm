@@ -24,6 +24,55 @@ use Exception;
 class AttendanceServiceException extends Exception
 {
     /**
+     * @param string $reasonType
+     * @return static
+     */
+    public static function absenceReasonUnknown(string $reasonType): self
+    {
+        return new self("Motivo de falta desconhecido: {$reasonType}.");
+    }
+
+    /**
+     * @return static
+     */
+    public static function absencePeriodInverted(): self
+    {
+        return new self('A data final da ausencia e anterior a inicial.');
+    }
+
+    /**
+     * @return static
+     */
+    public static function absenceDocumentRequired(): self
+    {
+        return new self(
+            'Atestado e declaracao de comparecimento precisam do documento anexado: '
+            . 'e o documento que serve de prova.'
+        );
+    }
+
+    /**
+     * @param string $currentStatus
+     * @return static
+     */
+    public static function absenceAlreadyDecided(string $currentStatus): self
+    {
+        return new self(
+            "Esta justificativa ja foi decidida ({$currentStatus}) e nao pode ser decidida de novo."
+        );
+    }
+
+    /**
+     * @return static
+     */
+    public static function absenceRejectionNeedsReason(): self
+    {
+        return new self(
+            'Informe o motivo da recusa: sem ele o funcionario nao tem como corrigir o pedido.'
+        );
+    }
+
+    /**
      * @return static
      */
     public static function offlinePunchDisabled(): self
