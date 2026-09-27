@@ -294,6 +294,9 @@ candidatos do Recrutamento nativo; o perfil se soma a ela.
   - consentimento LGPD antes de gravar qualquer coisa, com data e IP;
   - páginas salvas no servidor, retomando de onde parou;
   - o candidato não vê o resultado.
+- **Perfil (RH):** radar e barras do Big Five e do DISC, estilos predominante e
+  secundário, e **Baixar PDF**, que usa o salvar-como-PDF do navegador (A4, sem o app em
+  volta, arquivo nomeado com a pessoa).
 - **Contratação:** contratar pelo Recrutamento cria o funcionário (nativo), e o perfil
   passa a apontar para ele. Excluir o candidato (Manutenção) apaga o perfil em cascata.
 - **Funcionário:** o RH envia para uma pessoa, uma empresa/posto ou a rede, e o
