@@ -484,11 +484,33 @@ o contrato de todas as rotas do plugin.
 
 ### Pendente / proximos ciclos
 
-- [ ] D: perfil do cargo (engenharia de cargo: skills, requisitos, perfil desejado).
-- [ ] E: aderencia candidato x vaga (compara D com o resultado).
+- [x] D e E: perfil do cargo e comparacao de aderencia (migracao 018, secao abaixo).
 - [ ] Revisao das 24 frases do DISC pelo RH.
 - [ ] Redirecionamentos do Recrutamento nativo saem com http:// atras do proxy
       (inclusive o sucesso nativo); a Cloudflare corrige para https, mas vale
       configurar trusted proxies no Symfony.
 - [ ] Conferir com um usuario so ESS.
 
+# Perfil do cargo e aderencia (2026-09-27, migracao 018)
+
+## Entregue
+
+- [x] Perfil ideal por cargo nativo: faixa e importancia dos 9 fatores, competencias
+      com nivel minimo, peso comportamental x competencias.
+- [x] Sugestao das faixas a partir de funcionarios de referencia (media +- 1 DP).
+- [x] Comparar perfis: ate 20 pessoas (candidatos e funcionarios, filtro por vaga,
+      empresa e nome), radar sobreposto com a faixa do cargo, ranking com tabela fator
+      por fator e notas de competencia, duelo X x Y em barras de RPG, PDF.
+- [x] Atalho "Comparar selecionados" em Perfis comportamentais.
+- [x] Contratacao leva as notas de competencia do candidato ao funcionario.
+- [x] Verificado: 5 APIs pela GenericRestController (14/14), servico (22/22), menu das
+      3 telas, fotos com dados reais e PDFs (radar e duelo em retrato, tabela em
+      paisagem).
+
+### Pendente / proximos ciclos
+
+- [ ] Nota de competencia vinda de uma prova dos Formularios.
+- [ ] Historico de comparacoes salvas.
+- [ ] Perfis de cargo prontos por ramo (posto, clinica).
+- [ ] Media da equipe de uma empresa como serie no radar.
+- [ ] Cadastrar os cargos reais em Admin -> Cargos (hoje nao ha nenhum).

@@ -310,6 +310,45 @@ tocados (candidatura → questionário; contratação → perfil); o deploy copi
 Spec e plano: `docs/superpowers/specs/2026-09-27-perfil-comportamental-design.md`,
 `docs/superpowers/plans/2026-09-27-perfil-comportamental.md`.
 
+## Perfil do cargo e comparação de aderência
+
+O RH define o perfil ideal de cada **cargo** nativo (Admin → Cargos) e compara
+candidatos e funcionários de qualquer empresa do grupo contra ele. Fica em
+**Recrutamento → Perfis de cargo** e **Recrutamento → Comparar perfis**, só para o Admin.
+
+- **Perfil do cargo:** para cada um dos 9 fatores (Big Five e DISC), uma faixa de 0 a 100
+  (de 5 em 5) e a importância: ignorar (0), desejável (1) ou essencial (2). Mais as
+  competências do cargo (desejável/essencial, nível mínimo 1–5) e o peso do perfil
+  comportamental na aderência (padrão 50 %). **Sugerir a partir de funcionários** preenche
+  as faixas com média ± 1 DP dos escolhidos (± 10 com uma pessoa; largura mínima 10); só
+  salva quando o RH salva.
+- **Aderência** (calculada na hora, nunca gravada; `Service/JobFit/JobFit.php`):
+  - fator: 100 dentro da faixa, −2,5 por ponto fora, 0 a 40 pontos da borda —
+    estar na faixa conta, não ter mais;
+  - comportamental: média ponderada dos fatores; competências: nota do RH (1–5 →
+    0–100) ponderada;
+  - geral = peso × comportamental + (1 − peso) × competências; competência sem nota deixa
+    a pessoa **parcial** (o bloco usa só as notas dadas);
+  - alertas, sem eliminar: fora da faixa em fator essencial; abaixo do mínimo em
+    competência essencial.
+- **Comparar perfis:** cargo + até 20 pessoas (filtros de tipo, vaga, empresa com
+  sub-unidades e nome; "Marcar todos"). Três visões:
+  - **radar** do Big Five e do DISC com a faixa do cargo em anel e até 6 pessoas sobrepostas;
+  - **ranking e fatores**, com cada score colorido pela distância à faixa e as notas de
+    competência lançadas ali mesmo;
+  - **duelo** X × Y em barras de RPG, com a moldura da faixa e a seta para quem está mais
+    perto do cargo.
+  A seleção fica no endereço (recarregar ou mandar o link abre a mesma comparação).
+  **Baixar PDF** imprime a visão aberta; a tabela sai em A4 paisagem.
+- Atalho: em **Perfis comportamentais**, marcar os concluídos e **Comparar selecionados**.
+- Pessoa = teste de perfil concluído mais recente. Candidato contratado vira o
+  funcionário, e as notas de competência vão junto.
+
+Migrações: [`018_job_fit.sql`](attendance-br/migrations/018_job_fit.sql) e
+[`i18n/018_job_fit_i18n.sql`](i18n/018_job_fit_i18n.sql).
+Spec e plano: `docs/superpowers/specs/2026-09-27-aderencia-cargo-design.md`,
+`docs/superpowers/plans/2026-09-27-aderencia-cargo.md`.
+
 ### IP de evidência atrás da Cloudflare
 
 O site passa pela Cloudflare e por uma bridge do Docker, então `REMOTE_ADDR` é sempre
