@@ -11,12 +11,29 @@ Este diretório contém as customizações brasileiras do OrangeHRM 5.9 Starter.
 
 ### Como aplicar
 ```bash
-# Após instalação do OrangeHRM, executar:
-docker exec -i orangehrm-db mysql -uroot -p'<sua_senha>' orangehrm < br-customizations/i18n/pt_br_translations.sql
+# Após instalação do OrangeHRM, executar a base e depois as migrações
+# numeradas de i18n/ em ordem (006, 007, 008, 010...):
+docker exec -i orangehrm-db mysql -uroot -p'<sua_senha>' --default-character-set=utf8mb4 orangehrm < br-customizations/i18n/pt_br_translations.sql
 
-# Limpar cache:
-docker exec orangehrm-web rm -rf /var/www/html/src/cache/*
+# Limpar o cache do I18N e devolver a pasta ao www-data (sem o chown,
+# o serviço não consegue regravar o cache e toda tela em pt_BR dá erro 500):
+docker exec orangehrm-web bash -c "rm -rf /var/www/html/src/cache/orangehrm/* && chown -R www-data:www-data /var/www/html/src/cache/"
 ```
+
+O `pt_br_translations.sql` casa cada tradução por grupo + `unit_id` e só
+insere o que falta: não apaga nem sobrescreve nada e pode rodar de novo.
+A versão antiga fazia `DELETE` de todo o pt_BR e gravava por
+`lang_string_id` fixo; do id 203 ao 333 (grupo `general`) cada tradução caiu
+na string anterior ("Date" = "Segunda-feira", "No, Cancel" = "Gestão de
+Usuários"). Banco que recebeu a versão antiga: rodar
+[`i18n/015_fix_shifted_pt_br_translations.sql`](i18n/015_fix_shifted_pt_br_translations.sql),
+que só troca a tradução que ainda tem o valor errado exato.
+
+Migração de i18n nova: casar por grupo + `unit_id`, nunca por id numérico.
+
+O `modified_at` de `ohrm_i18n_language` invalida só o cache do navegador. O
+servidor guarda as traduções em `src/cache/orangehrm/` sem olhar a data, então
+depois de mexer no banco é preciso limpar o cache também.
 
 ### Como ativar no sistema
 1. Acesse como Admin

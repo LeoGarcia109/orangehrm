@@ -456,8 +456,9 @@ o contrato de todas as rotas do plugin.
 - [ ] Fora da primeira versao (decidido): montar pelo celular, arrastar e
       soltar, secoes e ramificacao, imagem nas opcoes, ponto parcial na
       multipla, Supervisor criando/corrigindo, fila offline de respostas, push.
-- [ ] Traducoes `general.*` do pt_BR trocadas na instalacao (ex.: "No, Cancel"
+- [x] Traducoes `general.*` do pt_BR trocadas na instalacao (ex.: "No, Cancel"
       aparece como "Gestao de Usuarios", `general.date` como "Segunda-feira").
-      Causa: `i18n/pt_br_translations.sql` grava por id numerico. Tarefa
-      separada; as telas de formularios usam chaves `form_*` proprias.
+      Causa: `i18n/pt_br_translations.sql` gravava por id numerico. Corrigido
+      pela `i18n/015_fix_shifted_pt_br_translations.sql` (74 linhas, 27/09/2026);
+      a base agora casa por grupo + `unit_id` e so insere.
 

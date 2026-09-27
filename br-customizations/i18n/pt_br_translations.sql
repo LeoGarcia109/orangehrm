@@ -1,1271 +1,1308 @@
+-- ============================================================================
+-- OrangeHRM 5.9 - traducao base pt_BR (1.262 strings)
+-- ============================================================================
+-- Cada traducao e casada por (ohrm_i18n_group.name, unit_id), nunca por
+-- lang_string_id numerico.
+--
+-- A versao anterior deste arquivo fazia DELETE de todo o pt_BR e inseria por
+-- id fixo (1, 2, 3...). Faltava a traducao de "Size" e "Em Breve" aparecia
+-- duas vezes, entao do id 203 ao 333 cada valor caiu na string anterior
+-- ("Date" = "Segunda-feira", "No, Cancel" = "Gestao de Usuarios"). O DELETE
+-- tambem apagaria as traducoes das migracoes 006 em diante.
+--
+-- Agora o arquivo so INSERE a traducao que falta: nao apaga nem sobrescreve
+-- nada, e pode rodar de novo sem efeito. Para corrigir um banco que ja
+-- recebeu a versao antiga, rodar i18n/015_fix_shifted_pt_br_translations.sql.
+--
+-- Uso: mysql -u<user> -p<senha> --default-character-set=utf8mb4 orangehrm \
+--        < pt_br_translations.sql
+-- ============================================================================
+
 SET NAMES utf8mb4;
--- OrangeHRM 5.9 pt_BR Translation Import
--- Generated automatically
--- Clear existing translations for pt_BR (if any)
-DELETE FROM ohrm_i18n_translate WHERE language_id = 374;
+SET @lang_pt_br = (SELECT id FROM ohrm_i18n_language WHERE code = 'pt_BR' LIMIT 1);
 
--- Insert translations
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1, 374, 'Adicionar Cargo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (2, 374, 'Editar Cargo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (3, 374, 'Cargos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (4, 374, 'Localizações', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (5, 374, 'Número de Funcionários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (6, 374, 'Adicionar Localização', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (7, 374, 'Endereço', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (8, 374, 'Configuração de E-mail', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (9, 374, 'Enviar E-mail Como', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (10, 374, 'Método de Envio', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (11, 374, 'SMTP SEGURO', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (12, 374, 'SMTP', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (13, 374, 'Sendmail', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (14, 374, 'Caminho para o Sendmail', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (15, 374, 'Host SMTP', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (16, 374, 'Porta SMTP', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (17, 374, 'Usar Autenticação SMTP', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (18, 374, 'Usuário SMTP', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (19, 374, 'Senha SMTP', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (20, 374, 'TLS', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (21, 374, 'Opcional - o servidor de e-mail requer o uso de segurança TLS.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (22, 374, 'Enviar E-mail de Teste', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (23, 374, 'Endereço de E-mail de Teste', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (24, 374, 'Inscritos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (25, 374, 'Editar Inscrito', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (26, 374, 'Inscrições de E-mail', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (27, 374, 'Tipo de Notificação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (28, 374, 'Adicionar Inscrito', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (29, 374, 'Editar Situação de Emprego', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (30, 374, 'Adicionar Situação de Emprego', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (31, 374, 'Descrição do Cargo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (32, 374, 'Editar Localização', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (33, 374, 'Configuração de Módulos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (34, 374, 'Módulo Administrativo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (35, 374, 'Módulo PIM', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (36, 374, 'Módulo de Folgas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (37, 374, 'Módulo de Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (38, 374, 'Módulo de Recrutamento', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (39, 374, 'Módulo de Avaliação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (40, 374, 'Módulo de Manutenção', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (41, 374, 'Editar Nacionalidade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (42, 374, 'Nacionalidades', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (43, 374, 'Adicionar Nacionalidade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (44, 374, 'Informações Gerais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (45, 374, 'Nome da Organização', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (46, 374, 'Número de Registro', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (47, 374, 'CNPJ/CPF', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (48, 374, 'Editar Unidade Organizacional', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (49, 374, 'ID da Unidade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (50, 374, 'Estrutura Organizacional', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (51, 374, 'Adicionar Unidade Organizacional', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (52, 374, 'Esta unidade será adicionada sob', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (53, 374, 'Adicionar Faixa Salarial', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (54, 374, 'Editar Moeda', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (55, 374, 'Salário Mínimo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (56, 374, 'Salário Máximo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (57, 374, 'Editar Faixa Salarial', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (58, 374, 'Faixas Salariais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (59, 374, 'Adicionar Moeda', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (60, 374, 'Editar Usuário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (61, 374, 'Adicionar Usuário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (62, 374, 'Editar Turno de Trabalho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (63, 374, 'Nome do Turno', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (64, 374, 'Duração por Dia', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (65, 374, 'Turnos de Trabalho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (66, 374, 'Horas por Dia', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (67, 374, 'E-mail de Teste Enviado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (68, 374, 'E-mail de Teste Não Enviado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (69, 374, 'Funcionários Atribuídos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (70, 374, 'O nome da unidade organizacional deve ser único', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (71, 374, 'Deve ser maior que o Salário Mínimo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (72, 374, 'Categorias de Cargo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (73, 374, 'Adicionar Categoria de Cargo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (74, 374, 'Editar Categoria de Cargo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (75, 374, 'Usuários do Sistema', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (76, 374, 'Adicionar Turno de Trabalho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (77, 374, 'Licenças (Habilitações)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (78, 374, 'Localização/Idioma', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (80, 374, 'Formato de Data', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (81, 374, 'Horário de Trabalho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (82, 374, 'Nome', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (83, 374, 'Cidade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (84, 374, 'País', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (85, 374, 'Limpar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (86, 374, 'Buscar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (87, 374, 'Adicionar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (88, 374, 'Telefone', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (89, 374, 'Estado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (90, 374, 'CEP', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (91, 374, 'Observação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (92, 374, 'Cancelar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (93, 374, 'Sim', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (94, 374, 'Não', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (95, 374, 'E-mail', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (96, 374, 'Fax', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (97, 374, 'Nacionalidade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (98, 374, 'Editar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (99, 374, 'Endereço Linha 1', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (100, 374, 'Endereço Linha 2', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (101, 374, 'Descrição', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (102, 374, 'Moeda', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (103, 374, 'Moedas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (104, 374, 'Editar Escolaridade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (105, 374, 'Nível', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (106, 374, 'Escolaridade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (107, 374, 'Adicionar Escolaridade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (108, 374, 'Editar Idioma', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (109, 374, 'Adicionar Idioma', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (110, 374, 'Idiomas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (111, 374, 'Editar Licença', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (112, 374, 'Adicionar Licença', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (113, 374, 'Editar Associado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (114, 374, 'Adicionar Associado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (115, 374, 'Associações', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (116, 374, 'Editar Habilidade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (117, 374, 'Adicionar Habilidade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (118, 374, 'Habilidades', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (119, 374, 'Papel do Usuário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (120, 374, 'Status', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (121, 374, 'Nome de Usuário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (122, 374, 'Nome do Funcionário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (123, 374, 'De', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (124, 374, 'Até', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (125, 374, 'Já existe', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (126, 374, 'A hora de término deve ser posterior à hora de início', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (127, 374, 'Falhou', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (128, 374, 'Não deve exceder {amount} caracteres', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (129, 374, 'Administrador', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (130, 374, 'Obrigatório', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (131, 374, 'Salvar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (132, 374, 'Deve ser uma data válida no formato hh:mm', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (133, 374, 'Categoria de Cargo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (135, 374, 'Deve ser uma data válida no formato {format}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (136, 374, 'Deve ser menor que {amount}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (137, 374, 'Deve ser um número', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (138, 374, 'A data de término deve ser posterior à data de início', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (139, 374, 'A hora de término deve ser posterior à hora de início', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (140, 374, 'Tamanho do Anexo Excedido', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (141, 374, 'Tipo de arquivo não permitido', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (142, 374, 'Situação de Emprego', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (143, 374, 'Permite apenas números e + - / ( )', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (144, 374, 'A data de início deve ser anterior à data de término', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (145, 374, 'A hora de início deve ser anterior à hora de término', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (147, 374, 'Deve ser maior que o valor mínimo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (148, 374, 'Auto-serviço', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (149, 374, 'Ativado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (150, 374, 'Desativado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (151, 374, 'Editar Anexo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (152, 374, 'Ações', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (153, 374, 'Erro', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (154, 374, 'Tipo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (155, 374, 'Baixar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (156, 374, 'Selecionar Arquivo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (157, 374, 'Procurar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (159, 374, 'Enviar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (160, 374, 'Sucesso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (163, 374, 'ID do Funcionário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (164, 374, 'ID', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (165, 374, 'Sobrenome', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (166, 374, 'Cargo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (167, 374, 'Sub-unidade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (168, 374, 'Funcionários Atuais e Antigos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (169, 374, 'Apenas Funcionários Antigos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (170, 374, 'Apenas Funcionários Atuais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (171, 374, 'Celular', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (172, 374, 'Data de Expiração', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (173, 374, 'Data de Admissão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (174, 374, 'Localização', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (175, 374, 'Masculino', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (176, 374, 'Feminino', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (177, 374, 'Qualificações', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (178, 374, 'Estado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (179, 374, 'Deve ser um número positivo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (180, 374, 'Adicionar Funcionário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (181, 374, 'Nome do Relatório', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (182, 374, 'Aviso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (183, 374, 'Relatórios de Funcionários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (184, 374, 'Arquivo Atual', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (185, 374, 'Substituir Por', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (186, 374, 'Comentário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (187, 374, 'Digite um comentário aqui', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (188, 374, 'Ano', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (189, 374, 'Data de Início', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (190, 374, 'Data de Término', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (191, 374, 'Comentários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (192, 374, 'Digite Comentários aqui', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (193, 374, 'Idioma', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (194, 374, 'Faixa Salarial', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (195, 374, 'A data final deve ser posterior à data inicial', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (196, 374, '(Funcionário Antigo)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (197, 374, 'Nome', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (198, 374, 'Nome do meio', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (199, 374, 'Nome Completo do Funcionário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (200, 374, 'Especificação do Cargo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (201, 374, 'Anexos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (202, 374, 'Nome do Arquivo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (203, 374, 'Aceita jpg, .png, .gif até 1MB. Dimensões recomendadas: 200px X 200px', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (204, 374, 'A data inicial deve ser anterior à data final', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (205, 374, 'Deve ser menor que o limite superior', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (206, 374, 'Incluir Cabeçalho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (207, 374, 'Adicionar Anexo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (208, 374, 'Digite aqui', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (209, 374, 'Data', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (210, 374, 'Segunda-feira', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (211, 374, 'Terça-feira', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (212, 374, 'Quarta-feira', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (213, 374, 'Quinta-feira', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (214, 374, 'Sexta-feira', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (215, 374, 'Sábado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (216, 374, 'Domingo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (217, 374, 'Funcionário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (218, 374, 'Gerar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (219, 374, 'Data Inicial', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (220, 374, 'Data Final', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (221, 374, 'Duração', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (222, 374, 'Aplicar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (223, 374, 'Voltar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (224, 374, 'Confirmar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (225, 374, 'Nenhum funcionário encontrado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (226, 374, 'Nenhum funcionário corresponde aos filtros selecionados', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (227, 374, 'Ok', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (228, 374, 'Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (229, 374, 'Comentário aqui', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (230, 374, 'A hora de início deve ser anterior à hora de término', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (231, 374, ' (Excluído)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (232, 374, 'Adicionar Comentário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (233, 374, 'Aprovar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (234, 374, 'Rejeitar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (235, 374, '{count,plural, =0{Nenhum Registro Encontrado} one{(1) Registro Encontrado} other{ (#) Registros Encontrados}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (236, 374, '{count,plural, =0{Nenhum Registro Selecionado} one{(1) Registro Selecionado} other{(#) Registros Selecionados}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (237, 374, 'Senha', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (238, 374, 'Para uma senha forte, use uma combinação difícil de adivinhar com letras maiúsculas e minúsculas, símbolos e números', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (239, 374, 'Confirmar Senha', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (240, 374, 'As senhas não coincidem', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (241, 374, 'Fraca', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (242, 374, 'Muito Fraca', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (243, 374, 'Melhor', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (244, 374, 'Muito Forte', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (245, 374, 'Sobre', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (246, 374, 'Suporte', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (247, 374, 'Alterar Senha', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (248, 374, 'Sair', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (249, 374, 'Nenhum Registro Encontrado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (250, 374, 'Alterar Senha?', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (251, 374, 'Digite a descrição aqui', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (252, 374, 'Adicionar observação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (253, 374, 'Atualizado com Sucesso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (254, 374, 'Salvo com Sucesso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (255, 374, 'Observações', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (256, 374, 'Digite aqui ...', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (257, 374, 'Trabalho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (258, 374, 'Não, Cancelar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (259, 374, 'Gestão de Usuários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (260, 374, 'Informações do Projeto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (261, 374, 'Organização', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (262, 374, 'Usuários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (263, 374, 'Configuração', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (264, 374, 'Pacotes de Idioma', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (265, 374, 'Módulos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (266, 374, 'Registrar Cliente OAuth', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (267, 374, 'Autenticação por Redes Sociais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (268, 374, 'Lista de Funcionários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (269, 374, 'Relatórios', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (270, 374, 'PIM', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (271, 374, 'Recrutamento', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (272, 374, 'Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (273, 374, 'Minhas Informações', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (274, 374, 'Avaliação de Desempenho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (275, 374, 'Painel', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (276, 374, 'Diretório', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (277, 374, 'Buzz', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (278, 374, 'Manutenção', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (279, 374, 'Minhas Folhas de Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (280, 374, 'Meus Registros', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (281, 374, 'Folhas de Ponto de Funcionários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (282, 374, 'Folhas de Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (283, 374, 'Registrar Entrada/Saída', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (284, 374, 'Registros de Funcionários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (285, 374, 'Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (286, 374, 'Clientes', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (287, 374, 'Projetos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (288, 374, 'Relatórios de Projetos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (289, 374, 'Vagas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (290, 374, 'Candidatos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (291, 374, 'KPIs', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (292, 374, 'Gerenciar Avaliações', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (293, 374, 'Minhas Avaliações', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (294, 374, 'Meus Acompanhamentos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (295, 374, 'Lista de Avaliações', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (296, 374, 'Acompanhamentos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (297, 374, 'Acompanhamentos de Funcionários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (298, 374, 'Registros de Candidatos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (299, 374, 'Acessar Registros', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (300, 374, 'Expurgar Registros', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (301, 374, 'Estrutura', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (302, 374, 'Dom', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (303, 374, 'Seg', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (304, 374, 'Ter', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (305, 374, 'Qua', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (306, 374, 'Qui', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (307, 374, 'Sex', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (308, 374, 'Sáb', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (309, 374, 'Realizado Por', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (310, 374, 'Adicionar outro', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (311, 374, 'Visualizar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (312, 374, 'Resumo de Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (313, 374, 'Minhas Folgas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (314, 374, 'Meus Direitos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (315, 374, 'Adicionar Direitos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (316, 374, 'Configurar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (317, 374, 'Direitos de Funcionários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (318, 374, 'Direitos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (319, 374, 'E-mail de Trabalho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (320, 374, 'Outro E-mail', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (321, 374, 'Nome da Empresa', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (322, 374, 'Versão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (323, 374, 'Funcionários Ativos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (324, 374, 'Funcionários Demitidos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (325, 374, 'Tem Certeza?', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (326, 374, 'O registro selecionado será excluído permanentemente. Tem certeza de que deseja continuar?', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (327, 374, 'Sim, Excluir', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (328, 374, 'Manter Atual', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (329, 374, 'Excluir Atual', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (330, 374, 'Substituir Atual', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (331, 374, 'Módulo Proibido', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (332, 374, 'A página que você está tentando acessar tem acesso restrito', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (333, 374, 'Em Breve', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (334, 374, 'Em Breve', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (337, 374, 'Clique aqui', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (338, 374, 'Requisição Inválida', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (339, 374, 'Dados Pessoais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (340, 374, 'Contatos de Emergência', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (341, 374, 'Dependentes', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (342, 374, 'Imigração', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (343, 374, 'Salário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (344, 374, 'Reportar-se a', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (345, 374, 'Isenções Fiscais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (346, 374, 'Informações', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (347, 374, 'Formato esperado: admin@exemplo.com', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (348, 374, 'Enviar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (349, 374, 'Período', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (350, 374, 'aaaa-mm-dd', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (351, 374, 'Não pode ser excluído', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (352, 374, 'Excluído com Sucesso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (353, 374, 'Total', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (354, 374, 'Pesquisando....', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (355, 374, 'Nenhum arquivo escolhido', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (356, 374, 'Nenhum arquivo selecionado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (357, 374, 'Digite para sugerir...', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (358, 374, '-- Selecionar --', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (359, 374, 'Erro Inesperado!', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (360, 374, 'Excluir Selecionados', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (361, 374, 'Identidade Visual da Empresa', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (362, 374, 'Mais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (363, 374, 'Deve ser maior que o limite inferior', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (364, 374, 'Menor Que', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (365, 374, 'Maior Que', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (366, 374, 'Faixa', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (367, 374, 'Campos Personalizados', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (368, 374, 'Número restante de campos personalizados:', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (369, 374, 'Todos os campos personalizados estão em uso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (370, 374, 'Nome do Campo Personalizado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (371, 374, 'Tela', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (372, 374, 'Tipo de Campo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (373, 374, 'Campo(s) personalizado(s) em uso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (374, 374, 'Editar Campo Personalizado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (375, 374, 'Nome do Campo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (376, 374, 'Opções de Seleção', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (377, 374, 'Digite as opções permitidas separadas por vírgulas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (378, 374, 'Adicionar Campo Personalizado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (379, 374, 'Importação de Dados', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (380, 374, 'A ordem das colunas não deve ser alterada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (381, 374, 'Nome e Sobrenome são obrigatórios', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (382, 374, 'Todos os campos de data devem estar no formato AAAA-MM-DD', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (383, 374, 'Se o gênero for especificado, o valor deve ser Masculino ou Feminino', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (384, 374, 'Cada arquivo de importação deve ser configurado para 100 registros ou menos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (385, 374, 'Vários arquivos de importação podem ser necessários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (386, 374, 'Arquivo CSV de exemplo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (388, 374, 'Informações do Funcionário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (389, 374, 'Incluir', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (390, 374, 'Nome do Supervisor', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (391, 374, 'Nome (e do Meio)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (392, 374, 'Supervisor', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (393, 374, 'Detalhes de Contato', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (394, 374, 'Rua 1', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (395, 374, 'Rua 2', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (396, 374, 'Telefone', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (397, 374, 'Casa', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (398, 374, 'Trabalho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (399, 374, 'Dependentes Atribuídos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (400, 374, 'Parentesco', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (401, 374, 'Data de Nascimento', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (402, 374, 'Contatos de Emergência Atribuídos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (403, 374, 'Telefone Residencial', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (404, 374, 'Telefone do Trabalho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (405, 374, 'Registros de Imigração Atribuídos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (406, 374, 'Documento', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (407, 374, 'Número', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (408, 374, 'Emitido Por', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (409, 374, 'Data de Emissão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (410, 374, 'Detalhes do Cargo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (411, 374, 'Incluir Detalhes do Contrato de Trabalho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (412, 374, 'Data de Início do Contrato', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (413, 374, 'Data de Término do Contrato', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (414, 374, 'Detalhes do Contrato', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (415, 374, 'Associações Atribuídas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (416, 374, 'Associação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (417, 374, 'Assinatura Paga Por', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (418, 374, 'Valor da Assinatura', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (419, 374, 'Data de Início da Assinatura', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (420, 374, 'Data de Renovação da Assinatura', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (421, 374, 'Outro ID', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (422, 374, 'Número da CNH', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (423, 374, 'Data de Expiração da CNH', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (424, 374, 'Número do CPF', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (425, 374, 'Número do PIS/NIT', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (426, 374, 'Estado Civil', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (427, 374, 'Gênero', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (428, 374, 'Serviço Militar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (429, 374, 'Fumante', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (430, 374, 'ID do Funcionário já existe', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (431, 374, 'Alterar Foto de Perfil', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (432, 374, 'Reportar-se a', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (433, 374, 'Componente Salarial', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (435, 374, 'Frequência de Pagamento', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (436, 374, 'Valor do Depósito Direto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (437, 374, 'Imposto de Renda Federal', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (438, 374, 'Isenções', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (439, 374, 'Estado de Desemprego', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (440, 374, 'Estado de Trabalho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (441, 374, 'Criar Dados de Login', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (442, 374, 'Campos Opcionais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (443, 374, 'Mostrar Campos Descontinuados', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (444, 374, 'Mostrar Apelido, Fumante e Serviço Militar em Dados Pessoais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (445, 374, 'Informações Específicas do País', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (446, 374, 'Mostrar campo CPF em Dados Pessoais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (447, 374, 'Mostrar campo PIS/NIT em Dados Pessoais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (448, 374, 'Mostrar menu de Isenções Fiscais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (449, 374, 'Editar Método de Relatório', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (450, 374, 'Adicionar Método de Relatório', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (451, 374, 'Editar Relatório', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (452, 374, 'Métodos de Relatório', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (453, 374, 'Método(s) de Relatório em Uso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (454, 374, 'Critérios de Seleção', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (455, 374, 'Campos de Exibição', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (456, 374, 'Selecionar Grupo de Campo de Exibição', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (457, 374, 'Selecionar Campo de Exibição', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (458, 374, 'Pelo menos um campo de exibição deve ser adicionado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (459, 374, 'Adicionar Relatório', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (460, 374, 'Editar Motivo de Demissão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (461, 374, 'Adicionar Motivo de Demissão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (462, 374, 'Motivos de Demissão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (463, 374, 'Motivo(s) de Demissão em Uso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (464, 374, 'Atualizar Senha', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (465, 374, 'Senha Atual', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (466, 374, 'Senha Atual Incorreta', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (467, 374, 'Editar Dependente', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (468, 374, 'Por Favor, Especifique', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (469, 374, 'Filho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (470, 374, 'Outro', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (471, 374, 'Instituição', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (472, 374, 'Curso/Especialização', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (473, 374, 'Média/Nota', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (474, 374, 'Editar Contato de Emergência', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (475, 374, 'Pelo menos um número de telefone é obrigatório', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (476, 374, 'Método de Relatório', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (477, 374, 'Editar Imigração', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (478, 374, 'Passaporte', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (479, 374, 'Visto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (480, 374, 'Situação de Elegibilidade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (481, 374, 'Data de Revisão de Elegibilidade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (482, 374, 'A data de expiração deve ser posterior à data de emissão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (483, 374, 'Fluência', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (484, 374, 'Competência', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (485, 374, 'Tipo de Licença', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (486, 374, 'Número da Licença', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (487, 374, 'A data de renovação deve ser posterior à data de início', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (488, 374, 'Editar Componente Salarial', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (489, 374, 'Componentes Salariais Atribuídos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (490, 374, 'Incluir Detalhes de Depósito Direto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (491, 374, 'Número da Conta', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (492, 374, 'Tipo de Conta', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (493, 374, 'Número do Banco', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (494, 374, 'Habilidade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (495, 374, 'Anos de Experiência', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (496, 374, 'Empresa', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (497, 374, 'Licença', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (498, 374, 'Subordinados Atribuídos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (499, 374, 'Supervisores Atribuídos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (500, 374, 'Experiência Profissional', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (501, 374, 'Adicionar Experiência Profissional', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (502, 374, 'Data de Adição', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (503, 374, 'Adicionado Por', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (504, 374, 'Deve estar dentro dos valores Mín/Máx', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (505, 374, 'Adicionar Imigração', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (506, 374, 'Adicionar Dependente', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (507, 374, 'Salvar Contato de Emergência', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (508, 374, 'Demitir Funcionário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (509, 374, 'Data de Demissão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (510, 374, 'Motivo da Demissão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (511, 374, 'Apelido', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (512, 374, 'Pessoal', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (513, 374, 'Reativar Funcionário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (514, 374, 'Sobrenome do Funcionário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (515, 374, 'Nome do Funcionário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (516, 374, 'Nome do Meio do Funcionário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (517, 374, 'Situação de Elegibilidade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (518, 374, 'Data de Revisão de Elegibilidade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (519, 374, 'Tipo de Documento', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (520, 374, 'Observação de Demissão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (521, 374, 'Número da Conta de Depósito Direto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (522, 374, 'Tipo de Conta de Depósito Direto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (524, 374, 'Nota', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (525, 374, 'Texto ou Número', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (526, 374, 'Lista Suspensa', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (527, 374, 'Supervisores', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (528, 374, 'Subordinados', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (529, 374, 'Período de Serviço', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (530, 374, 'Faixa Etária', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (531, 374, 'Demissão / Reativação de Funcionário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (532, 374, 'Demitido em', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (533, 374, 'E-mail de Trabalho e Outro E-mail não podem ser iguais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (534, 374, 'Admitido antes de', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (535, 374, 'Admitido depois de', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (536, 374, 'Admitido entre', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (537, 374, 'Dia Inteiro / Meio Dia', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (538, 374, 'Repete Anualmente', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (539, 374, 'Editar Feriado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (540, 374, 'Feriados', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (541, 374, 'Adicionar Feriado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (542, 374, 'Dia Inteiro', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (543, 374, 'Período de Folgas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (544, 374, 'Mês de Início', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (545, 374, 'Período de Folgas Atual', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (546, 374, 'Ano Seguinte', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (547, 374, 'Semana de Trabalho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (548, 374, 'Pelo menos um dia deve ser um dia útil', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (549, 374, 'Adicionar Direito de Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (550, 374, 'Adicionar a', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (551, 374, 'Funcionário Individual', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (552, 374, 'Múltiplos Funcionários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (553, 374, '{empMatchCount,plural, =0{Não corresponde a nenhum funcionário} one{Corresponde a (1) funcionário} other {corresponde a (#) funcionários}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (554, 374, 'Nenhum tipo de folga definido', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (555, 374, 'Deve ser um número com até 2 casas decimais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (556, 374, 'Editar Direito de Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (557, 374, 'Direito', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (558, 374, 'O valor usado excede o valor atual', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (559, 374, 'Direitos de Folgas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (560, 374, 'Meus Direitos de Folgas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (561, 374, 'O direito é situacional?', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (562, 374, 'Adicionar Tipo de Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (563, 374, 'Editar Tipo de Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (564, 374, 'Tipos de Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (565, 374, 'Relatório de Direitos e Uso de Folgas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (566, 374, 'Gerar Para', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (567, 374, 'Tipo de Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (568, 374, 'Incluir Funcionários Antigos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (569, 374, 'Relatório de Meus Direitos e Uso de Folgas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (570, 374, 'Solicitar Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (571, 374, 'Nenhum Tipo de Folga com Saldo Disponível', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (572, 374, 'Dias Parciais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (573, 374, 'Atribuir Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (574, 374, 'Dia de Início', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (575, 374, 'Dia de Término', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (576, 374, 'Atribuir', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (577, 374, 'Lista de Folgas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (578, 374, 'Mostrar Folgas com Status', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (579, 374, 'Detalhes da Minha Solicitação de Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (580, 374, 'Detalhes da Solicitação de Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (581, 374, 'Minha Lista de Folgas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (582, 374, 'Atualizando Direito', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (583, 374, 'Funcionários Correspondentes', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (584, 374, 'O direito de folga selecionado será aplicado aos seguintes funcionários.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (585, 374, 'Direito Antigo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (586, 374, 'Novo Direito', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (587, 374, 'Folga Situacional', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (588, 374, 'Estas folgas serão excluídas dos relatórios a menos que haja alguma atividade. Ex.: licença maternidade, licença do júri.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (589, 374, 'Confirmar Atribuição de Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (590, 374, 'O funcionário não tem saldo de folga suficiente para a solicitação.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (591, 374, 'Clique em OK para confirmar a atribuição da folga.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (592, 374, 'O valor do direito existente {oldvalue} será atualizado para {newvalue}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (593, 374, 'Saldo de Folgas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (594, 374, 'Saldo insuficiente', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (595, 374, 'Saldo de Folgas Insuficiente', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (596, 374, 'Saldo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (597, 374, 'Dias', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (598, 374, 'Saldo Disponível', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (599, 374, 'Detalhes do Saldo de Folgas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (600, 374, 'A partir da Data', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (601, 374, 'Direito Total', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (602, 374, 'Status da Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (603, 374, 'Gozadas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (604, 374, 'Agendadas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (605, 374, 'Aguardando Aprovação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (606, 374, '{action, select, APPROVE {{count, plural, =0 {Você está prestes a Aprovar nenhuma Solicitação de Folga} =1 {Você está prestes a Aprovar 1 Solicitação de Folga} other {Você está prestes a Aprovar # Solicitações de Folga} }} REJECT {{count, plural, =0 {Você está prestes a Rejeitar nenhuma Solicitação de Folga} =1 {Você está prestes a Rejeitar 1 Solicitação de Folga} other {Você está prestes a Rejeitar # Solicitações de Folga} }} other {{count, plural, =0 {Você está prestes a Cancelar nenhuma Solicitação de Folga} =1 {Você está prestes a Cancelar 1 Solicitação de Folga} other {Você está prestes a Cancelar # Solicitações de Folga} }} }', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (607, 374, 'Tem certeza de que deseja continuar?', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (608, 374, 'Sim, Confirmar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (609, 374, 'Comentários da Solicitação de Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (610, 374, 'Nº de Horas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (611, 374, 'Duração do Turno Excedida Devido às Seguintes Solicitações de Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (612, 374, 'Solicitação(ões) de Folga Sobrepostas Encontradas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (613, 374, 'A duração deve ser menor que a duração do turno de trabalho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (614, 374, 'Meio Dia - Manhã', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (615, 374, 'Meio Dia - Tarde', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (616, 374, 'Especificar Horário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (617, 374, 'Válido A Partir De', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (618, 374, 'Válido Até', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (619, 374, 'O(s) direito(s) não será(ão) excluído(s) pois já está(ão) em uso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (620, 374, 'Número de Dias', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (621, 374, 'Saldo de Folgas (Dias)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (622, 374, 'Ver Detalhes da Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (623, 374, 'Ver Informações do PIM', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (624, 374, 'Cancelar Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (626, 374, '{action, select, APPROVE {Aprovar Folga} REJECT {Rejeitar Folga} other {Cancelar Folga}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (627, 374, 'Falha ao Enviar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (628, 374, 'Falha ao Enviar: Nenhum Dia Útil Selecionado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (629, 374, '{count, plural, =0{Nenhum Direito adicionado} one{Direito adicionado a 1 funcionário} other {Direito adicionado a # funcionários}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (630, 374, 'Meio Dia', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (631, 374, 'Dia Não Útil', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (632, 374, 'Rejeitada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (633, 374, 'Cancelada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (634, 374, 'Direitos de Folgas (Dias)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (635, 374, 'Folgas Aguardando Aprovação (Dias)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (636, 374, 'Folgas Agendadas (Dias)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (637, 374, 'Folgas Gozadas (Dias)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (638, 374, 'Folga solicitada para', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (639, 374, 'Todos os Dias', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (640, 374, 'Apenas Dia de Início', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (641, 374, 'Apenas Dia de Término', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (642, 374, 'Dia de Início e Término', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (643, 374, 'Atividades', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (644, 374, 'Copiar De', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (645, 374, 'Nome da Atividade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (646, 374, 'Não é permitido excluir atividades de projeto que têm tempo registrado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (647, 374, 'Adicionar Cliente', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (648, 374, 'Adicionar Folha de Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (649, 374, 'Selecione um Dia para Criar a Folha de Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (650, 374, 'Copiar Atividade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (651, 374, 'Nome do Projeto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (652, 374, 'Nenhuma atividade atribuída', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (653, 374, 'Nenhuma atividade selecionada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (654, 374, 'Nome do Cliente', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (655, 374, 'Editar Atividade do Projeto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (656, 374, 'Administrador do Projeto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (657, 374, 'Projeto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (658, 374, 'Adicionar Atividade ao Projeto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (659, 374, 'Ação da Folha de Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (660, 374, 'Nenhuma Folha de Ponto Encontrada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (661, 374, 'Atividade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (662, 374, 'Adicionar Linha', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (663, 374, 'Selecionar um Projeto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (664, 374, 'Selecionar uma Atividade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (665, 374, 'Registro Duplicado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (666, 374, 'Selecione um Projeto e uma Atividade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (667, 374, 'Deve ser menor que 24 e no formato HH:MM ou Decimal', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (668, 374, 'O Total Deve Ser Menor que 24 Horas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (669, 374, 'Ações Realizadas na Folha de Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (670, 374, 'Folhas de Ponto Aguardando Ação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (671, 374, 'Período da Folha de Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (672, 374, 'Definir Período da Folha de Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (673, 374, 'Primeiro Dia da Semana', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (674, 374, 'Não é permitido excluir cliente(s) associado(s) a projetos que têm tempo registrado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (675, 374, 'Editar Cliente', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (676, 374, 'Administradores do Projeto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (677, 374, 'Não é permitido excluir projeto(s) que têm tempo registrado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (678, 374, 'Editar Projeto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (679, 374, 'Relatório de Projeto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (680, 374, 'Período do Projeto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (681, 374, 'Incluir Apenas Folhas de Ponto Aprovadas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (682, 374, 'Duração Total (Horas)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (683, 374, 'Relatório de Funcionário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (684, 374, 'Selecionar Funcionário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (685, 374, 'O dia de início da semana da folha de ponto não foi definido. Por favor, contate o Administrador de RH', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (686, 374, 'Minha Folha de Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (687, 374, 'Editar Folha de Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (688, 374, 'Criar Folha de Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (689, 374, 'Folha de Ponto de', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (690, 374, 'Editar Folha de Ponto de', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (691, 374, 'Adicionar Projeto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (692, 374, 'Folha de Ponto Criada com Sucesso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (693, 374, 'Folha de Ponto Rejeitada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (694, 374, 'Folha de Ponto Aprovada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (695, 374, 'Folha de Ponto Reiniciada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (696, 374, 'A Hora de Saída Deve Ser Posterior à Hora de Entrada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (697, 374, 'Tempo (Horas)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (698, 374, 'Folha de Ponto Enviada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (699, 374, 'Horário de Entrada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (700, 374, 'Configuração de Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (701, 374, 'O funcionário pode alterar a hora atual ao registrar entrada/saída', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (702, 374, 'O funcionário pode editar/excluir seus próprios registros de ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (703, 374, 'O supervisor pode adicionar/editar/excluir registros de ponto de subordinados', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (704, 374, 'Relatório de Resumo Total de Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (705, 374, 'Editar Registros de Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (706, 374, 'Registrar Entrada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (707, 374, 'hh:mm', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (708, 374, 'Registrar Saída', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (709, 374, 'Registros Sobrepostos Encontrados', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (710, 374, 'Observação de Entrada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (711, 374, 'Observação de Saída', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (712, 374, 'Duração (Horas)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (713, 374, 'Registros de Ponto do Funcionário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (714, 374, 'Meus Registros de Ponto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (715, 374, 'Fuso Horário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (716, 374, 'Observação de Entrada Registrada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (717, 374, 'Entrada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (718, 374, 'Saída', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (719, 374, 'Expurgar Registros de Funcionários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (720, 374, 'Funcionário Antigo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (721, 374, 'Usuários que buscam acesso aos seus dados, ou que buscam corrigir, alterar ou excluir as informações fornecidas devem direcionar suas solicitações para Data@orangehrm.com com o assunto "Expurgar Registros (Identificador da Instância: {instanceIdentifier})"', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (722, 374, 'Expurgar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (723, 374, 'Expurgar Funcionário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (724, 374, 'Você está prestes a expurgar o funcionário permanentemente. Tem certeza de que deseja continuar? Esta operação não pode ser desfeita', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (725, 374, 'Sim, Expurgar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (726, 374, 'Funcionário Selecionado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (727, 374, 'Expurgado com Sucesso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (728, 374, 'Baixar Dados Pessoais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (730, 374, 'Suporte ao Cliente', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (731, 374, 'Aprender a usar um novo aplicativo pode ser desafiador. Na OrangeHRM, estamos comprometidos em fornecer o conhecimento e as habilidades necessárias para utilizar totalmente o aplicativo, permitindo que você gerencie seus processos de RH de forma rápida e eficiente.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (732, 374, 'Os seguintes repositórios de informação estão disponíveis para ajudá-lo a entender o aplicativo:', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (733, 374, 'Caso experimente algum problema, não hesite em contatar-nos em', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (734, 374, 'Teremos o prazer em ajudar.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (735, 374, 'Entrar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (736, 374, 'usuário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (737, 374, 'senha', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (738, 374, 'Credencial Necessária', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (739, 374, 'Acesso de Administrador', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (740, 374, 'Você solicitou acesso a uma função crítica de Administrador no OrangeHRM e precisa validar suas credenciais abaixo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (744, 374, 'Redefinir Senha', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (745, 374, 'Digite seu nome de usuário para identificar sua conta e redefinir sua senha', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (746, 374, 'Definir Nova Senha', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (747, 374, 'Nova Senha', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (748, 374, 'A conta de usuário não foi encontrada ou o token de redefinição de senha expirou', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (749, 374, 'para solicitar um novo token de redefinição de senha', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (750, 374, 'Link de Redefinição de Senha Enviado com Sucesso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (751, 374, 'O sistema OrangeHRM não está configurado para receber notificações por e-mail. Por favor, contate seu administrador OrangeHRM para redefinir sua senha', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (752, 374, 'para voltar à página de login', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (753, 374, 'Um link de redefinição de senha foi enviado a você por e-mail.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (754, 374, 'Você pode seguir esse link e selecionar uma nova senha.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (755, 374, 'Se o e-mail não chegar, contate seu Administrador OrangeHRM.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (756, 374, 'Esqueceu Sua Senha', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (757, 374, 'Credenciais inválidas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (758, 374, 'Falha na validação do token CSRF', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (759, 374, 'Conta desativada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (760, 374, 'Funcionário demitido', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (761, 374, 'Funcionário não atribuído', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (762, 374, 'Ver Histórico de Ações', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (763, 374, 'Entrevistador', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (764, 374, 'Título da Entrevista', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (765, 374, 'Agendar Entrevista', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (766, 374, 'Pré-selecionar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (767, 374, 'Status Atual', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (768, 374, 'Ação Realizada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (769, 374, 'Data da Ação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (770, 374, 'Vaga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (771, 374, 'Gestor de Contratação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (772, 374, 'Nome do Candidato', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (773, 374, 'Palavras-chave', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (774, 374, 'Data de Candidatura', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (775, 374, 'Método de Candidatura', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (776, 374, 'Digite palavras separadas por vírgulas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (777, 374, 'Candidato', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (778, 374, 'Candidatura Iniciada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (779, 374, 'Pré-selecionado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (780, 374, 'Entrevista Agendada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (781, 374, 'Entrevista Aprovada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (782, 374, 'Entrevista Reprovada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (783, 374, 'Emprego Oferecido', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (784, 374, 'Oferta Recusada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (785, 374, 'Manual', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (786, 374, 'Online', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (787, 374, 'Número de Contato', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (788, 374, 'Consentimento para manter os dados', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (789, 374, 'Currículo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (790, 374, 'Adicionar Candidato', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (791, 374, 'Deve ser a data atual ou uma data anterior', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (792, 374, 'Etapa da Candidatura', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (793, 374, 'Oferecer Emprego', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (794, 374, 'Marcar Entrevista como Reprovada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (795, 374, 'Marcar Entrevista como Aprovada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (796, 374, 'Recusar Oferta', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (797, 374, 'Contratar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (799, 374, 'Vaga de Emprego', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (801, 374, 'Perfil do Candidato', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (802, 374, 'Histórico do Candidato', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (803, 374, 'Adicionar Vaga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (804, 374, 'Editar Vaga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (805, 374, 'Nome da Vaga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (806, 374, 'Número de Vagas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (807, 374, 'URL do Feed RSS', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (808, 374, 'URL da Página Web', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (809, 374, 'Publicar em Feed RSS e Página Web', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (810, 374, '{employee} adicionou {candidate}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (811, 374, '{employee} atribuiu a vaga {vacancy}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (812, 374, 'Pré-selecionado para {vacancy} por {employee}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (813, 374, '{employee} agendou {interview} em {interviewDate} com {interviewers} para {vacancy}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (814, 374, '{employee} marcou {interview} como aprovada para {vacancy}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (815, 374, '{employee} marcou {interview} como reprovada para {vacancy}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (816, 374, '{employee} ofereceu o emprego para {vacancy}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (817, 374, '{employee} marcou a oferta como recusada para {vacancy}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (818, 374, '{employee} contratou {candidate} para {vacancy}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (819, 374, '{employee} rejeitou {candidate} da {vacancy}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (820, 374, '{employee} removeu {candidate} da {vacancy}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (821, 374, '{candidate} candidatou-se para a vaga {vacancy}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (822, 374, 'Pré-selecionar Candidato', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (823, 374, 'Contratado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (824, 374, 'Desenvolvido Por', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (825, 374, 'Candidatar-se para {vacancyName}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (826, 374, 'Candidatura Recebida', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (827, 374, 'Sua candidatura foi enviada com sucesso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (828, 374, 'Contratar Candidato', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (829, 374, 'Rejeitar Candidato', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (830, 374, 'Esta ação removerá a vaga anterior. Tem certeza de que deseja continuar?', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (831, 374, 'Supervisor Avaliador', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (832, 374, 'Adicionar Avaliação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (833, 374, 'Data de Início do Período de Avaliação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (834, 374, 'Data de Término do Período de Avaliação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (835, 374, 'Data Limite', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (836, 374, 'Ativar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (837, 374, 'A data de início do período de avaliação deve ser anterior à data de término', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (838, 374, 'A data de término do período de avaliação deve ser posterior à data de início', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (839, 374, 'A data limite deve ser posterior à data de término do período', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (840, 374, 'Não é possível ativar a avaliação para funcionários que não têm Cargo e/ou Sub-divisão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (841, 374, 'Não é possível ativar a avaliação sem KPIs', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (842, 374, 'Avaliadores', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (843, 374, 'Nome do Acompanhamento', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (844, 374, 'Editar Acompanhamento de Desempenho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (845, 374, 'Adicionar Acompanhamento de Desempenho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (846, 374, 'O funcionário não pode ser atribuído como seu próprio avaliador', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (847, 374, 'Acompanhamentos de Desempenho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (848, 374, 'Indicadores-Chave de Desempenho para o Cargo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (849, 374, 'Indicador-Chave de Desempenho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (850, 374, 'Nota Mínima', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (851, 374, 'Nota Máxima', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (852, 374, 'É Padrão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (853, 374, 'Adicionar Indicador-Chave de Desempenho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (854, 374, 'Editar Indicador-Chave de Desempenho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (855, 374, 'Nota Mínima', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (856, 374, 'Nota Máxima', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (857, 374, 'Definir Escala Padrão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (858, 374, 'A Nota Mínima deve ser menor que a Nota Máxima', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (859, 374, 'A Nota Máxima deve ser maior que a Nota Mínima', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (860, 374, 'Acompanhamentos de Desempenho de Funcionários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (861, 374, 'Data de Modificação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (862, 374, 'Data de Adição', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (863, 374, 'Acompanhamento', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (864, 374, 'Meus Acompanhamentos de Desempenho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (865, 374, 'Período de Avaliação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (866, 374, 'Status da Autoavaliação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (867, 374, 'Status da Avaliação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (868, 374, 'Avaliar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (869, 374, 'Avaliações de Funcionários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (870, 374, 'Ativada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (871, 374, 'Em Andamento', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (872, 374, 'Concluída', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (873, 374, 'Avaliador', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (874, 374, 'Gerenciar Avaliações de Desempenho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (875, 374, 'Inativa', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (876, 374, 'Registros do Acompanhamento', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (877, 374, 'Adicionar Registro', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (878, 374, 'Adicionado Em', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (879, 374, 'Modificado Em', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (880, 374, 'Excluir', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (881, 374, 'Adicionar Registro de Acompanhamento', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (882, 374, 'Registro', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (883, 374, 'Positivo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (884, 374, 'Negativo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (885, 374, 'Editar Registro de Acompanhamento', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (886, 374, 'Avaliação de Desempenho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (887, 374, 'Resumo da Avaliação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (888, 374, 'Data Limite da Avaliação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (889, 374, 'Concluir', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (890, 374, 'Finalização da Avaliação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (891, 374, 'Data de Conclusão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (892, 374, 'Nota Final', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (893, 374, 'Comentários Finais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (894, 374, 'A nota deve ser maior ou igual a {minValue}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (895, 374, 'A nota deve ser menor ou igual a {maxValue}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (896, 374, 'Autoavaliação por', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (897, 374, 'Avaliação do Supervisor por', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (898, 374, 'KPI', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (899, 374, 'Nota', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (900, 374, 'Mín', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (901, 374, 'Máx', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (902, 374, 'Avaliação Ativada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (903, 374, 'Avaliação em Andamento', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (904, 374, 'Avaliação Concluída', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (905, 374, 'Não é possível ativar a avaliação para funcionários que não têm um Cargo com KPI', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (906, 374, 'Não é possível adicionar um funcionário antigo como avaliador', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (907, 374, 'O supervisor selecionado para avaliador é inválido', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (908, 374, 'Comentário Geral', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (909, 374, 'Confirmar Envio da Avaliação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (910, 374, 'A avaliação se tornará somente leitura após a conclusão. Esta ação não pode ser desfeita. Tem certeza de que deseja continuar?', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (911, 374, 'Não é possível adicionar um funcionário antigo como avaliador', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (912, 374, 'Editar Avaliação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (913, 374, 'Cor Primária', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (914, 374, 'Cor Secundária', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (915, 374, 'Cor da Fonte Primária', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (916, 374, 'Cor da Fonte Secundária', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (917, 374, 'Cor do Gradiente Primária 1', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (918, 374, 'Cor do Gradiente Primária 2', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (919, 374, 'Logo do Cliente', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (920, 374, 'Banner do Cliente', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (921, 374, 'Banner de Login', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (922, 374, 'Imagens de Redes Sociais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (923, 374, 'Exportar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (924, 374, 'Traduzir', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (926, 374, 'Adicionar Pacote de Idioma', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (927, 374, 'Módulo Diretório', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (928, 374, 'Janeiro', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (929, 374, 'Fevereiro', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (930, 374, 'Março', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (931, 374, 'Abril', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (932, 374, 'Maio', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (933, 374, 'Junho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (934, 374, 'Julho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (935, 374, 'Agosto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (936, 374, 'Setembro', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (937, 374, 'Outubro', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (938, 374, 'Novembro', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (939, 374, 'Dezembro', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (940, 374, 'Jan', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (941, 374, 'Fev', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (942, 374, 'Mar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (943, 374, 'Abr', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (944, 374, 'Jun', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (945, 374, 'Jul', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (946, 374, 'Ago', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (947, 374, 'Set', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (948, 374, 'Out', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (949, 374, 'Nov', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (950, 374, 'Dez', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (952, 374, 'Deve ser menor que o valor máximo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (953, 374, 'Deve ser um número entre {min}-{max}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (954, 374, 'Ativo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (955, 374, 'Fechado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (956, 374, 'Tamanho do Arquivo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (957, 374, 'Tipo de Arquivo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (958, 374, 'Nome Completo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (959, 374, 'Restaurar Padrão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (960, 374, 'Pré-visualizar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (961, 374, 'Aceita jpg, .png, .gif, .svg até {fileSize}. Dimensões recomendadas: {width}px X {height}px', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (962, 374, 'Dimensões Incorretas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (963, 374, 'Inválido', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (964, 374, 'Ou entre com', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (965, 374, 'Ativado com Sucesso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (966, 374, 'Publicar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (967, 374, 'O número deve ser menor ou igual a {maxValue}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (968, 374, 'O número deve ser maior ou igual a {minValue}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (969, 374, 'Funcionário Expurgado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (970, 374, 'Mostrar Mais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (971, 374, 'Mostrar Menos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (972, 374, 'Enviar {fileName}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (974, 374, 'Deve ser um valor numérico', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (975, 374, 'Confirmação Necessária', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (976, 374, 'Expurgar Registros de Candidatos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (977, 374, 'Expurgar Candidatos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (978, 374, 'Você está prestes a expurgar os candidatos selecionados permanentemente. Tem certeza de que deseja continuar? Esta operação não pode ser desfeita', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (979, 374, 'Expurgar Tudo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (981, 374, 'Pacote de Idioma', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (982, 374, 'Idioma de Origem', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (983, 374, 'Módulo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (984, 374, 'Texto de Origem', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (985, 374, 'Texto Traduzido', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (986, 374, 'Nota de Origem', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (987, 374, 'Mostrar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (988, 374, 'Todos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (989, 374, 'Traduzido', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (990, 374, 'Não Traduzido', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (991, 374, 'Traduzir Pacote de Idioma', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (992, 374, 'Ordem', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (993, 374, 'Configurações do Servidor', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (994, 374, 'Configurações de Bind', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (995, 374, 'Configurações de Busca de Usuário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (996, 374, 'Mapeamento de Dados', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (997, 374, 'Configurações Adicionais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (998, 374, 'Host', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (999, 374, 'IP ou Hostname do servidor LDAP sem o protocolo (sem ldap:// ou ldaps://)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1000, 374, 'Porta', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1001, 374, 'Se usar SSL, use a porta 636 por padrão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1002, 374, 'Criptografia', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1003, 374, 'Implementação LDAP', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1004, 374, 'Nome Distinto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1005, 374, 'Nome Distinto Base', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1006, 374, 'Escopo de Busca', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1007, 374, 'A opção Subárvore permitirá buscar no diretório base e subdiretórios. Um nível buscará apenas dentro do diretório base', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1008, 374, 'Atributo de Nome de Usuário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1015, 374, 'Testar Conexão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1016, 374, 'Bind Anônimo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1017, 374, 'Intervalo de Sincronização (em Horas)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1023, 374, 'Campo de atributo para usar ao carregar o nome de usuário. Ex: cn, nome da conta', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1024, 374, 'SSL', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1025, 374, 'Subárvore', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1026, 374, 'Um nível', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1027, 374, 'Open LDAP v3', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1028, 374, 'MS Active Directory', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1029, 374, 'Status da Conexão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1030, 374, 'Sincronizar Conexão', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1031, 374, 'Sincronizar Agora', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1032, 374, 'Última sincronização em {datetime}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1033, 374, 'Última sincronização falhou em {datetime}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1034, 374, 'Sincronização Bem-sucedida', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1035, 374, 'Sincronização Falhou', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1036, 374, 'Filtro de Busca de Usuário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1037, 374, 'Atributo de ID Único de Usuário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1038, 374, 'Mesclar Usuários LDAP com Usuários Existentes do Sistema', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1039, 374, 'Por favor, verifique as configurações de LDAP', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1040, 374, 'Campo de atributo para usar ao buscar objetos de usuário. Ex: objectClass=person', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1041, 374, 'Campo de atributo para usar como identificador único e imutável para objetos de usuário. Usado para rastrear mudanças de nome de usuário. Ex: entryUUID, objectGUID', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1042, 374, 'Campo no OrangeHRM', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1043, 374, 'Campo no Diretório LDAP', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1044, 374, 'Use este campo como campo de mapeamento funcionário/usuário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1045, 374, '{count} usuário(s) encontrado(s)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1046, 374, '{count} usuário(s) serão importados', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1047, 374, 'Buscar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1048, 374, 'Busca de usuário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1049, 374, 'Autenticação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1050, 374, 'Resultados da busca', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1051, 374, 'Solicitações de Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1052, 374, 'Atribuições de Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1053, 374, 'Aprovações de Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1054, 374, 'Cancelamentos de Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1055, 374, 'Rejeições de Folga', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1056, 374, 'Configurações LDAP não configuradas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1057, 374, 'Sincronização LDAP não ativada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1058, 374, 'Antes de ativar o serviço LDAP, certifique-se de que todas as configurações LDAP estão funcionando corretamente, pois configurações incorretas podem resultar em dados corrompidos. Como precaução, recomendamos que você crie um backup do banco de dados antes de continuar.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1059, 374, 'Crescente', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1060, 374, 'Decrescente', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1061, 374, 'Configuração LDAP', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1062, 374, 'Ativar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1063, 374, 'Digite um número de porta válido entre {minValue} e {maxValue}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1064, 374, 'Status do Usuário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1065, 374, 'Deve ter pelo menos {amount} caracteres', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1066, 374, 'Tipo de Direito', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1067, 374, '{action, select, APPROVE {{count, plural, =0 {Nenhuma Solicitação de Folga Aprovada} =1 {1 Solicitação de Folga Aprovada} other {# Solicitações de Folga Aprovadas} }} REJECT {{count, plural, =0 {Nenhuma Solicitação de Folga Rejeitada} =1 {1 Solicitação de Folga Rejeitada} other {# Solicitações de Folga Rejeitadas} }} other {{count, plural, =0 {Nenhuma Solicitação de Folga Cancelada} =1 {1 Solicitação de Folga Cancelada} other {# Solicitações de Folga Canceladas} }} }', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1068, 374, 'Imposto de Renda Estadual', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1069, 374, 'Quinzenal', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1070, 374, 'Por Hora', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1071, 374, 'Mensal', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1072, 374, 'Mensal no primeiro pagamento do mês', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1073, 374, 'Semimensal', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1074, 374, 'Semanal', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1075, 374, 'Poupança', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1076, 374, 'Conta Corrente', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1077, 374, 'Adicionar Supervisor', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1078, 374, 'Adicionar Subordinado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1079, 374, 'Nome de usuário já existe', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1080, 374, '{count,plural, =0{Nenhum Registro Importado} one{1 Registro Importado com Sucesso} other{ # Registros Importados com Sucesso}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1081, 374, '{count,plural, =0{Nenhum Registro com Falha na Importação} one{1 Registro com Falha na Importação} other{ # Registros com Falha na Importação}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1082, 374, 'Linhas com Falha', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1083, 374, 'Detalhes da Importação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1084, 374, 'Entrou', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1085, 374, 'Saiu', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1086, 374, 'Não Registrou Entrada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1087, 374, 'Distribuição de Funcionários por Sub-unidade', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1088, 374, 'Distribuição de Funcionários por Localização', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1089, 374, 'Não Atribuído', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1090, 374, 'Funcionários de Folga Hoje', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1091, 374, 'Nenhum Funcionário de Folga Hoje', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1092, 374, 'Período de Folgas Não Definido', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1093, 374, 'Tempo no Trabalho', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1094, 374, 'Hoje', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1095, 374, 'Esta Semana', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1096, 374, '{lastState}: {date} às {time} (GMT {timezoneOffset})', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1097, 374, '{lastState}: Hoje às {time} (GMT {timezoneOffset})', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1098, 374, 'Acesso Rápido', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1099, 374, 'Minhas Ações', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1100, 374, '{pendingActionsCount,plural, =0{Nenhum Registro Encontrado} one{(1) Solicitação de Folga para Aprovar} other{ (#) Solicitações de Folga para Aprovar}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1101, 374, '{pendingActionsCount,plural, =0{Nenhum Registro Encontrado} one{(1) Folha de Ponto para Aprovar} other{ (#) Folhas de Ponto para Aprovar}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1102, 374, '{pendingActionsCount,plural, =0{Nenhum Registro Encontrado} one{(1) Avaliação de Desempenho para Avaliar} other{ (#) Avaliações de Desempenho para Avaliar}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1103, 374, '{pendingActionsCount,plural, =0{Nenhum Registro Encontrado} one{(1) Candidato para Entrevistar} other{ (#) Candidatos para Entrevistar}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1104, 374, 'Nenhuma Ação Pendente para Realizar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1105, 374, '{pendingActionsCount,plural, =0{Nenhum Registro Encontrado} one{(1) Autoavaliação Pendente} other{ (#) Autoavaliações Pendentes}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1106, 374, 'Configurações', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1107, 374, 'Mostrar apenas funcionários acessíveis de folga para outros usuários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1108, 374, 'Não Disponível', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1109, 374, 'Enviada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1110, 374, 'Não Enviada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1111, 374, 'Aprovada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1112, 374, 'Próximos Aniversários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1113, 374, '{yearsCount,plural, =0{} one{Ano} other{Anos}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1114, 374, 'Feed de Notícias Buzz', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1115, 374, 'Publicar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1116, 374, 'O que você está pensando?', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1117, 374, 'Compartilhar Fotos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1118, 374, 'Compartilhar Vídeo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1120, 374, '{likesCount,plural, =0{0 Curtidas} one{1 Curtida} other{# Curtidas}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1121, 374, '{commentCount,plural, =0{0 Comentários} one{1 Comentário} other{# Comentários}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1122, 374, '{shareCount,plural, =0{0 Compartilhamentos} one{1 Compartilhamento} other{# Compartilhamentos}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1123, 374, 'Escreva seu comentário...', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1124, 374, 'Excluir Publicação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1125, 374, 'Editar Publicação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1126, 374, 'Publicações Mais Recentes', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1127, 374, 'Publicações Mais Curtidas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1128, 374, 'Publicações Mais Comentadas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1129, 374, 'Compartilhar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1130, 374, 'URL do Vídeo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1131, 374, 'Cole a URL do Vídeo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1132, 374, 'Adicionar Fotos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1133, 374, 'Apenas imagens dos tipos ''gif'', ''png'', ''jpg'', ''jpeg'' são permitidas!', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1134, 374, 'O tamanho máximo permitido é 2MB', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1135, 374, 'Compartilhar Publicação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1136, 374, 'Ler Mais', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1137, 374, 'Pressione Esc para', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1138, 374, 'Curtir', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1139, 374, 'Nenhuma Publicação Disponível', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1141, 374, 'O item selecionado será excluído permanentemente. Tem certeza de que deseja continuar?', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1142, 374, 'Esta URL não é uma URL válida de vídeo ou não é suportada pelo sistema', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1143, 374, 'Últimas Publicações do Buzz', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1144, 374, 'Nenhuma Publicação Adicionada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1145, 374, 'Começando com o OrangeHRM', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1146, 374, 'ID do Cliente', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1147, 374, 'Segredo do Cliente', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1148, 374, 'URI de Redirecionamento', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1149, 374, 'Lista de Clientes OAuth', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1150, 374, 'Adicionar Cliente OAuth', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1151, 374, 'Editar Cliente OAuth', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1152, 374, 'Ativar Cliente', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1153, 374, 'Cliente Confidencial', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1154, 374, 'Certifique-se de copiar o segredo do cliente agora. Você não poderá vê-lo novamente.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1155, 374, '{count,plural, one{Deve ter pelo menos 1 caractere} other{Deve ter pelo menos # caracteres}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1156, 374, '{count,plural, one{Não deve exceder 1 caractere} other{Não deve exceder # caracteres}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1157, 374, '{count,plural, one{Sua senha deve conter no mínimo 1 letra minúscula} other{Sua senha deve conter no mínimo # letras minúsculas}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1158, 374, '{count,plural, one{Sua senha deve conter no mínimo 1 letra maiúscula} other{Sua senha deve conter no mínimo # letras maiúsculas}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1159, 374, '{count,plural, one{Sua senha deve conter no mínimo 1 número} other{Sua senha deve conter no mínimo # números}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1160, 374, '{count,plural, one{Sua senha deve conter no mínimo 1 caractere especial} other{Sua senha deve conter no mínimo # caracteres especiais}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1161, 374, 'Sua senha não deve conter espaços', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1162, 374, 'Sua senha atende aos requisitos mínimos, mas pode ser adivinhável', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1163, 374, 'Alterar Senha Fraca', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1164, 374, 'Sua senha atual é fraca. Por favor, escolha uma senha mais forte.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1165, 374, 'Código de redefinição de senha inválido', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1166, 374, '{clientName} gostaria de', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1167, 374, 'Acessar e gerenciar seus dados', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1168, 374, 'Realizar ações em seu nome', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1169, 374, 'Deseja permitir o acesso?', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1170, 374, 'Negar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1171, 374, 'Permitir Acesso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1172, 374, 'Esta solicitação é inválida', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1173, 374, 'O aplicativo móvel não está ativado. Por favor, contate seu administrador OrangeHRM.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1174, 374, 'Forte', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1175, 374, 'Ajuda', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1176, 374, 'Reembolso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1177, 374, 'Eventos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1178, 374, 'Adicionar Evento', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1179, 374, 'Editar Evento', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1180, 374, 'Nome do Evento', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1181, 374, 'Tipos de Despesa', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1182, 374, 'Adicionar Tipo de Despesa', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1183, 374, 'Editar Tipo de Despesa', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1184, 374, 'Evento', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1185, 374, 'Criar Solicitação de Reembolso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1186, 374, 'Observações', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1187, 374, 'Criar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1188, 374, 'Enviar Reembolso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1189, 374, 'ID de Referência', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1190, 374, 'Despesas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1191, 374, 'Tipo de Despesa', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1192, 374, 'Pagar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1193, 374, 'Adicionar Despesa', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1194, 374, 'Editar Despesa', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1195, 374, 'Deve ser um número válido (xxx.xx)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1196, 374, 'Valor Total ({currencyName}) : {totalAmount}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1197, 374, 'Data de Envio', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1198, 374, 'Ver Detalhes', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1199, 374, 'Meus Reembolsos', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1200, 374, 'Módulo de Reembolso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1201, 374, 'Iniciado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1202, 374, 'Pago', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1203, 374, 'Atribuir Reembolso', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1204, 374, 'Reembolsos de Funcionários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1205, 374, 'Esta página está em desenvolvimento.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1206, 374, 'para baixar a versão estável mais recente.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1207, 374, 'Limpar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1208, 374, 'Fechar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1209, 374, 'URL do Provedor', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1210, 374, 'Adicionar Provedor', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1211, 374, 'Editar Provedor', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1212, 374, 'Lista de Provedores', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1213, 374, 'Nenhum Usuário Encontrado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1214, 374, 'Múltiplos Usuários Retornados', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1215, 374, 'Valor', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1216, 374, 'Use o modelo de exemplo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1217, 374, 'Edite apenas o campo de destino', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1218, 374, 'Não altere o modelo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1219, 374, 'XLIFF de Exemplo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1220, 374, 'Importar Pacote de Idioma', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1221, 374, 'O texto não será traduzido automaticamente. Você terá que importar traduções ou traduzir dentro do sistema.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1222, 374, 'Deve ser menor que o Salário Máximo', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1223, 374, 'Erros na Importação de Pacotes de Idioma', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1224, 374, 'A sintaxe usada é inválida', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1225, 374, 'Incompatibilidade encontrada entre espaços reservados', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1226, 374, 'Incompatibilidade encontrada entre espaço reservado de expressão plural', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1227, 374, 'Incompatibilidade encontrada entre espaço reservado de expressão select', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1228, 374, '{count,plural, =0{Nenhum Registro Ignorado} one{1 Registro Ignorado} other{ # Registros Ignorados}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1229, 374, '{count,plural, =0{Nenhum Erro Encontrado} one{(1) Erro Encontrado} other{ (#) Erros Encontrados}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1230, 374, '{count,plural, one{Corrigir Erro} other{ Corrigir Erros}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1231, 374, 'O arquivo XLIFF não é válido', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1232, 374, 'O arquivo XLIFF está vazio', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1233, 374, 'O arquivo XLIFF não possui o atributo de idioma de destino', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1234, 374, 'O idioma de destino não corresponde ao idioma selecionado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1235, 374, 'Por favor, salve suas alterações antes de passar para a próxima página', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1236, 374, 'Solteiro(a)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1237, 374, 'Casado(a)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1238, 374, 'Direto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1239, 374, 'Indireto', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1240, 374, 'Vagas de Emprego Ativas', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1241, 374, 'Atualizar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1242, 374, '{count, plural, one {Aceita até 1MB} other { Aceita até #MBs}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1243, 374, '{count, plural, one {Aceita .docx, .doc, .odt, .pdf, .rtf, .txt até 1MB} other{ Aceita .docx, .doc, .odt, .pdf, .rtf, .txt até #MBs}}', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1244, 374, 'O link de redefinição de senha não foi enviado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1245, 374, 'Seu link de redefinição de senha não foi enviado devido a um erro.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1246, 374, 'Por favor, contate seu administrador para redefinir sua senha.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1247, 374, 'Sessão Expirada', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1248, 374, 'O e-mail de trabalho contém caracteres inválidos.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1249, 374, 'Configuração de Notificações do Workspace', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1250, 374, 'Registro de Notificação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1251, 374, 'Editar Registro de Notificação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1252, 374, 'Registros de Notificação', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1253, 374, 'Configure um canal de workspace (Slack, Google Chat ou Teams) para receber notificações automatizadas. Cada registro tem seu próprio fuso horário e horário de envio.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1254, 374, 'Plataforma', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1255, 374, 'Slack', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1256, 374, 'Google Chat', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1257, 374, 'URL do Webhook de Entrada do Slack', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1258, 374, 'URL do Webhook do Google Chat', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1259, 374, 'URL do Workflow do Microsoft Teams', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1260, 374, 'Crie um Webhook de Entrada em seu workspace do Slack e cole a URL aqui. Deve ser HTTPS.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1261, 374, 'Crie um Webhook de Entrada em seu workspace do Google Chat e cole a URL aqui. Deve ser HTTPS.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1262, 374, 'Nome do Canal (Opcional)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1263, 374, 'Apenas rótulo (ex: #rh-equipe). A URL do webhook determina o destino real.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1264, 374, 'Sub-unidades', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1265, 374, 'Filtrar por sub-unidade(s): deixe vazio para incluir todos os funcionários, ou selecione uma ou mais sub-unidades para limitar as notificações.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1266, 374, 'Selecione o fuso horário para enviar esta notificação.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1267, 374, 'Canal', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1268, 374, 'Horário de Envio', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1269, 374, 'Horário local de envio (HH:mm).', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1270, 374, 'Todos os Funcionários', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1271, 374, 'Enviar Teste', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1272, 374, 'Deve ser uma URL válida de Webhook de Entrada do Slack (https://hooks.slack.com/services/...)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1273, 374, 'Deve ser uma URL válida de webhook do Google Chat (https://chat.googleapis.com/v1/spaces/...?key=...&token=...)', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1274, 374, '+ Adicionar Registro', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1275, 374, 'Atualizar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1276, 374, 'Aniversário', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1277, 374, 'Nenhum registro ainda. Preencha o formulário acima e clique em + Adicionar Registro para criar um.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1278, 374, 'Certifique-se de que o cron do servidor execute php bin/console orangehrm:run-schedule regularmente (ex: a cada 5-15 minutos) para que as notificações agendadas possam ser executadas.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1279, 374, 'A plataforma de chat foi alterada. Cole uma nova URL de Webhook do {platform} para este canal antes de salvar.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1280, 374, 'Possível registro duplicado', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1281, 374, 'Outro registro já tem como alvo o mesmo tipo de evento, canal de workspace e sub-unidade. Salvar isso fará com que a mesma mensagem seja enviada mais de uma vez por dia. Deseja salvar mesmo assim?', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1282, 374, 'Voltar e editar', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1283, 374, 'Agendar um evento aqui aciona os fluxos de notificação configurados automaticamente. Certifique-se de que o cron do servidor execute php bin/console orangehrm:run-schedule regularmente (ex: a cada 5-15 minutos) para que as notificações agendadas possam ser executadas.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1284, 374, 'Enviar uma mensagem de teste?', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1285, 374, 'Isso enviará uma notificação de exemplo para o canal deste registro. Funciona independentemente de a linha estar ativa ou não.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1286, 374, 'Atenção: um registro semelhante já existe. A mesma mensagem pode ser enviada mais de uma vez por dia.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1287, 374, 'Falha ao salvar. Verifique a URL do webhook e tente novamente.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1288, 374, 'Mensagem de teste enviada para o canal configurado.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1289, 374, 'Falha ao enviar mensagem de teste. Verifique a URL do webhook.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1290, 374, 'Não foi possível atualizar o status. Atualize a página e tente novamente.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1291, 374, 'Não foi possível atualizar o botão global.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1292, 374, 'Crie um workflow "Postar no canal" do Power Automate com um gatilho HTTP e cole a URL do workflow aqui. Deve ser HTTPS.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1293, 374, 'Deve ser uma URL válida de workflow do Power Automate do Microsoft Teams', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1294, 374, 'A URL do webhook do Google Chat deve incluir ambos os parâmetros de consulta key e token.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1295, 374, 'A URL do workflow do Microsoft Teams deve incluir o parâmetro de consulta sig.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1296, 374, 'URL inválida.', 0, NOW());
-INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at) VALUES (1297, 374, '(salvo - deixe em branco para manter)', 0, NOW());
+DROP TEMPORARY TABLE IF EXISTS tmp_br_i18n_base;
+CREATE TEMPORARY TABLE tmp_br_i18n_base (
+  group_name VARCHAR(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  unit_id    VARCHAR(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  value      TEXT CHARACTER SET utf8mb4 NOT NULL
+);
 
--- Total inserted: 1262
+INSERT INTO tmp_br_i18n_base (group_name, unit_id, value) VALUES
+  ('admin', 'add_job_title', 'Adicionar Cargo'),
+  ('admin', 'edit_job_title', 'Editar Cargo'),
+  ('admin', 'job_titles', 'Cargos'),
+  ('admin', 'locations', 'Localizações'),
+  ('admin', 'number_of_employees', 'Número de Funcionários'),
+  ('admin', 'add_location', 'Adicionar Localização'),
+  ('admin', 'address', 'Endereço'),
+  ('admin', 'email_configuration', 'Configuração de E-mail'),
+  ('admin', 'mail_sent_as', 'Enviar E-mail Como'),
+  ('admin', 'sending_method', 'Método de Envio'),
+  ('admin', 'secure_smtp', 'SMTP SEGURO'),
+  ('admin', 'smtp', 'SMTP'),
+  ('admin', 'sendmail', 'Sendmail'),
+  ('admin', 'path_to_sendmail', 'Caminho para o Sendmail'),
+  ('admin', 'smtp_host', 'Host SMTP'),
+  ('admin', 'smtp_port', 'Porta SMTP'),
+  ('admin', 'use_smtp_authentication', 'Usar Autenticação SMTP'),
+  ('admin', 'smtp_user', 'Usuário SMTP'),
+  ('admin', 'smtp_password', 'Senha SMTP'),
+  ('admin', 'tls', 'TLS'),
+  ('admin', 'optional_the_mail_server_requires_the_use_of_tls_security', 'Opcional - o servidor de e-mail requer o uso de segurança TLS.'),
+  ('admin', 'send_test_email', 'Enviar E-mail de Teste'),
+  ('admin', 'test_email_address', 'Endereço de E-mail de Teste'),
+  ('admin', 'subscribers', 'Inscritos'),
+  ('admin', 'edit_subscriber', 'Editar Inscrito'),
+  ('admin', 'email_subscriptions', 'Inscrições de E-mail'),
+  ('admin', 'notification_type', 'Tipo de Notificação'),
+  ('admin', 'add_subscriber', 'Adicionar Inscrito'),
+  ('admin', 'edit_employment_status', 'Editar Situação de Emprego'),
+  ('admin', 'add_employment_status', 'Adicionar Situação de Emprego'),
+  ('admin', 'job_description', 'Descrição do Cargo'),
+  ('admin', 'edit_location', 'Editar Localização'),
+  ('admin', 'module_configuration', 'Configuração de Módulos'),
+  ('admin', 'admin_module', 'Módulo Administrativo'),
+  ('admin', 'pim_module', 'Módulo PIM'),
+  ('admin', 'leave_module', 'Módulo de Folgas'),
+  ('admin', 'time_module', 'Módulo de Ponto'),
+  ('admin', 'recruitment_module', 'Módulo de Recrutamento'),
+  ('admin', 'performance_module', 'Módulo de Avaliação'),
+  ('admin', 'maintenance_module', 'Módulo de Manutenção'),
+  ('admin', 'edit_nationality', 'Editar Nacionalidade'),
+  ('admin', 'nationalities', 'Nacionalidades'),
+  ('admin', 'add_nationality', 'Adicionar Nacionalidade'),
+  ('admin', 'general_information', 'Informações Gerais'),
+  ('admin', 'organization_name', 'Nome da Organização'),
+  ('admin', 'registration_number', 'Número de Registro'),
+  ('admin', 'tax_id', 'CNPJ/CPF'),
+  ('admin', 'edit_organization_unit', 'Editar Unidade Organizacional'),
+  ('admin', 'unit_id', 'ID da Unidade'),
+  ('admin', 'organization_structure', 'Estrutura Organizacional'),
+  ('admin', 'add_organization_unit', 'Adicionar Unidade Organizacional'),
+  ('admin', 'this_unit_will_be_added_under', 'Esta unidade será adicionada sob'),
+  ('admin', 'add_pay_grade', 'Adicionar Faixa Salarial'),
+  ('admin', 'edit_currency', 'Editar Moeda'),
+  ('admin', 'minimum_salary', 'Salário Mínimo'),
+  ('admin', 'maximum_salary', 'Salário Máximo'),
+  ('admin', 'edit_pay_grade', 'Editar Faixa Salarial'),
+  ('admin', 'pay_grades', 'Faixas Salariais'),
+  ('admin', 'add_currency', 'Adicionar Moeda'),
+  ('admin', 'edit_user', 'Editar Usuário'),
+  ('admin', 'add_user', 'Adicionar Usuário'),
+  ('admin', 'edit_work_shift', 'Editar Turno de Trabalho'),
+  ('admin', 'shift_name', 'Nome do Turno'),
+  ('admin', 'duration_per_day', 'Duração por Dia'),
+  ('admin', 'work_shifts', 'Turnos de Trabalho'),
+  ('admin', 'hours_per_day', 'Horas por Dia'),
+  ('admin', 'test_email_sent', 'E-mail de Teste Enviado'),
+  ('admin', 'test_email_not_sent', 'E-mail de Teste Não Enviado'),
+  ('admin', 'assigned_employees', 'Funcionários Atribuídos'),
+  ('admin', 'organization_unit_name_should_be_unique', 'O nome da unidade organizacional deve ser único'),
+  ('admin', 'should_be_higher_than_minimum_salary', 'Deve ser maior que o Salário Mínimo'),
+  ('admin', 'job_categories', 'Categorias de Cargo'),
+  ('admin', 'add_job_category', 'Adicionar Categoria de Cargo'),
+  ('admin', 'edit_job_category', 'Editar Categoria de Cargo'),
+  ('admin', 'system_users', 'Usuários do Sistema'),
+  ('admin', 'add_work_shift', 'Adicionar Turno de Trabalho'),
+  ('admin', 'licenses', 'Licenças (Habilitações)'),
+  ('admin', 'localization', 'Localização/Idioma'),
+  ('admin', 'date_format', 'Formato de Data'),
+  ('admin', 'working_hours', 'Horário de Trabalho'),
+  ('general', 'name', 'Nome'),
+  ('general', 'city', 'Cidade'),
+  ('general', 'country', 'País'),
+  ('general', 'reset', 'Limpar'),
+  ('general', 'search', 'Buscar'),
+  ('general', 'add', 'Adicionar'),
+  ('general', 'phone', 'Telefone'),
+  ('general', 'state_province', 'Estado'),
+  ('general', 'zip_postal_code', 'CEP'),
+  ('general', 'note', 'Observação'),
+  ('general', 'cancel', 'Cancelar'),
+  ('general', 'yes', 'Sim'),
+  ('general', 'no', 'Não'),
+  ('general', 'email', 'E-mail'),
+  ('general', 'fax', 'Fax'),
+  ('general', 'nationality', 'Nacionalidade'),
+  ('general', 'edit', 'Editar'),
+  ('general', 'address_street_1', 'Endereço Linha 1'),
+  ('general', 'address_street_2', 'Endereço Linha 2'),
+  ('general', 'description', 'Descrição'),
+  ('general', 'currency', 'Moeda'),
+  ('general', 'currencies', 'Moedas'),
+  ('general', 'edit_education', 'Editar Escolaridade'),
+  ('general', 'level', 'Nível'),
+  ('general', 'education', 'Escolaridade'),
+  ('general', 'add_education', 'Adicionar Escolaridade'),
+  ('general', 'edit_language', 'Editar Idioma'),
+  ('general', 'add_language', 'Adicionar Idioma'),
+  ('general', 'languages', 'Idiomas'),
+  ('general', 'edit_license', 'Editar Licença'),
+  ('general', 'add_license', 'Adicionar Licença'),
+  ('general', 'edit_membership', 'Editar Associado'),
+  ('general', 'add_membership', 'Adicionar Associado'),
+  ('general', 'memberships', 'Associações'),
+  ('general', 'edit_skill', 'Editar Habilidade'),
+  ('general', 'add_skill', 'Adicionar Habilidade'),
+  ('general', 'skills', 'Habilidades'),
+  ('general', 'user_role', 'Papel do Usuário'),
+  ('general', 'status', 'Status'),
+  ('general', 'username', 'Nome de Usuário'),
+  ('general', 'employee_name', 'Nome do Funcionário'),
+  ('general', 'from', 'De'),
+  ('general', 'to', 'Até'),
+  ('general', 'already_exists', 'Já existe'),
+  ('general', 'to_time_should_be_after_from_time', 'A hora de término deve ser posterior à hora de início'),
+  ('general', 'failed', 'Falhou'),
+  ('general', 'should_be_less_n_characters', 'Não deve exceder {amount} caracteres'),
+  ('general', 'admin', 'Administrador'),
+  ('general', 'required', 'Obrigatório'),
+  ('general', 'save', 'Salvar'),
+  ('general', 'should_be_a_valid_date_in_hh:mm_format', 'Deve ser uma data válida no formato hh:mm'),
+  ('general', 'job_category', 'Categoria de Cargo'),
+  ('general', 'should_be_a_valid_date_in_x_format', 'Deve ser uma data válida no formato {format}'),
+  ('general', 'should_be_less_than_n', 'Deve ser menor que {amount}'),
+  ('general', 'should_be_a_number', 'Deve ser um número'),
+  ('general', 'end_date_should_be_after_start_date', 'A data de término deve ser posterior à data de início'),
+  ('general', 'end_time_should_be_after_start_time', 'A hora de término deve ser posterior à hora de início'),
+  ('general', 'attachment_size_exceeded', 'Tamanho do Anexo Excedido'),
+  ('general', 'file_type_not_allowed', 'Tipo de arquivo não permitido'),
+  ('general', 'employment_status', 'Situação de Emprego'),
+  ('general', 'allows_phone_numbers_only', 'Permite apenas números e + - / ( )'),
+  ('general', 'start_date_should_be_before_end_date', 'A data de início deve ser anterior à data de término'),
+  ('general', 'start_time_should_be_before_end_time', 'A hora de início deve ser anterior à hora de término'),
+  ('general', 'should_be_higher_than_minimum_value', 'Deve ser maior que o valor mínimo'),
+  ('general', 'ess', 'Auto-serviço'),
+  ('general', 'enabled', 'Ativado'),
+  ('general', 'disabled', 'Desativado'),
+  ('general', 'edit_attachment', 'Editar Anexo'),
+  ('general', 'actions', 'Ações'),
+  ('general', 'error', 'Erro'),
+  ('general', 'type', 'Tipo'),
+  ('general', 'download', 'Baixar'),
+  ('general', 'select_file', 'Selecionar Arquivo'),
+  ('general', 'browse', 'Procurar'),
+  ('general', 'upload', 'Enviar'),
+  ('general', 'success', 'Sucesso'),
+  ('general', 'employee_id', 'ID do Funcionário'),
+  ('general', 'id', 'ID'),
+  ('general', 'last_name', 'Sobrenome'),
+  ('general', 'job_title', 'Cargo'),
+  ('general', 'sub_unit', 'Sub-unidade'),
+  ('general', 'current_and_past_employees', 'Funcionários Atuais e Antigos'),
+  ('general', 'past_employees_only', 'Apenas Funcionários Antigos'),
+  ('general', 'current_employees_only', 'Apenas Funcionários Atuais'),
+  ('general', 'mobile', 'Celular'),
+  ('general', 'expiry_date', 'Data de Expiração'),
+  ('general', 'joined_date', 'Data de Admissão'),
+  ('general', 'location', 'Localização'),
+  ('general', 'male', 'Masculino'),
+  ('general', 'female', 'Feminino'),
+  ('general', 'qualifications', 'Qualificações'),
+  ('general', 'state', 'Estado'),
+  ('general', 'should_be_a_positive_number', 'Deve ser um número positivo'),
+  ('general', 'add_employee', 'Adicionar Funcionário'),
+  ('general', 'report_name', 'Nome do Relatório'),
+  ('general', 'warning', 'Aviso'),
+  ('general', 'employee_reports', 'Relatórios de Funcionários'),
+  ('general', 'current_file', 'Arquivo Atual'),
+  ('general', 'replace_with', 'Substituir Por'),
+  ('general', 'comment', 'Comentário'),
+  ('general', 'type_comment_here', 'Digite um comentário aqui'),
+  ('general', 'year', 'Ano'),
+  ('general', 'start_date', 'Data de Início'),
+  ('general', 'end_date', 'Data de Término'),
+  ('general', 'comments', 'Comentários'),
+  ('general', 'type_comments_here', 'Digite Comentários aqui'),
+  ('general', 'language', 'Idioma'),
+  ('general', 'pay_grade', 'Faixa Salarial'),
+  ('general', 'to_date_should_be_after_from_date', 'A data final deve ser posterior à data inicial'),
+  ('general', 'past_employee', '(Funcionário Antigo)'),
+  ('general', 'first_name', 'Nome'),
+  ('general', 'middle_name', 'Nome do meio'),
+  ('general', 'employee_full_name', 'Nome Completo do Funcionário'),
+  ('general', 'job_specification', 'Especificação do Cargo'),
+  ('general', 'attachments', 'Anexos'),
+  ('general', 'file_name', 'Nome do Arquivo'),
+  ('general', 'size', 'Tamanho'),
+  ('general', 'accept_jpg_png_upto_1mb_recomended_dimentions_200px_x_200px', 'Aceita jpg, .png, .gif até 1MB. Dimensões recomendadas: 200px X 200px'),
+  ('general', 'from_date_should_be_before_to_date', 'A data inicial deve ser anterior à data final'),
+  ('general', 'should_be_less_than_upper_bound', 'Deve ser menor que o limite superior'),
+  ('general', 'include_header', 'Incluir Cabeçalho'),
+  ('general', 'add_attachment', 'Adicionar Anexo'),
+  ('general', 'type_here', 'Digite aqui'),
+  ('general', 'date', 'Data'),
+  ('general', 'monday', 'Segunda-feira'),
+  ('general', 'tuesday', 'Terça-feira'),
+  ('general', 'wednesday', 'Quarta-feira'),
+  ('general', 'thursday', 'Quinta-feira'),
+  ('general', 'friday', 'Sexta-feira'),
+  ('general', 'saturday', 'Sábado'),
+  ('general', 'sunday', 'Domingo'),
+  ('general', 'employee', 'Funcionário'),
+  ('general', 'generate', 'Gerar'),
+  ('general', 'from_date', 'Data Inicial'),
+  ('general', 'to_date', 'Data Final'),
+  ('general', 'duration', 'Duração'),
+  ('general', 'apply', 'Aplicar'),
+  ('general', 'back', 'Voltar'),
+  ('general', 'confirm', 'Confirmar'),
+  ('general', 'no_matching_employees', 'Nenhum funcionário encontrado'),
+  ('general', 'no_employees_match_filters', 'Nenhum funcionário corresponde aos filtros selecionados'),
+  ('general', 'ok', 'Ok'),
+  ('general', 'leave', 'Folga'),
+  ('general', 'comment_here', 'Comentário aqui'),
+  ('general', 'from_time_should_be_before_to_time', 'A hora de início deve ser anterior à hora de término'),
+  ('general', 'deleted', ' (Excluído)'),
+  ('general', 'add_comment', 'Adicionar Comentário'),
+  ('general', 'approve', 'Aprovar'),
+  ('general', 'reject', 'Rejeitar'),
+  ('general', 'n_records_found', '{count,plural, =0{Nenhum Registro Encontrado} one{(1) Registro Encontrado} other{ (#) Registros Encontrados}}'),
+  ('general', 'n_records_selected', '{count,plural, =0{Nenhum Registro Selecionado} one{(1) Registro Selecionado} other{(#) Registros Selecionados}}'),
+  ('general', 'password', 'Senha'),
+  ('general', 'password_strength_message', 'Para uma senha forte, use uma combinação difícil de adivinhar com letras maiúsculas e minúsculas, símbolos e números'),
+  ('general', 'confirm_password', 'Confirmar Senha'),
+  ('general', 'passwords_do_not_match', 'As senhas não coincidem'),
+  ('general', 'weak', 'Fraca'),
+  ('general', 'very_weak', 'Muito Fraca'),
+  ('general', 'better', 'Melhor'),
+  ('general', 'strongest', 'Muito Forte'),
+  ('general', 'about', 'Sobre'),
+  ('general', 'support', 'Suporte'),
+  ('general', 'change_password', 'Alterar Senha'),
+  ('general', 'logout', 'Sair'),
+  ('general', 'no_records_found', 'Nenhum Registro Encontrado'),
+  ('general', 'change_password_question', 'Alterar Senha?'),
+  ('general', 'type_description_here', 'Digite a descrição aqui'),
+  ('general', 'add_note', 'Adicionar observação'),
+  ('general', 'successfully_updated', 'Atualizado com Sucesso'),
+  ('general', 'successfully_saved', 'Salvo com Sucesso'),
+  ('general', 'notes', 'Observações'),
+  ('general', 'type_here_message', 'Digite aqui ...'),
+  ('general', 'job', 'Trabalho'),
+  ('general', 'no_cancel', 'Não, Cancelar'),
+  ('general', 'user_management', 'Gestão de Usuários'),
+  ('general', 'project_info', 'Informações do Projeto'),
+  ('general', 'organization', 'Organização'),
+  ('general', 'users', 'Usuários'),
+  ('general', 'configuration', 'Configuração'),
+  ('general', 'language_packages', 'Pacotes de Idioma'),
+  ('general', 'modules', 'Módulos'),
+  ('general', 'register_oauth_client', 'Registrar Cliente OAuth'),
+  ('general', 'social_media_authentication', 'Autenticação por Redes Sociais'),
+  ('general', 'employee_list', 'Lista de Funcionários'),
+  ('general', 'reports', 'Relatórios'),
+  ('general', 'pim', 'PIM'),
+  ('general', 'recruitment', 'Recrutamento'),
+  ('general', 'time', 'Ponto'),
+  ('general', 'my_info', 'Minhas Informações'),
+  ('general', 'performance', 'Avaliação de Desempenho'),
+  ('general', 'dashboard', 'Painel'),
+  ('general', 'directory', 'Diretório'),
+  ('general', 'buzz', 'Buzz'),
+  ('general', 'maintenance', 'Manutenção'),
+  ('general', 'my_timesheets', 'Minhas Folhas de Ponto'),
+  ('general', 'my_records', 'Meus Registros'),
+  ('general', 'employee_timesheets', 'Folhas de Ponto de Funcionários'),
+  ('general', 'timesheets', 'Folhas de Ponto'),
+  ('general', 'punch_in_out', 'Registrar Entrada/Saída'),
+  ('general', 'employee_records', 'Registros de Funcionários'),
+  ('general', 'attendance', 'Ponto'),
+  ('general', 'customers', 'Clientes'),
+  ('general', 'projects', 'Projetos'),
+  ('general', 'project_reports', 'Relatórios de Projetos'),
+  ('general', 'vacancies', 'Vagas'),
+  ('general', 'candidates', 'Candidatos'),
+  ('general', 'kpis', 'KPIs'),
+  ('general', 'manage_reviews', 'Gerenciar Avaliações'),
+  ('general', 'my_reviews', 'Minhas Avaliações'),
+  ('general', 'my_trackers', 'Meus Acompanhamentos'),
+  ('general', 'review_list', 'Lista de Avaliações'),
+  ('general', 'trackers', 'Acompanhamentos'),
+  ('general', 'employee_trackers', 'Acompanhamentos de Funcionários'),
+  ('general', 'candidate_records', 'Registros de Candidatos'),
+  ('general', 'access_records', 'Acessar Registros'),
+  ('general', 'purge_records', 'Expurgar Registros'),
+  ('general', 'structure', 'Estrutura'),
+  ('general', 'sun', 'Dom'),
+  ('general', 'mon', 'Seg'),
+  ('general', 'tue', 'Ter'),
+  ('general', 'wed', 'Qua'),
+  ('general', 'thu', 'Qui'),
+  ('general', 'fri', 'Sex'),
+  ('general', 'sat', 'Sáb'),
+  ('general', 'performed_by', 'Realizado Por'),
+  ('general', 'add_another', 'Adicionar outro'),
+  ('general', 'view', 'Visualizar'),
+  ('general', 'attendance_summary', 'Resumo de Ponto'),
+  ('general', 'my_leave', 'Minhas Folgas'),
+  ('general', 'my_entitlements', 'Meus Direitos'),
+  ('general', 'add_entitlements', 'Adicionar Direitos'),
+  ('general', 'configure', 'Configurar'),
+  ('general', 'employee_entitlements', 'Direitos de Funcionários'),
+  ('general', 'entitlements', 'Direitos'),
+  ('general', 'work_email', 'E-mail de Trabalho'),
+  ('general', 'other_email', 'Outro E-mail'),
+  ('general', 'company_name', 'Nome da Empresa'),
+  ('general', 'version', 'Versão'),
+  ('general', 'active_employees', 'Funcionários Ativos'),
+  ('general', 'employees_terminated', 'Funcionários Demitidos'),
+  ('general', 'are_you_sure', 'Tem Certeza?'),
+  ('general', 'delete_confirmation_message', 'O registro selecionado será excluído permanentemente. Tem certeza de que deseja continuar?'),
+  ('general', 'yes_delete', 'Sim, Excluir'),
+  ('general', 'keep_current', 'Manter Atual'),
+  ('general', 'delete_current', 'Excluir Atual'),
+  ('general', 'replace_current', 'Substituir Atual'),
+  ('general', 'module_forbidden', 'Módulo Proibido'),
+  ('general', 'module_access_restriction', 'A página que você está tentando acessar tem acesso restrito'),
+  ('general', 'launching_soon', 'Em Breve'),
+  ('general', 'click_here', 'Clique aqui'),
+  ('general', 'bad_request', 'Requisição Inválida'),
+  ('general', 'personal_details', 'Dados Pessoais'),
+  ('general', 'emergency_contacts', 'Contatos de Emergência'),
+  ('general', 'dependents', 'Dependentes'),
+  ('general', 'immigration', 'Imigração'),
+  ('general', 'salary', 'Salário'),
+  ('general', 'report_to', 'Reportar-se a'),
+  ('general', 'tax_exemptions', 'Isenções Fiscais'),
+  ('general', 'info', 'Informações'),
+  ('general', 'expected_email_address_format_not_matched', 'Formato esperado: admin@exemplo.com'),
+  ('general', 'submit', 'Enviar'),
+  ('general', 'date_range', 'Período'),
+  ('general', 'date_format', 'aaaa-mm-dd'),
+  ('general', 'cannot_be_deleted', 'Não pode ser excluído'),
+  ('general', 'successfully_deleted', 'Excluído com Sucesso'),
+  ('general', 'total', 'Total'),
+  ('general', 'searching', 'Pesquisando....'),
+  ('general', 'no_file_chosen', 'Nenhum arquivo escolhido'),
+  ('general', 'no_file_selected', 'Nenhum arquivo selecionado'),
+  ('general', 'type_for_hints', 'Digite para sugerir...'),
+  ('general', 'select', '-- Selecionar --'),
+  ('general', 'unexpected_error', 'Erro Inesperado!'),
+  ('general', 'delete_selected', 'Excluir Selecionados'),
+  ('general', 'corporate_branding', 'Identidade Visual da Empresa'),
+  ('general', 'more', 'Mais'),
+  ('general', 'should_be_greater_than_lower_bound', 'Deve ser maior que o limite inferior'),
+  ('general', 'less_than', 'Menor Que'),
+  ('general', 'greater_than', 'Maior Que'),
+  ('general', 'range', 'Faixa'),
+  ('pim', 'custom_fields', 'Campos Personalizados'),
+  ('pim', 'remaining_no_of_custom_fields', 'Número restante de campos personalizados:'),
+  ('pim', 'all_custom_fields_in_use', 'Todos os campos personalizados estão em uso'),
+  ('pim', 'custom_field_name', 'Nome do Campo Personalizado'),
+  ('pim', 'screen', 'Tela'),
+  ('pim', 'field_type', 'Tipo de Campo'),
+  ('pim', 'custom_fields_in_use', 'Campo(s) personalizado(s) em uso'),
+  ('pim', 'edit_custom_field', 'Editar Campo Personalizado'),
+  ('pim', 'field_name', 'Nome do Campo'),
+  ('pim', 'select_options', 'Opções de Seleção'),
+  ('pim', 'enter_allowed_options_separated_by_commas', 'Digite as opções permitidas separadas por vírgulas'),
+  ('pim', 'add_custom_field', 'Adicionar Campo Personalizado'),
+  ('pim', 'data_import', 'Importação de Dados'),
+  ('pim', 'column_order_should_not_be_changed', 'A ordem das colunas não deve ser alterada'),
+  ('pim', 'first_name_and_last_name_are_compulsory', 'Nome e Sobrenome são obrigatórios'),
+  ('pim', 'all_date_fields_should_be_in_yyyy_mm_dd_format', 'Todos os campos de data devem estar no formato AAAA-MM-DD'),
+  ('pim', 'gender_specified_value_should_be_either_m_or_f', 'Se o gênero for especificado, o valor deve ser Masculino ou Feminino'),
+  ('pim', 'each_import_file_should_be_configured_for_100_records_or_less', 'Cada arquivo de importação deve ser configurado para 100 registros ou menos'),
+  ('pim', 'multiple_import_files_may_be_required', 'Vários arquivos de importação podem ser necessários'),
+  ('pim', 'sample_csv_file', 'Arquivo CSV de exemplo'),
+  ('pim', 'employee_information', 'Informações do Funcionário'),
+  ('pim', 'include', 'Incluir'),
+  ('pim', 'supervisor_name', 'Nome do Supervisor'),
+  ('pim', 'first_middle_name', 'Nome (e do Meio)'),
+  ('pim', 'supervisor', 'Supervisor'),
+  ('pim', 'contact_details', 'Detalhes de Contato'),
+  ('pim', 'street1', 'Rua 1'),
+  ('pim', 'street2', 'Rua 2'),
+  ('pim', 'telephone', 'Telefone'),
+  ('pim', 'home', 'Casa'),
+  ('pim', 'work', 'Trabalho'),
+  ('pim', 'assigned_dependents', 'Dependentes Atribuídos'),
+  ('pim', 'relationship', 'Parentesco'),
+  ('pim', 'date_of_birth', 'Data de Nascimento'),
+  ('pim', 'assigned_emergency_contacts', 'Contatos de Emergência Atribuídos'),
+  ('pim', 'home_telephone', 'Telefone Residencial'),
+  ('pim', 'work_telephone', 'Telefone do Trabalho'),
+  ('pim', 'assigned_immigration_records', 'Registros de Imigração Atribuídos'),
+  ('pim', 'document', 'Documento'),
+  ('pim', 'number', 'Número'),
+  ('pim', 'issued_by', 'Emitido Por'),
+  ('pim', 'issued_date', 'Data de Emissão'),
+  ('pim', 'job_details', 'Detalhes do Cargo'),
+  ('pim', 'include_employment_contract_details', 'Incluir Detalhes do Contrato de Trabalho'),
+  ('pim', 'contract_start_date', 'Data de Início do Contrato'),
+  ('pim', 'contract_end_date', 'Data de Término do Contrato'),
+  ('pim', 'contract_details', 'Detalhes do Contrato'),
+  ('pim', 'assigned_memberships', 'Associações Atribuídas'),
+  ('pim', 'membership', 'Associação'),
+  ('pim', 'subscription_paid_by', 'Assinatura Paga Por'),
+  ('pim', 'subscription_amount', 'Valor da Assinatura'),
+  ('pim', 'subscription_commence_date', 'Data de Início da Assinatura'),
+  ('pim', 'subscription_renewal_date', 'Data de Renovação da Assinatura'),
+  ('pim', 'other_id', 'Outro ID'),
+  ('pim', 'driver_license_number', 'Número da CNH'),
+  ('pim', 'license_expiry_date', 'Data de Expiração da CNH'),
+  ('pim', 'ssn_number', 'Número do CPF'),
+  ('pim', 'sin_number', 'Número do PIS/NIT'),
+  ('pim', 'marital_status', 'Estado Civil'),
+  ('pim', 'gender', 'Gênero'),
+  ('pim', 'military_service', 'Serviço Militar'),
+  ('pim', 'smoker', 'Fumante'),
+  ('pim', 'employee_id_exists', 'ID do Funcionário já existe'),
+  ('pim', 'change_profile_picture', 'Alterar Foto de Perfil'),
+  ('pim', 'report_to', 'Reportar-se a'),
+  ('pim', 'salary_component', 'Componente Salarial'),
+  ('pim', 'pay_frequency', 'Frequência de Pagamento'),
+  ('pim', 'direct_deposit_amount', 'Valor do Depósito Direto'),
+  ('pim', 'federal_income_tax', 'Imposto de Renda Federal'),
+  ('pim', 'exemptions', 'Isenções'),
+  ('pim', 'unemployment_state', 'Estado de Desemprego'),
+  ('pim', 'work_state', 'Estado de Trabalho'),
+  ('pim', 'create_login_details', 'Criar Dados de Login'),
+  ('pim', 'optional_fields', 'Campos Opcionais'),
+  ('pim', 'show_deprecated_fields', 'Mostrar Campos Descontinuados'),
+  ('pim', 'show_nick_name_smoker_and_military_service_in_personal_details', 'Mostrar Apelido, Fumante e Serviço Militar em Dados Pessoais'),
+  ('pim', 'country_specific_information', 'Informações Específicas do País'),
+  ('pim', 'show_ssn_field_in_personal_details', 'Mostrar campo CPF em Dados Pessoais'),
+  ('pim', 'show_sin_field_in_personal_details', 'Mostrar campo PIS/NIT em Dados Pessoais'),
+  ('pim', 'show_us_tax_exemptions_menu', 'Mostrar menu de Isenções Fiscais'),
+  ('pim', 'edit_reporting_method', 'Editar Método de Relatório'),
+  ('pim', 'add_reporting_method', 'Adicionar Método de Relatório'),
+  ('pim', 'edit_report', 'Editar Relatório'),
+  ('pim', 'reporting_methods', 'Métodos de Relatório'),
+  ('pim', 'reporting_methods_in_use', 'Método(s) de Relatório em Uso'),
+  ('pim', 'selection_criteria', 'Critérios de Seleção'),
+  ('pim', 'display_fields', 'Campos de Exibição'),
+  ('pim', 'select_display_field_group', 'Selecionar Grupo de Campo de Exibição'),
+  ('pim', 'select_display_field', 'Selecionar Campo de Exibição'),
+  ('pim', 'at_least_one_display_field_should_be_added', 'Pelo menos um campo de exibição deve ser adicionado'),
+  ('pim', 'add_report', 'Adicionar Relatório'),
+  ('pim', 'edit_termination_reason', 'Editar Motivo de Demissão'),
+  ('pim', 'add_termination_reason', 'Adicionar Motivo de Demissão'),
+  ('pim', 'termination_reasons', 'Motivos de Demissão'),
+  ('pim', 'termination_reasons_in_use', 'Motivo(s) de Demissão em Uso'),
+  ('pim', 'update_password', 'Atualizar Senha'),
+  ('pim', 'current_password', 'Senha Atual'),
+  ('pim', 'current_password_is_incorrect', 'Senha Atual Incorreta'),
+  ('pim', 'edit_dependent', 'Editar Dependente'),
+  ('pim', 'please_specify', 'Por Favor, Especifique'),
+  ('pim', 'child', 'Filho'),
+  ('pim', 'other', 'Outro'),
+  ('pim', 'institute', 'Instituição'),
+  ('pim', 'major_specialization', 'Curso/Especialização'),
+  ('pim', 'gpa_score', 'Média/Nota'),
+  ('pim', 'edit_emergency_contact', 'Editar Contato de Emergência'),
+  ('pim', 'at_least_one_phone_number_is_required', 'Pelo menos um número de telefone é obrigatório'),
+  ('pim', 'reporting_method', 'Método de Relatório'),
+  ('pim', 'edit_immigration', 'Editar Imigração'),
+  ('pim', 'passport', 'Passaporte'),
+  ('pim', 'visa', 'Visto'),
+  ('pim', 'eligible_status', 'Situação de Elegibilidade'),
+  ('pim', 'eligible_review_date', 'Data de Revisão de Elegibilidade'),
+  ('pim', 'expiry_date_should_be_after_issued_date', 'A data de expiração deve ser posterior à data de emissão'),
+  ('pim', 'fluency', 'Fluência'),
+  ('pim', 'competency', 'Competência'),
+  ('pim', 'license_type', 'Tipo de Licença'),
+  ('pim', 'license_number', 'Número da Licença'),
+  ('pim', 'renewal_date_should_be_after_the_commencing_date', 'A data de renovação deve ser posterior à data de início'),
+  ('pim', 'edit_salary_component', 'Editar Componente Salarial'),
+  ('pim', 'assigned_salary_components', 'Componentes Salariais Atribuídos'),
+  ('pim', 'include_direct_deposit_details', 'Incluir Detalhes de Depósito Direto'),
+  ('pim', 'account_number', 'Número da Conta'),
+  ('pim', 'account_type', 'Tipo de Conta'),
+  ('pim', 'routing_number', 'Número do Banco'),
+  ('pim', 'skill', 'Habilidade'),
+  ('pim', 'years_of_experience', 'Anos de Experiência'),
+  ('pim', 'company', 'Empresa'),
+  ('pim', 'license', 'Licença'),
+  ('pim', 'assigned_subordinates', 'Subordinados Atribuídos'),
+  ('pim', 'assigned_supervisors', 'Supervisores Atribuídos'),
+  ('pim', 'work_experience', 'Experiência Profissional'),
+  ('pim', 'add_work_experience', 'Adicionar Experiência Profissional'),
+  ('pim', 'date_added', 'Data de Adição'),
+  ('pim', 'added_by', 'Adicionado Por'),
+  ('pim', 'should_be_within_min_max_values', 'Deve estar dentro dos valores Mín/Máx'),
+  ('pim', 'add_immigration', 'Adicionar Imigração'),
+  ('pim', 'add_dependent', 'Adicionar Dependente'),
+  ('pim', 'save_emergency_contact', 'Salvar Contato de Emergência'),
+  ('pim', 'terminate_employment', 'Demitir Funcionário'),
+  ('pim', 'termination_date', 'Data de Demissão'),
+  ('pim', 'termination_reason', 'Motivo da Demissão'),
+  ('pim', 'nickname', 'Apelido'),
+  ('pim', 'personal', 'Pessoal'),
+  ('pim', 'activate_employment', 'Reativar Funcionário'),
+  ('pim', 'employee_last_name', 'Sobrenome do Funcionário'),
+  ('pim', 'employee_first_name', 'Nome do Funcionário'),
+  ('pim', 'employee_middle_name', 'Nome do Meio do Funcionário'),
+  ('pim', 'eligibility_status', 'Situação de Elegibilidade'),
+  ('pim', 'eligibility_review_date', 'Data de Revisão de Elegibilidade'),
+  ('pim', 'document_type', 'Tipo de Documento'),
+  ('pim', 'termination_note', 'Observação de Demissão'),
+  ('pim', 'direct_deposit_account_number', 'Número da Conta de Depósito Direto'),
+  ('pim', 'direct_deposit_account_type', 'Tipo de Conta de Depósito Direto'),
+  ('pim', 'score', 'Nota'),
+  ('pim', 'text_or_number', 'Texto ou Número'),
+  ('pim', 'drop_down', 'Lista Suspensa'),
+  ('pim', 'supervisors', 'Supervisores'),
+  ('pim', 'subordinates', 'Subordinados'),
+  ('pim', 'service_period', 'Período de Serviço'),
+  ('pim', 'age_group', 'Faixa Etária'),
+  ('pim', 'employee_termination_activation', 'Demissão / Reativação de Funcionário'),
+  ('pim', 'terminated_on', 'Demitido em'),
+  ('pim', 'work_email_and_other_email_cannot_be_the_same', 'E-mail de Trabalho e Outro E-mail não podem ser iguais'),
+  ('pim', 'joined_before', 'Admitido antes de'),
+  ('pim', 'joined_after', 'Admitido depois de'),
+  ('pim', 'joined_in_between', 'Admitido entre'),
+  ('leave', 'full_day_half_day', 'Dia Inteiro / Meio Dia'),
+  ('leave', 'repeats_annually', 'Repete Anualmente'),
+  ('leave', 'edit_holiday', 'Editar Feriado'),
+  ('leave', 'holidays', 'Feriados'),
+  ('leave', 'add_holiday', 'Adicionar Feriado'),
+  ('leave', 'full_day', 'Dia Inteiro'),
+  ('leave', 'leave_period', 'Período de Folgas'),
+  ('leave', 'start_month', 'Mês de Início'),
+  ('leave', 'current_leave_period', 'Período de Folgas Atual'),
+  ('leave', 'following_year', 'Ano Seguinte'),
+  ('leave', 'work_week', 'Semana de Trabalho'),
+  ('leave', 'at_least_one_day_should_be_a_working_day', 'Pelo menos um dia deve ser um dia útil'),
+  ('leave', 'add_leave_entitlement', 'Adicionar Direito de Folga'),
+  ('leave', 'add_to', 'Adicionar a'),
+  ('leave', 'individual_employee', 'Funcionário Individual'),
+  ('leave', 'multiple_employees', 'Múltiplos Funcionários'),
+  ('leave', 'matches_emp_count_employees', '{empMatchCount,plural, =0{Não corresponde a nenhum funcionário} one{Corresponde a (1) funcionário} other {corresponde a (#) funcionários}}'),
+  ('leave', 'no_leave_types_defined', 'Nenhum tipo de folga definido'),
+  ('leave', 'should_be_a_number_with_2_decimal_places', 'Deve ser um número com até 2 casas decimais'),
+  ('leave', 'edit_leave_entitlement', 'Editar Direito de Folga'),
+  ('leave', 'entitlement', 'Direito'),
+  ('leave', 'used_amount_exceeds_the_current_amount', 'O valor usado excede o valor atual'),
+  ('leave', 'leave_entitlements', 'Direitos de Folgas'),
+  ('leave', 'my_leave_entitlements', 'Meus Direitos de Folgas'),
+  ('leave', 'is_entitlement_situational', 'O direito é situacional?'),
+  ('leave', 'add_leave_type', 'Adicionar Tipo de Folga'),
+  ('leave', 'edit_leave_type', 'Editar Tipo de Folga'),
+  ('leave', 'leave_types', 'Tipos de Folga'),
+  ('leave', 'leave_entitlement_and_usage_report', 'Relatório de Direitos e Uso de Folgas'),
+  ('leave', 'generate_for', 'Gerar Para'),
+  ('leave', 'leave_type', 'Tipo de Folga'),
+  ('leave', 'include_past_employees', 'Incluir Funcionários Antigos'),
+  ('leave', 'my_leave_entitlement_and_usage_report', 'Relatório de Meus Direitos e Uso de Folgas'),
+  ('leave', 'apply_leave', 'Solicitar Folga'),
+  ('leave', 'no_leave_types_with_leave_balance', 'Nenhum Tipo de Folga com Saldo Disponível'),
+  ('leave', 'partial_days', 'Dias Parciais'),
+  ('leave', 'assign_leave', 'Atribuir Folga'),
+  ('leave', 'start_day', 'Dia de Início'),
+  ('leave', 'end_day', 'Dia de Término'),
+  ('leave', 'assign', 'Atribuir'),
+  ('leave', 'leave_list', 'Lista de Folgas'),
+  ('leave', 'show_leave_with_status', 'Mostrar Folgas com Status'),
+  ('leave', 'my_leave_request_details', 'Detalhes da Minha Solicitação de Folga'),
+  ('leave', 'leave_request_details', 'Detalhes da Solicitação de Folga'),
+  ('leave', 'my_leave_list', 'Minha Lista de Folgas'),
+  ('leave', 'updating_entitlement', 'Atualizando Direito'),
+  ('leave', 'matching_employees', 'Funcionários Correspondentes'),
+  ('leave', 'selected_leave_entitlement_applied_to_following_employees', 'O direito de folga selecionado será aplicado aos seguintes funcionários.'),
+  ('leave', 'old_entitlement', 'Direito Antigo'),
+  ('leave', 'new_entitlement', 'Novo Direito'),
+  ('leave', 'situational_leave', 'Folga Situacional'),
+  ('leave', 'entitlement_situational_description', 'Estas folgas serão excluídas dos relatórios a menos que haja alguma atividade. Ex.: licença maternidade, licença do júri.'),
+  ('leave', 'confirm_leave_assignment', 'Confirmar Atribuição de Folga'),
+  ('leave', 'employee_does_not_have_enough_balance_for_leave_request', 'O funcionário não tem saldo de folga suficiente para a solicitação.'),
+  ('leave', 'click_ok_to_confirm_leave_assignment', 'Clique em OK para confirmar a atribuição da folga.'),
+  ('leave', 'entitlement_value_confirmation_message', 'O valor do direito existente {oldvalue} será atualizado para {newvalue}'),
+  ('leave', 'leave_balance', 'Saldo de Folgas'),
+  ('leave', 'balance_not_sufficient', 'Saldo insuficiente'),
+  ('leave', 'insufficient_leave_balance', 'Saldo de Folgas Insuficiente'),
+  ('leave', 'balance', 'Saldo'),
+  ('leave', 'days', 'Dias'),
+  ('leave', 'available_balance', 'Saldo Disponível'),
+  ('leave', 'leave_balance_details', 'Detalhes do Saldo de Folgas'),
+  ('leave', 'as_of_date', 'A partir da Data'),
+  ('leave', 'total_entitlement', 'Direito Total'),
+  ('leave', 'leave_status', 'Status da Folga'),
+  ('leave', 'taken', 'Gozadas'),
+  ('leave', 'scheduled', 'Agendadas'),
+  ('leave', 'pending_approval', 'Aguardando Aprovação'),
+  ('leave', 'bulk_leave_action_confirm_message_one', '{action, select, APPROVE {{count, plural, =0 {Você está prestes a Aprovar nenhuma Solicitação de Folga} =1 {Você está prestes a Aprovar 1 Solicitação de Folga} other {Você está prestes a Aprovar # Solicitações de Folga} }} REJECT {{count, plural, =0 {Você está prestes a Rejeitar nenhuma Solicitação de Folga} =1 {Você está prestes a Rejeitar 1 Solicitação de Folga} other {Você está prestes a Rejeitar # Solicitações de Folga} }} other {{count, plural, =0 {Você está prestes a Cancelar nenhuma Solicitação de Folga} =1 {Você está prestes a Cancelar 1 Solicitação de Folga} other {Você está prestes a Cancelar # Solicitações de Folga} }} }'),
+  ('leave', 'bulk_leave_action_confirm_message_two', 'Tem certeza de que deseja continuar?'),
+  ('leave', 'yes_confirm', 'Sim, Confirmar'),
+  ('leave', 'leave_request_comments', 'Comentários da Solicitação de Folga'),
+  ('leave', 'no_of_hours', 'Nº de Horas'),
+  ('leave', 'workshift_length_exceeded_due_to_the_following_leave_request', 'Duração do Turno Excedida Devido às Seguintes Solicitações de Folga'),
+  ('leave', 'overlapping_leave_request_found', 'Solicitação(ões) de Folga Sobrepostas Encontradas'),
+  ('leave', 'duration_should_be_less_than_work_shift_length', 'A duração deve ser menor que a duração do turno de trabalho'),
+  ('leave', 'half_day_morning', 'Meio Dia - Manhã'),
+  ('leave', 'half_day_evening', 'Meio Dia - Tarde'),
+  ('leave', 'specify_time', 'Especificar Horário'),
+  ('leave', 'valid_from', 'Válido A Partir De'),
+  ('leave', 'valid_to', 'Válido Até'),
+  ('leave', 'entitlements_will_not_be_deleted_since_already_in_use', 'O(s) direito(s) não será(ão) excluído(s) pois já está(ão) em uso'),
+  ('leave', 'number_of_days', 'Número de Dias'),
+  ('leave', 'leave_balance_days', 'Saldo de Folgas (Dias)'),
+  ('leave', 'view_leave_details', 'Ver Detalhes da Folga'),
+  ('leave', 'view_pim_info', 'Ver Informações do PIM'),
+  ('leave', 'cancel_leave', 'Cancelar Folga'),
+  ('leave', 'leave_action', '{action, select, APPROVE {Aprovar Folga} REJECT {Rejeitar Folga} other {Cancelar Folga}}'),
+  ('leave', 'failed_to_submit', 'Falha ao Enviar'),
+  ('leave', 'failed_to_submit_no_working_days_selected', 'Falha ao Enviar: Nenhum Dia Útil Selecionado'),
+  ('leave', 'entitlement_added_to_n_employees', '{count, plural, =0{Nenhum Direito adicionado} one{Direito adicionado a 1 funcionário} other {Direito adicionado a # funcionários}}'),
+  ('leave', 'half_day', 'Meio Dia'),
+  ('leave', 'non_working_day', 'Dia Não Útil'),
+  ('leave', 'rejected', 'Rejeitada'),
+  ('leave', 'cancelled', 'Cancelada'),
+  ('leave', 'leave_entitlements_days', 'Direitos de Folgas (Dias)'),
+  ('leave', 'leave_pending_aproval_days', 'Folgas Aguardando Aprovação (Dias)'),
+  ('leave', 'leave_scheduled_days', 'Folgas Agendadas (Dias)'),
+  ('leave', 'leave_taken_days', 'Folgas Gozadas (Dias)'),
+  ('leave', 'requested_for', 'Folga solicitada para'),
+  ('leave', 'all_days', 'Todos os Dias'),
+  ('leave', 'start_day_only', 'Apenas Dia de Início'),
+  ('leave', 'end_day_only', 'Apenas Dia de Término'),
+  ('leave', 'start_and_end_day', 'Dia de Início e Término'),
+  ('time', 'activities', 'Atividades'),
+  ('time', 'copy_from', 'Copiar De'),
+  ('time', 'activity_name', 'Nome da Atividade'),
+  ('time', 'not_allowed_to_delete_project_activities_which_have_time_logged_against', 'Não é permitido excluir atividades de projeto que têm tempo registrado'),
+  ('time', 'add_customer', 'Adicionar Cliente'),
+  ('time', 'add_timesheet', 'Adicionar Folha de Ponto'),
+  ('time', 'select_a_day_to_create_timesheet', 'Selecione um Dia para Criar a Folha de Ponto'),
+  ('time', 'copy_activity', 'Copiar Atividade'),
+  ('time', 'project_name', 'Nome do Projeto'),
+  ('time', 'no_assigned_activities', 'Nenhuma atividade atribuída'),
+  ('time', 'no_activities_selected', 'Nenhuma atividade selecionada'),
+  ('time', 'customer_name', 'Nome do Cliente'),
+  ('time', 'edit_project_activity', 'Editar Atividade do Projeto'),
+  ('time', 'project_admin', 'Administrador do Projeto'),
+  ('time', 'project', 'Projeto'),
+  ('time', 'add_project_activity', 'Adicionar Atividade ao Projeto'),
+  ('time', 'timesheet_action', 'Ação da Folha de Ponto'),
+  ('time', 'no_timesheets_found', 'Nenhuma Folha de Ponto Encontrada'),
+  ('time', 'activity', 'Atividade'),
+  ('time', 'add_row', 'Adicionar Linha'),
+  ('time', 'select_a_project', 'Selecionar um Projeto'),
+  ('time', 'select_an_activity', 'Selecionar uma Atividade'),
+  ('time', 'duplicate_record', 'Registro Duplicado'),
+  ('time', 'select_a_project_and_an_activity', 'Selecione um Projeto e uma Atividade'),
+  ('time', 'should_be_less_than_24_and_in_hh_mm_or_decimal_format', 'Deve ser menor que 24 e no formato HH:MM ou Decimal'),
+  ('time', 'total_should_be_less_than_24_hours', 'O Total Deve Ser Menor que 24 Horas'),
+  ('time', 'actions_performed_on_the_timesheet', 'Ações Realizadas na Folha de Ponto'),
+  ('time', 'timesheets_pending_action', 'Folhas de Ponto Aguardando Ação'),
+  ('time', 'timesheet_period', 'Período da Folha de Ponto'),
+  ('time', 'timesheet_period_config', 'Definir Período da Folha de Ponto'),
+  ('time', 'add_timesheet_period_config', 'Primeiro Dia da Semana'),
+  ('time', 'not_allowed_to_delete_customer_who_have_time_logged_against', 'Não é permitido excluir cliente(s) associado(s) a projetos que têm tempo registrado'),
+  ('time', 'edit_customer', 'Editar Cliente'),
+  ('time', 'project_admins', 'Administradores do Projeto'),
+  ('time', 'not_allowed_to_delete_projects_which_have_time_logged', 'Não é permitido excluir projeto(s) que têm tempo registrado'),
+  ('time', 'edit_project', 'Editar Projeto'),
+  ('time', 'project_report', 'Relatório de Projeto'),
+  ('time', 'project_date_range', 'Período do Projeto'),
+  ('time', 'only_include_approved_timesheets', 'Incluir Apenas Folhas de Ponto Aprovadas'),
+  ('time', 'total_duration', 'Duração Total (Horas)'),
+  ('time', 'employee_report', 'Relatório de Funcionário'),
+  ('time', 'select_employee', 'Selecionar Funcionário'),
+  ('time', 'timesheet_period_not_defined', 'O dia de início da semana da folha de ponto não foi definido. Por favor, contate o Administrador de RH'),
+  ('time', 'my_timesheet', 'Minha Folha de Ponto'),
+  ('time', 'edit_timesheet', 'Editar Folha de Ponto'),
+  ('time', 'create_timesheet', 'Criar Folha de Ponto'),
+  ('time', 'timesheet_for', 'Folha de Ponto de'),
+  ('time', 'edit_timesheet_for', 'Editar Folha de Ponto de'),
+  ('time', 'add_project', 'Adicionar Projeto'),
+  ('time', 'timesheet_successfully_created', 'Folha de Ponto Criada com Sucesso'),
+  ('time', 'timesheet_rejected', 'Folha de Ponto Rejeitada'),
+  ('time', 'timesheet_approved', 'Folha de Ponto Aprovada'),
+  ('time', 'timesheet_reset', 'Folha de Ponto Reiniciada'),
+  ('time', 'punch_out_time_should_be_later_than_punch_in_time', 'A Hora de Saída Deve Ser Posterior à Hora de Entrada'),
+  ('time', 'time_hours', 'Tempo (Horas)'),
+  ('time', 'timesheet_submitted', 'Folha de Ponto Enviada'),
+  ('attendance', 'punched_in_time', 'Horário de Entrada'),
+  ('attendance', 'attendance_configuration', 'Configuração de Ponto'),
+  ('attendance', 'employee_can_change_current_time_when_punching_in_out', 'O funcionário pode alterar a hora atual ao registrar entrada/saída'),
+  ('attendance', 'employee_can_edit_delete_own_attendance_records', 'O funcionário pode editar/excluir seus próprios registros de ponto'),
+  ('attendance', 'supervisor_can_add_edit_delete_attendance_records_of_subordinates', 'O supervisor pode adicionar/editar/excluir registros de ponto de subordinados'),
+  ('attendance', 'attendance_total_summary_report', 'Relatório de Resumo Total de Ponto'),
+  ('attendance', 'edit_attendance_records', 'Editar Registros de Ponto'),
+  ('attendance', 'punch_in', 'Registrar Entrada'),
+  ('attendance', 'hh_mm', 'hh:mm'),
+  ('attendance', 'punch_out', 'Registrar Saída'),
+  ('attendance', 'overlapping_records_found', 'Registros Sobrepostos Encontrados'),
+  ('attendance', 'punch_in_note', 'Observação de Entrada'),
+  ('attendance', 'punch_out_note', 'Observação de Saída'),
+  ('attendance', 'duration_hours', 'Duração (Horas)'),
+  ('attendance', 'employee_attendance_records', 'Registros de Ponto do Funcionário'),
+  ('attendance', 'my_attendance_records', 'Meus Registros de Ponto'),
+  ('attendance', 'timezone', 'Fuso Horário'),
+  ('attendance', 'punched_in_note', 'Observação de Entrada Registrada'),
+  ('attendance', 'in', 'Entrada'),
+  ('attendance', 'out', 'Saída'),
+  ('maintenance', 'purge_employee_records', 'Expurgar Registros de Funcionários'),
+  ('maintenance', 'past_employee', 'Funcionário Antigo'),
+  ('maintenance', 'gdpr_note', 'Usuários que buscam acesso aos seus dados, ou que buscam corrigir, alterar ou excluir as informações fornecidas devem direcionar suas solicitações para Data@orangehrm.com com o assunto "Expurgar Registros (Identificador da Instância: {instanceIdentifier})"'),
+  ('maintenance', 'purge', 'Expurgar'),
+  ('maintenance', 'purge_employee', 'Expurgar Funcionário'),
+  ('maintenance', 'purge_employee_warning', 'Você está prestes a expurgar o funcionário permanentemente. Tem certeza de que deseja continuar? Esta operação não pode ser desfeita'),
+  ('maintenance', 'yes_purge', 'Sim, Expurgar'),
+  ('maintenance', 'selected_employee', 'Funcionário Selecionado'),
+  ('maintenance', 'purge_success', 'Expurgado com Sucesso'),
+  ('maintenance', 'download_personal_data', 'Baixar Dados Pessoais'),
+  ('help', 'customer_support', 'Suporte ao Cliente'),
+  ('help', 'getting_started_with_orangehrm_message_1', 'Aprender a usar um novo aplicativo pode ser desafiador. Na OrangeHRM, estamos comprometidos em fornecer o conhecimento e as habilidades necessárias para utilizar totalmente o aplicativo, permitindo que você gerencie seus processos de RH de forma rápida e eficiente.'),
+  ('help', 'getting_started_with_orangehrm_message_2', 'Os seguintes repositórios de informação estão disponíveis para ajudá-lo a entender o aplicativo:'),
+  ('help', 'contact_us_on_message', 'Caso experimente algum problema, não hesite em contatar-nos em'),
+  ('help', 'we_will_be_delighted_to_help', 'Teremos o prazer em ajudar.'),
+  ('auth', 'login', 'Entrar'),
+  ('auth', 'username', 'usuário'),
+  ('auth', 'password', 'senha'),
+  ('auth', 'credential_required', 'Credencial Necessária'),
+  ('auth', 'admin_access', 'Acesso de Administrador'),
+  ('auth', 'admin_access_note', 'Você solicitou acesso a uma função crítica de Administrador no OrangeHRM e precisa validar suas credenciais abaixo'),
+  ('auth', 'reset_password', 'Redefinir Senha'),
+  ('auth', 'username_identify_reset_note', 'Digite seu nome de usuário para identificar sua conta e redefinir sua senha'),
+  ('auth', 'set_new_password', 'Definir Nova Senha'),
+  ('auth', 'new_password', 'Nova Senha'),
+  ('auth', 'reset_password_token_expired_note', 'A conta de usuário não foi encontrada ou o token de redefinição de senha expirou'),
+  ('auth', 'request_new_password_token', 'para solicitar um novo token de redefinição de senha'),
+  ('auth', 'reset_password_link_sent_successfully', 'Link de Redefinição de Senha Enviado com Sucesso'),
+  ('auth', 'configured_receive_email_notification_note', 'O sistema OrangeHRM não está configurado para receber notificações por e-mail. Por favor, contate seu administrador OrangeHRM para redefinir sua senha'),
+  ('auth', 'back_to_login', 'para voltar à página de login'),
+  ('auth', 'reset_password_link_via_email', 'Um link de redefinição de senha foi enviado a você por e-mail.'),
+  ('auth', 'follow_link_to_select_password', 'Você pode seguir esse link e selecionar uma nova senha.'),
+  ('auth', 'email_not_receive_note', 'Se o e-mail não chegar, contate seu Administrador OrangeHRM.'),
+  ('auth', 'forgot_password', 'Esqueceu Sua Senha'),
+  ('auth', 'invalid_credentials', 'Credenciais inválidas'),
+  ('auth', 'csrf_token_validation_failed', 'Falha na validação do token CSRF'),
+  ('auth', 'account_disabled', 'Conta desativada'),
+  ('auth', 'employee_is_terminated', 'Funcionário demitido'),
+  ('auth', 'employee_is_assigned', 'Funcionário não atribuído'),
+  ('recruitment', 'view_action_history', 'Ver Histórico de Ações'),
+  ('recruitment', 'interviewer', 'Entrevistador'),
+  ('recruitment', 'interview_title', 'Título da Entrevista'),
+  ('recruitment', 'schedule_interview', 'Agendar Entrevista'),
+  ('recruitment', 'shortlist', 'Pré-selecionar'),
+  ('recruitment', 'current_status', 'Status Atual'),
+  ('recruitment', 'performed_action', 'Ação Realizada'),
+  ('recruitment', 'performed_date', 'Data da Ação'),
+  ('recruitment', 'vacancy', 'Vaga'),
+  ('recruitment', 'hiring_manager', 'Gestor de Contratação'),
+  ('recruitment', 'candidate_name', 'Nome do Candidato'),
+  ('recruitment', 'keywords', 'Palavras-chave'),
+  ('recruitment', 'date_of_application', 'Data de Candidatura'),
+  ('recruitment', 'method_of_application', 'Método de Candidatura'),
+  ('recruitment', 'enter_comma_seperated_words', 'Digite palavras separadas por vírgulas'),
+  ('recruitment', 'candidate', 'Candidato'),
+  ('recruitment', 'application_initiated', 'Candidatura Iniciada'),
+  ('recruitment', 'shortlisted', 'Pré-selecionado'),
+  ('recruitment', 'interview_scheduled', 'Entrevista Agendada'),
+  ('recruitment', 'interview_passed', 'Entrevista Aprovada'),
+  ('recruitment', 'interview_failed', 'Entrevista Reprovada'),
+  ('recruitment', 'job_offered', 'Emprego Oferecido'),
+  ('recruitment', 'offer_declined', 'Oferta Recusada'),
+  ('recruitment', 'manual', 'Manual'),
+  ('recruitment', 'online', 'Online'),
+  ('recruitment', 'contact_number', 'Número de Contato'),
+  ('recruitment', 'consent_to_keep_data', 'Consentimento para manter os dados'),
+  ('recruitment', 'resume', 'Currículo'),
+  ('recruitment', 'add_candidate', 'Adicionar Candidato'),
+  ('recruitment', 'should_be_current_date_previous_date', 'Deve ser a data atual ou uma data anterior'),
+  ('recruitment', 'application_stage', 'Etapa da Candidatura'),
+  ('recruitment', 'offer_job', 'Oferecer Emprego'),
+  ('recruitment', 'mark_interview_failed', 'Marcar Entrevista como Reprovada'),
+  ('recruitment', 'mark_interview_passed', 'Marcar Entrevista como Aprovada'),
+  ('recruitment', 'decline_offer', 'Recusar Oferta'),
+  ('recruitment', 'hire', 'Contratar'),
+  ('recruitment', 'job_vacancy', 'Vaga de Emprego'),
+  ('recruitment', 'candidate_profile', 'Perfil do Candidato'),
+  ('recruitment', 'candidate_history', 'Histórico do Candidato'),
+  ('recruitment', 'add_vacancy', 'Adicionar Vaga'),
+  ('recruitment', 'edit_vacancy', 'Editar Vaga'),
+  ('recruitment', 'vacancy_name', 'Nome da Vaga'),
+  ('recruitment', 'num_of_positions', 'Número de Vagas'),
+  ('recruitment', 'rss_feed_url', 'URL do Feed RSS'),
+  ('recruitment', 'web_page_url', 'URL da Página Web'),
+  ('recruitment', 'publish_in_rss_feed_and_web_page', 'Publicar em Feed RSS e Página Web'),
+  ('recruitment', 'employee_added_candidate', '{employee} adicionou {candidate}'),
+  ('recruitment', 'employee_assigned_vacancy_to_candidate', '{employee} atribuiu a vaga {vacancy}'),
+  ('recruitment', 'candidate_shortlisted_for_vacancy_by_employee', 'Pré-selecionado para {vacancy} por {employee}'),
+  ('recruitment', 'employee_schedule_interview_with_interviewers', '{employee} agendou {interview} em {interviewDate} com {interviewers} para {vacancy}'),
+  ('recruitment', 'employee_marked_interveiw_passed', '{employee} marcou {interview} como aprovada para {vacancy}'),
+  ('recruitment', 'employee_marked_interveiw_failed', '{employee} marcou {interview} como reprovada para {vacancy}'),
+  ('recruitment', 'employee_offered_the_job', '{employee} ofereceu o emprego para {vacancy}'),
+  ('recruitment', 'employee_marked_the_offer_declined', '{employee} marcou a oferta como recusada para {vacancy}'),
+  ('recruitment', 'employee_hired_the_candidate', '{employee} contratou {candidate} para {vacancy}'),
+  ('recruitment', 'employee_rejected_the_candidate', '{employee} rejeitou {candidate} da {vacancy}'),
+  ('recruitment', 'employee_removed_candidate_from_vacancy', '{employee} removeu {candidate} da {vacancy}'),
+  ('recruitment', 'candidate_applied_for_the_vacancy', '{candidate} candidatou-se para a vaga {vacancy}'),
+  ('recruitment', 'shortlist_candidate', 'Pré-selecionar Candidato'),
+  ('recruitment', 'hired', 'Contratado'),
+  ('recruitment', 'powered_by', 'Desenvolvido Por'),
+  ('recruitment', 'apply_for_n_vacancy', 'Candidatar-se para {vacancyName}'),
+  ('recruitment', 'application_received', 'Candidatura Recebida'),
+  ('recruitment', 'your_application_has_been_submitted_successfully', 'Sua candidatura foi enviada com sucesso'),
+  ('recruitment', 'hire_candidate', 'Contratar Candidato'),
+  ('recruitment', 'reject_candidate', 'Rejeitar Candidato'),
+  ('recruitment', 'candidate_vacancy_change_message', 'Esta ação removerá a vaga anterior. Tem certeza de que deseja continuar?'),
+  ('performance', 'supervisor_reviewer', 'Supervisor Avaliador'),
+  ('performance', 'add_review', 'Adicionar Avaliação'),
+  ('performance', 'review_period_start_date', 'Data de Início do Período de Avaliação'),
+  ('performance', 'review_period_end_date', 'Data de Término do Período de Avaliação'),
+  ('performance', 'due_date', 'Data Limite'),
+  ('performance', 'activate', 'Ativar'),
+  ('performance', 'review_period_start_date_should_be_before_end_date', 'A data de início do período de avaliação deve ser anterior à data de término'),
+  ('performance', 'review_period_end_date_should_be_after_start_date', 'A data de término do período de avaliação deve ser posterior à data de início'),
+  ('performance', 'due_date_should_be_after_review_period_end_date', 'A data limite deve ser posterior à data de término do período'),
+  ('performance', 'cannot_activate_review_without_job_title_subdivision', 'Não é possível ativar a avaliação para funcionários que não têm Cargo e/ou Sub-divisão'),
+  ('performance', 'cannot_activate_review_without_kpi', 'Não é possível ativar a avaliação sem KPIs'),
+  ('performance', 'reviewers', 'Avaliadores'),
+  ('performance', 'tracker_name', 'Nome do Acompanhamento'),
+  ('performance', 'edit_performance_tracker', 'Editar Acompanhamento de Desempenho'),
+  ('performance', 'add_performance_tracker', 'Adicionar Acompanhamento de Desempenho'),
+  ('performance', 'employee_cannot_be_assigned_as_his_own_reviewer', 'O funcionário não pode ser atribuído como seu próprio avaliador'),
+  ('performance', 'performance_trackers', 'Acompanhamentos de Desempenho'),
+  ('performance', 'key_performance_indicators_for_job_title', 'Indicadores-Chave de Desempenho para o Cargo'),
+  ('performance', 'key_performance_indicator', 'Indicador-Chave de Desempenho'),
+  ('performance', 'min_rate', 'Nota Mínima'),
+  ('performance', 'max_rate', 'Nota Máxima'),
+  ('performance', 'is_default', 'É Padrão'),
+  ('performance', 'add_key_performance_indicator', 'Adicionar Indicador-Chave de Desempenho'),
+  ('performance', 'edit_key_performance_indicator', 'Editar Indicador-Chave de Desempenho'),
+  ('performance', 'minimum_rating', 'Nota Mínima'),
+  ('performance', 'maximum_rating', 'Nota Máxima'),
+  ('performance', 'make_default_scale', 'Definir Escala Padrão'),
+  ('performance', 'minimum_rating_should_be_less_than_maximum_rating', 'A Nota Mínima deve ser menor que a Nota Máxima'),
+  ('performance', 'maximum_rating_should_be_greater_than_minimum_rating', 'A Nota Máxima deve ser maior que a Nota Mínima'),
+  ('performance', 'employee_performance_trackers', 'Acompanhamentos de Desempenho de Funcionários'),
+  ('performance', 'modified_date', 'Data de Modificação'),
+  ('performance', 'added_date', 'Data de Adição'),
+  ('performance', 'tracker', 'Acompanhamento'),
+  ('performance', 'my_performance_trackers', 'Meus Acompanhamentos de Desempenho'),
+  ('performance', 'review_period', 'Período de Avaliação'),
+  ('performance', 'self_evaluation_status', 'Status da Autoavaliação'),
+  ('performance', 'review_status', 'Status da Avaliação'),
+  ('performance', 'evaluate', 'Avaliar'),
+  ('performance', 'employee_reviews', 'Avaliações de Funcionários'),
+  ('performance', 'activated', 'Ativada'),
+  ('performance', 'in_progress', 'Em Andamento'),
+  ('performance', 'completed', 'Concluída'),
+  ('performance', 'reviewer', 'Avaliador'),
+  ('performance', 'manage_performance_reviews', 'Gerenciar Avaliações de Desempenho'),
+  ('performance', 'inactive', 'Inativa'),
+  ('performance', 'tracker_logs', 'Registros do Acompanhamento'),
+  ('performance', 'add_log', 'Adicionar Registro'),
+  ('performance', 'added_on', 'Adicionado Em'),
+  ('performance', 'modified_on', 'Modificado Em'),
+  ('performance', 'delete', 'Excluir'),
+  ('performance', 'add_tracker_log', 'Adicionar Registro de Acompanhamento'),
+  ('performance', 'log', 'Registro'),
+  ('performance', 'positive', 'Positivo'),
+  ('performance', 'negative', 'Negativo'),
+  ('performance', 'edit_tracker_log', 'Editar Registro de Acompanhamento'),
+  ('performance', 'performance_review', 'Avaliação de Desempenho'),
+  ('performance', 'review_summary', 'Resumo da Avaliação'),
+  ('performance', 'review_due_date', 'Data Limite da Avaliação'),
+  ('performance', 'complete', 'Concluir'),
+  ('performance', 'review_finalization', 'Finalização da Avaliação'),
+  ('performance', 'date_of_completion', 'Data de Conclusão'),
+  ('performance', 'final_rating', 'Nota Final'),
+  ('performance', 'final_comments', 'Comentários Finais'),
+  ('performance', 'rating_should_be_greater_than_or_equal_to_minValue', 'A nota deve ser maior ou igual a {minValue}'),
+  ('performance', 'rating_should_be_less_than_or_equal_to_maxValue', 'A nota deve ser menor ou igual a {maxValue}'),
+  ('performance', 'self_evaluation_by', 'Autoavaliação por'),
+  ('performance', 'supervisor_evaluation_by', 'Avaliação do Supervisor por'),
+  ('performance', 'kpi', 'KPI'),
+  ('performance', 'rating', 'Nota'),
+  ('performance', 'min', 'Mín'),
+  ('performance', 'max', 'Máx'),
+  ('performance', 'evaluation_activated', 'Avaliação Ativada'),
+  ('performance', 'evaluation_in_progress', 'Avaliação em Andamento'),
+  ('performance', 'evaluation_completed', 'Avaliação Concluída'),
+  ('performance', 'cannot_activate_review_for_employee_without_job_title_with_kpi', 'Não é possível ativar a avaliação para funcionários que não têm um Cargo com KPI'),
+  ('performance', 'cannot_add_a_past_employee_as_reviewer', 'Não é possível adicionar um funcionário antigo como avaliador'),
+  ('performance', 'selected_supervisor_for_reviewer_is_invalid', 'O supervisor selecionado para avaliador é inválido'),
+  ('performance', 'general_comment', 'Comentário Geral'),
+  ('performance', 'confirm_review_submission', 'Confirmar Envio da Avaliação'),
+  ('performance', 'confirm_review_submission_message', 'A avaliação se tornará somente leitura após a conclusão. Esta ação não pode ser desfeita. Tem certeza de que deseja continuar?'),
+  ('performance', 'cannot_add_a_past_employee_as_a_reviewer', 'Não é possível adicionar um funcionário antigo como avaliador'),
+  ('performance', 'edit_review', 'Editar Avaliação'),
+  ('admin', 'primary_color', 'Cor Primária'),
+  ('admin', 'secondary_color', 'Cor Secundária'),
+  ('admin', 'primary_font_color', 'Cor da Fonte Primária'),
+  ('admin', 'secondary_font_color', 'Cor da Fonte Secundária'),
+  ('admin', 'primary_gradient_color_one', 'Cor do Gradiente Primária 1'),
+  ('admin', 'primary_gradient_color_two', 'Cor do Gradiente Primária 2'),
+  ('admin', 'client_logo', 'Logo do Cliente'),
+  ('admin', 'client_banner', 'Banner do Cliente'),
+  ('admin', 'login_banner', 'Banner de Login'),
+  ('admin', 'social_media_images', 'Imagens de Redes Sociais'),
+  ('admin', 'export', 'Exportar'),
+  ('admin', 'translate', 'Traduzir'),
+  ('admin', 'add_language_package', 'Adicionar Pacote de Idioma'),
+  ('admin', 'directory_module', 'Módulo Diretório'),
+  ('general', 'january', 'Janeiro'),
+  ('general', 'february', 'Fevereiro'),
+  ('general', 'march', 'Março'),
+  ('general', 'april', 'Abril'),
+  ('general', 'may', 'Maio'),
+  ('general', 'june', 'Junho'),
+  ('general', 'july', 'Julho'),
+  ('general', 'august', 'Agosto'),
+  ('general', 'september', 'Setembro'),
+  ('general', 'october', 'Outubro'),
+  ('general', 'november', 'Novembro'),
+  ('general', 'december', 'Dezembro'),
+  ('general', 'jan', 'Jan'),
+  ('general', 'feb', 'Fev'),
+  ('general', 'mar', 'Mar'),
+  ('general', 'apr', 'Abr'),
+  ('general', 'jun', 'Jun'),
+  ('general', 'jul', 'Jul'),
+  ('general', 'aug', 'Ago'),
+  ('general', 'sep', 'Set'),
+  ('general', 'oct', 'Out'),
+  ('general', 'nov', 'Nov'),
+  ('general', 'dec', 'Dez'),
+  ('general', 'should_be_lower_than_maximum_value', 'Deve ser menor que o valor máximo'),
+  ('general', 'should_be_a_number_between_min_and_max', 'Deve ser um número entre {min}-{max}'),
+  ('general', 'active', 'Ativo'),
+  ('general', 'closed', 'Fechado'),
+  ('general', 'file_size', 'Tamanho do Arquivo'),
+  ('general', 'file_type', 'Tipo de Arquivo'),
+  ('general', 'full_name', 'Nome Completo'),
+  ('general', 'reset_to_default', 'Restaurar Padrão'),
+  ('general', 'preview', 'Pré-visualizar'),
+  ('general', 'accept_jpg_png_gif_upto_recommended_dimensions', 'Aceita jpg, .png, .gif, .svg até {fileSize}. Dimensões recomendadas: {width}px X {height}px'),
+  ('general', 'incorrect_dimensions', 'Dimensões Incorretas'),
+  ('general', 'invalid', 'Inválido'),
+  ('general', 'or_login_with', 'Ou entre com'),
+  ('general', 'successfully_activated', 'Ativado com Sucesso'),
+  ('general', 'publish', 'Publicar'),
+  ('general', 'less_than_or_equal_to_n', 'O número deve ser menor ou igual a {maxValue}'),
+  ('general', 'greater_than_or_equal_to_n', 'O número deve ser maior ou igual a {minValue}'),
+  ('general', 'purged_employee', 'Funcionário Expurgado'),
+  ('general', 'show_more', 'Mostrar Mais'),
+  ('general', 'show_less', 'Mostrar Menos'),
+  ('general', 'upload_n_file', 'Enviar {fileName}'),
+  ('general', 'should_be_a_numeric_value', 'Deve ser um valor numérico'),
+  ('general', 'confirmation_required', 'Confirmação Necessária'),
+  ('maintenance', 'purge_candidate_records', 'Expurgar Registros de Candidatos'),
+  ('maintenance', 'purge_candidates', 'Expurgar Candidatos'),
+  ('maintenance', 'purge_candidates_warning', 'Você está prestes a expurgar os candidatos selecionados permanentemente. Tem certeza de que deseja continuar? Esta operação não pode ser desfeita'),
+  ('maintenance', 'purge_all', 'Expurgar Tudo'),
+  ('admin', 'language_package', 'Pacote de Idioma'),
+  ('admin', 'source_language', 'Idioma de Origem'),
+  ('admin', 'module', 'Módulo'),
+  ('admin', 'source_text', 'Texto de Origem'),
+  ('admin', 'translated_text', 'Texto Traduzido'),
+  ('admin', 'source_note', 'Nota de Origem'),
+  ('admin', 'show', 'Mostrar'),
+  ('admin', 'all', 'Todos'),
+  ('admin', 'translated', 'Traduzido'),
+  ('admin', 'not_translated', 'Não Traduzido'),
+  ('admin', 'translate_language_package', 'Traduzir Pacote de Idioma'),
+  ('admin', 'order', 'Ordem'),
+  ('admin', 'server_settings', 'Configurações do Servidor'),
+  ('admin', 'bind_settings', 'Configurações de Bind'),
+  ('admin', 'user_lookup_settings', 'Configurações de Busca de Usuário'),
+  ('admin', 'data_mapping', 'Mapeamento de Dados'),
+  ('admin', 'additional_settings', 'Configurações Adicionais'),
+  ('admin', 'host', 'Host'),
+  ('admin', 'ldap_host_input_hint', 'IP ou Hostname do servidor LDAP sem o protocolo (sem ldap:// ou ldaps://)'),
+  ('admin', 'port', 'Porta'),
+  ('admin', 'port_input_hint', 'Se usar SSL, use a porta 636 por padrão'),
+  ('admin', 'encryption', 'Criptografia'),
+  ('admin', 'ldap_implementation', 'Implementação LDAP'),
+  ('admin', 'distinguished_name', 'Nome Distinto'),
+  ('admin', 'base_distinguished_name', 'Nome Distinto Base'),
+  ('admin', 'search_scope', 'Escopo de Busca'),
+  ('admin', 'search_scope_input_hint', 'A opção Subárvore permitirá buscar no diretório base e subdiretórios. Um nível buscará apenas dentro do diretório base'),
+  ('admin', 'user_name_attribute', 'Atributo de Nome de Usuário'),
+  ('admin', 'test_connection', 'Testar Conexão'),
+  ('admin', 'bind_anonymously', 'Bind Anônimo'),
+  ('admin', 'sync_interval', 'Intervalo de Sincronização (em Horas)'),
+  ('admin', 'user_name_input_hint', 'Campo de atributo para usar ao carregar o nome de usuário. Ex: cn, nome da conta'),
+  ('admin', 'ssl', 'SSL'),
+  ('admin', 'subtree', 'Subárvore'),
+  ('admin', 'one_level', 'Um nível'),
+  ('admin', 'open_ldap_v3', 'Open LDAP v3'),
+  ('admin', 'ms_active_directory', 'MS Active Directory'),
+  ('admin', 'connection_status', 'Status da Conexão'),
+  ('admin', 'sync_connection', 'Sincronizar Conexão'),
+  ('admin', 'sync_now', 'Sincronizar Agora'),
+  ('admin', 'last_synced_on_datetime', 'Última sincronização em {datetime}'),
+  ('admin', 'last_sync_failed_on_datetime', 'Última sincronização falhou em {datetime}'),
+  ('admin', 'synchronization_successful', 'Sincronização Bem-sucedida'),
+  ('admin', 'synchronization_failed', 'Sincronização Falhou'),
+  ('admin', 'user_search_filter', 'Filtro de Busca de Usuário'),
+  ('admin', 'user_unique_id_attribute', 'Atributo de ID Único de Usuário'),
+  ('admin', 'merge_ldap_users_with_existing_system_users', 'Mesclar Usuários LDAP com Usuários Existentes do Sistema'),
+  ('admin', 'please_check_the_settings_for_your_ldap_configuration', 'Por favor, verifique as configurações de LDAP'),
+  ('admin', 'user_search_filter_input_hint', 'Campo de atributo para usar ao buscar objetos de usuário. Ex: objectClass=person'),
+  ('admin', 'user_unique_attribute_input_hint', 'Campo de atributo para usar como identificador único e imutável para objetos de usuário. Usado para rastrear mudanças de nome de usuário. Ex: entryUUID, objectGUID'),
+  ('admin', 'field_in_orangehrm', 'Campo no OrangeHRM'),
+  ('admin', 'field_in_ldap_directory', 'Campo no Diretório LDAP'),
+  ('admin', 'use_this_field_as_the_employee_user_mapping_field', 'Use este campo como campo de mapeamento funcionário/usuário'),
+  ('admin', 'n_users_found', '{count} usuário(s) encontrado(s)'),
+  ('admin', 'n_users_will_be_imported', '{count} usuário(s) serão importados'),
+  ('admin', 'lookup', 'Buscar'),
+  ('admin', 'user_lookup', 'Busca de usuário'),
+  ('admin', 'authentication', 'Autenticação'),
+  ('admin', 'search_results', 'Resultados da busca'),
+  ('admin', 'leave_applications', 'Solicitações de Folga'),
+  ('admin', 'leave_assignments', 'Atribuições de Folga'),
+  ('admin', 'leave_approvals', 'Aprovações de Folga'),
+  ('admin', 'leave_cancellation', 'Cancelamentos de Folga'),
+  ('admin', 'leave_rejections', 'Rejeições de Folga'),
+  ('admin', 'ldap_settings_not_configured', 'Configurações LDAP não configuradas'),
+  ('admin', 'ldap_sync_not_enabled', 'Sincronização LDAP não ativada'),
+  ('admin', 'ldap_configuration_warning_message', 'Antes de ativar o serviço LDAP, certifique-se de que todas as configurações LDAP estão funcionando corretamente, pois configurações incorretas podem resultar em dados corrompidos. Como precaução, recomendamos que você crie um backup do banco de dados antes de continuar.'),
+  ('general', 'ascending', 'Crescente'),
+  ('general', 'descending', 'Decrescente'),
+  ('general', 'ldap_configuration', 'Configuração LDAP'),
+  ('general', 'enable', 'Ativar'),
+  ('general', 'enter_valid_port_between_a_to_b', 'Digite um número de porta válido entre {minValue} e {maxValue}'),
+  ('general', 'user_status', 'Status do Usuário'),
+  ('general', 'should_be_least_n_characters', 'Deve ter pelo menos {amount} caracteres'),
+  ('leave', 'entitlement_type', 'Tipo de Direito'),
+  ('leave', 'leave_requests_action', '{action, select, APPROVE {{count, plural, =0 {Nenhuma Solicitação de Folga Aprovada} =1 {1 Solicitação de Folga Aprovada} other {# Solicitações de Folga Aprovadas} }} REJECT {{count, plural, =0 {Nenhuma Solicitação de Folga Rejeitada} =1 {1 Solicitação de Folga Rejeitada} other {# Solicitações de Folga Rejeitadas} }} other {{count, plural, =0 {Nenhuma Solicitação de Folga Cancelada} =1 {1 Solicitação de Folga Cancelada} other {# Solicitações de Folga Canceladas} }} }'),
+  ('pim', 'state_income_tax', 'Imposto de Renda Estadual'),
+  ('pim', 'bi_weekly', 'Quinzenal'),
+  ('pim', 'hourly', 'Por Hora'),
+  ('pim', 'monthly', 'Mensal'),
+  ('pim', 'monthly_on_first_pay', 'Mensal no primeiro pagamento do mês'),
+  ('pim', 'semi_monthly', 'Semimensal'),
+  ('pim', 'weekly', 'Semanal'),
+  ('pim', 'savings', 'Poupança'),
+  ('pim', 'checking', 'Conta Corrente'),
+  ('pim', 'add_supervisor', 'Adicionar Supervisor'),
+  ('pim', 'add_subordinate', 'Adicionar Subordinado'),
+  ('pim', 'username_already_exists', 'Nome de usuário já existe'),
+  ('pim', 'n_records_successfully_imported', '{count,plural, =0{Nenhum Registro Importado} one{1 Registro Importado com Sucesso} other{ # Registros Importados com Sucesso}}'),
+  ('pim', 'n_records_failed_to_import', '{count,plural, =0{Nenhum Registro com Falha na Importação} one{1 Registro com Falha na Importação} other{ # Registros com Falha na Importação}}'),
+  ('pim', 'failed_rows', 'Linhas com Falha'),
+  ('pim', 'import_details', 'Detalhes da Importação'),
+  ('attendance', 'punched_in', 'Entrou'),
+  ('attendance', 'punched_out', 'Saiu'),
+  ('attendance', 'not_punched_in', 'Não Registrou Entrada'),
+  ('dashboard', 'employee_distribution_by_sub_unit', 'Distribuição de Funcionários por Sub-unidade'),
+  ('dashboard', 'employee_distribution_by_location', 'Distribuição de Funcionários por Localização'),
+  ('dashboard', 'unassigned', 'Não Atribuído'),
+  ('dashboard', 'employees_on_leave_today', 'Funcionários de Folga Hoje'),
+  ('dashboard', 'no_employees_are_on_leave_today', 'Nenhum Funcionário de Folga Hoje'),
+  ('dashboard', 'leave_period_not_defined', 'Período de Folgas Não Definido'),
+  ('dashboard', 'time_at_work', 'Tempo no Trabalho'),
+  ('general', 'today', 'Hoje'),
+  ('dashboard', 'this_week', 'Esta Semana'),
+  ('dashboard', 'state_date_at_time_timezone_offset', '{lastState}: {date} às {time} (GMT {timezoneOffset})'),
+  ('dashboard', 'state_today_at_time_timezone_offset', '{lastState}: Hoje às {time} (GMT {timezoneOffset})'),
+  ('dashboard', 'quick_launch', 'Acesso Rápido'),
+  ('dashboard', 'my_actions', 'Minhas Ações'),
+  ('dashboard', 'n_pending_leave_request', '{pendingActionsCount,plural, =0{Nenhum Registro Encontrado} one{(1) Solicitação de Folga para Aprovar} other{ (#) Solicitações de Folga para Aprovar}}'),
+  ('dashboard', 'n_pending_time_sheet', '{pendingActionsCount,plural, =0{Nenhum Registro Encontrado} one{(1) Folha de Ponto para Aprovar} other{ (#) Folhas de Ponto para Aprovar}}'),
+  ('dashboard', 'n_pending_performance_evaluate', '{pendingActionsCount,plural, =0{Nenhum Registro Encontrado} one{(1) Avaliação de Desempenho para Avaliar} other{ (#) Avaliações de Desempenho para Avaliar}}'),
+  ('dashboard', 'n_pending_candidate_interview', '{pendingActionsCount,plural, =0{Nenhum Registro Encontrado} one{(1) Candidato para Entrevistar} other{ (#) Candidatos para Entrevistar}}'),
+  ('dashboard', 'no_pending_actions', 'Nenhuma Ação Pendente para Realizar'),
+  ('dashboard', 'n_pending_self_review', '{pendingActionsCount,plural, =0{Nenhum Registro Encontrado} one{(1) Autoavaliação Pendente} other{ (#) Autoavaliações Pendentes}}'),
+  ('dashboard', 'configurations', 'Configurações'),
+  ('dashboard', 'only_show_accessible_employees_on_leave_for_other_users', 'Mostrar apenas funcionários acessíveis de folga para outros usuários'),
+  ('dashboard', 'not_available', 'Não Disponível'),
+  ('time', 'submitted', 'Enviada'),
+  ('time', 'not_submitted', 'Não Enviada'),
+  ('time', 'approved', 'Aprovada'),
+  ('buzz', 'upcoming_anniversaries', 'Próximos Aniversários'),
+  ('buzz', 'n_year', '{yearsCount,plural, =0{} one{Ano} other{Anos}}'),
+  ('buzz', 'buzz_newsfeed', 'Feed de Notícias Buzz'),
+  ('buzz', 'post', 'Publicar'),
+  ('buzz', 'post_placeholder', 'O que você está pensando?'),
+  ('buzz', 'share_photos', 'Compartilhar Fotos'),
+  ('buzz', 'share_video', 'Compartilhar Vídeo'),
+  ('buzz', 'n_like', '{likesCount,plural, =0{0 Curtidas} one{1 Curtida} other{# Curtidas}}'),
+  ('buzz', 'n_comment', '{commentCount,plural, =0{0 Comentários} one{1 Comentário} other{# Comentários}}'),
+  ('buzz', 'n_share', '{shareCount,plural, =0{0 Compartilhamentos} one{1 Compartilhamento} other{# Compartilhamentos}}'),
+  ('buzz', 'write_your_comment', 'Escreva seu comentário...'),
+  ('buzz', 'delete_post', 'Excluir Publicação'),
+  ('buzz', 'edit_post', 'Editar Publicação'),
+  ('buzz', 'most_recent_posts', 'Publicações Mais Recentes'),
+  ('buzz', 'most_liked_posts', 'Publicações Mais Curtidas'),
+  ('buzz', 'most_commented_posts', 'Publicações Mais Comentadas'),
+  ('buzz', 'share', 'Compartilhar'),
+  ('buzz', 'video_url', 'URL do Vídeo'),
+  ('buzz', 'paste_video_url', 'Cole a URL do Vídeo'),
+  ('buzz', 'add_photos', 'Adicionar Fotos'),
+  ('buzz', 'file_type_validation_message', 'Apenas imagens dos tipos ''gif'', ''png'', ''jpg'', ''jpeg'' são permitidas!'),
+  ('buzz', 'file_size_validation_message', 'O tamanho máximo permitido é 2MB'),
+  ('buzz', 'share_post', 'Compartilhar Publicação'),
+  ('buzz', 'read_more', 'Ler Mais'),
+  ('buzz', 'press_esc_to', 'Pressione Esc para'),
+  ('buzz', 'like', 'Curtir'),
+  ('buzz', 'no_posts_available', 'Nenhuma Publicação Disponível'),
+  ('buzz', 'post_delete_confirmation_message', 'O item selecionado será excluído permanentemente. Tem certeza de que deseja continuar?'),
+  ('general', 'invalid_video_url_message', 'Esta URL não é uma URL válida de vídeo ou não é suportada pelo sistema'),
+  ('dashboard', 'buzz_latest_posts', 'Últimas Publicações do Buzz'),
+  ('dashboard', 'no_posts_added', 'Nenhuma Publicação Adicionada'),
+  ('help', 'getting_started_with_orangehrm', 'Começando com o OrangeHRM'),
+  ('admin', 'client_id', 'ID do Cliente'),
+  ('admin', 'client_secret', 'Segredo do Cliente'),
+  ('admin', 'redirect_uri', 'URI de Redirecionamento'),
+  ('admin', 'oauth_client_list', 'Lista de Clientes OAuth'),
+  ('admin', 'add_oauth_client', 'Adicionar Cliente OAuth'),
+  ('admin', 'edit_oauth_client', 'Editar Cliente OAuth'),
+  ('admin', 'enable_client', 'Ativar Cliente'),
+  ('admin', 'confidential_client', 'Cliente Confidencial'),
+  ('admin', 'client_secret_warning_message', 'Certifique-se de copiar o segredo do cliente agora. Você não poderá vê-lo novamente.'),
+  ('auth', 'password_min_length', '{count,plural, one{Deve ter pelo menos 1 caractere} other{Deve ter pelo menos # caracteres}}'),
+  ('auth', 'password_max_length', '{count,plural, one{Não deve exceder 1 caractere} other{Não deve exceder # caracteres}}'),
+  ('auth', 'password_n_lowercase_letters', '{count,plural, one{Sua senha deve conter no mínimo 1 letra minúscula} other{Sua senha deve conter no mínimo # letras minúsculas}}'),
+  ('auth', 'password_n_uppercase_letters', '{count,plural, one{Sua senha deve conter no mínimo 1 letra maiúscula} other{Sua senha deve conter no mínimo # letras maiúsculas}}'),
+  ('auth', 'password_n_numbers', '{count,plural, one{Sua senha deve conter no mínimo 1 número} other{Sua senha deve conter no mínimo # números}}'),
+  ('auth', 'password_n_special_characters', '{count,plural, one{Sua senha deve conter no mínimo 1 caractere especial} other{Sua senha deve conter no mínimo # caracteres especiais}}'),
+  ('auth', 'password_spaces_not_allowed', 'Sua senha não deve conter espaços'),
+  ('auth', 'password_could_be_guessable', 'Sua senha atende aos requisitos mínimos, mas pode ser adivinhável'),
+  ('auth', 'change_weak_password', 'Alterar Senha Fraca'),
+  ('auth', 'password_not_strong', 'Sua senha atual é fraca. Por favor, escolha uma senha mais forte.'),
+  ('auth', 'invalid_password_reset_code', 'Código de redefinição de senha inválido'),
+  ('auth', 'client_name_would_like_to', '{clientName} gostaria de'),
+  ('auth', 'access_and_manage_your_data', 'Acessar e gerenciar seus dados'),
+  ('auth', 'perform_actions_on_your_behalf', 'Realizar ações em seu nome'),
+  ('auth', 'do_you_want_to_allow_access', 'Deseja permitir o acesso?'),
+  ('auth', 'deny', 'Negar'),
+  ('auth', 'allow_access', 'Permitir Acesso'),
+  ('auth', 'this_request_is_invalid', 'Esta solicitação é inválida'),
+  ('auth', 'mobile_client_disabled_error', 'O aplicativo móvel não está ativado. Por favor, contate seu administrador OrangeHRM.'),
+  ('general', 'strong', 'Forte'),
+  ('general', 'help', 'Ajuda'),
+  ('claim', 'claim', 'Reembolso'),
+  ('claim', 'events', 'Eventos'),
+  ('claim', 'add_event', 'Adicionar Evento'),
+  ('claim', 'edit_event', 'Editar Evento'),
+  ('claim', 'event_name', 'Nome do Evento'),
+  ('claim', 'expense_types', 'Tipos de Despesa'),
+  ('claim', 'add_expense_type', 'Adicionar Tipo de Despesa'),
+  ('claim', 'edit_expense_type', 'Editar Tipo de Despesa'),
+  ('claim', 'event', 'Evento'),
+  ('claim', 'create_claim_request', 'Criar Solicitação de Reembolso'),
+  ('claim', 'remarks', 'Observações'),
+  ('claim', 'create', 'Criar'),
+  ('claim', 'submit_claim', 'Enviar Reembolso'),
+  ('claim', 'reference_id', 'ID de Referência'),
+  ('claim', 'expenses', 'Despesas'),
+  ('claim', 'expense_type', 'Tipo de Despesa'),
+  ('claim', 'pay', 'Pagar'),
+  ('claim', 'add_expense', 'Adicionar Despesa'),
+  ('claim', 'edit_expense', 'Editar Despesa'),
+  ('claim', 'should_be_a_valid_number', 'Deve ser um número válido (xxx.xx)'),
+  ('claim', 'total_amount', 'Valor Total ({currencyName}) : {totalAmount}'),
+  ('claim', 'submitted_date', 'Data de Envio'),
+  ('claim', 'view_details', 'Ver Detalhes'),
+  ('claim', 'my_claims', 'Meus Reembolsos'),
+  ('claim', 'claim_module', 'Módulo de Reembolso'),
+  ('claim', 'initiated', 'Iniciado'),
+  ('claim', 'paid', 'Pago'),
+  ('claim', 'assign_claim', 'Atribuir Reembolso'),
+  ('claim', 'employee_claims', 'Reembolsos de Funcionários'),
+  ('general', 'page_under_development', 'Esta página está em desenvolvimento.'),
+  ('general', 'download_latest_release', 'para baixar a versão estável mais recente.'),
+  ('general', 'clear', 'Limpar'),
+  ('general', 'close', 'Fechar'),
+  ('admin', 'url', 'URL do Provedor'),
+  ('admin', 'add_provider', 'Adicionar Provedor'),
+  ('admin', 'edit_provider', 'Editar Provedor'),
+  ('admin', 'provider_list', 'Lista de Provedores'),
+  ('admin', 'no_user_found', 'Nenhum Usuário Encontrado'),
+  ('admin', 'multiple_user_returned', 'Múltiplos Usuários Retornados'),
+  ('general', 'amount', 'Valor'),
+  ('admin', 'use_the_sample_template', 'Use o modelo de exemplo'),
+  ('admin', 'only_edit_the_target_field', 'Edite apenas o campo de destino'),
+  ('admin', 'do_not_change_the_template', 'Não altere o modelo'),
+  ('admin', 'sample_xliff', 'XLIFF de Exemplo'),
+  ('admin', 'import_language_package', 'Importar Pacote de Idioma'),
+  ('admin', 'translate_text_manually', 'O texto não será traduzido automaticamente. Você terá que importar traduções ou traduzir dentro do sistema.'),
+  ('admin', 'should_be_lower_than_maximum_salary', 'Deve ser menor que o Salário Máximo'),
+  ('admin', 'errors_in_import_language_packages', 'Erros na Importação de Pacotes de Idioma'),
+  ('admin', 'invalid_syntax', 'A sintaxe usada é inválida'),
+  ('admin', 'placeholder_mismatch', 'Incompatibilidade encontrada entre espaços reservados'),
+  ('admin', 'plural_placeholder_mismatch', 'Incompatibilidade encontrada entre espaço reservado de expressão plural'),
+  ('admin', 'select_placeholder_mismatch', 'Incompatibilidade encontrada entre espaço reservado de expressão select'),
+  ('admin', 'n_records_skipped', '{count,plural, =0{Nenhum Registro Ignorado} one{1 Registro Ignorado} other{ # Registros Ignorados}}'),
+  ('admin', 'n_errors_found', '{count,plural, =0{Nenhum Erro Encontrado} one{(1) Erro Encontrado} other{ (#) Erros Encontrados}}'),
+  ('admin', 'fix_errors', '{count,plural, one{Corrigir Erro} other{ Corrigir Erros}}'),
+  ('admin', 'xliff_file_not_valid', 'O arquivo XLIFF não é válido'),
+  ('admin', 'xliff_file_empty', 'O arquivo XLIFF está vazio'),
+  ('admin', 'xliff_file_missing_target_language', 'O arquivo XLIFF não possui o atributo de idioma de destino'),
+  ('admin', 'target_language_does_not_match', 'O idioma de destino não corresponde ao idioma selecionado'),
+  ('admin', 'please_save_before_pagination', 'Por favor, salve suas alterações antes de passar para a próxima página'),
+  ('pim', 'single', 'Solteiro(a)'),
+  ('pim', 'married', 'Casado(a)'),
+  ('pim', 'direct', 'Direto'),
+  ('pim', 'indirect', 'Indireto'),
+  ('recruitment', 'active_job_vacancies', 'Vagas de Emprego Ativas'),
+  ('general', 'upgrade', 'Atualizar'),
+  ('general', 'accepts_up_to_n_mb', '{count, plural, one {Aceita até 1MB} other { Aceita até #MBs}}'),
+  ('general', 'accept_custom_format_file_up_to_n_mb', '{count, plural, one {Aceita .docx, .doc, .odt, .pdf, .rtf, .txt até 1MB} other{ Aceita .docx, .doc, .odt, .pdf, .rtf, .txt até #MBs}}'),
+  ('auth', 'reset_password_link_was_not_sent', 'O link de redefinição de senha não foi enviado'),
+  ('auth', 'your_reset_password_link_not_sent_error', 'Seu link de redefinição de senha não foi enviado devido a um erro.'),
+  ('auth', 'please_contact_admin_reset_password', 'Por favor, contate seu administrador para redefinir sua senha.'),
+  ('auth', 'session_expired', 'Sessão Expirada'),
+  ('pim', 'work_email_invalid_characters', 'O e-mail de trabalho contém caracteres inválidos.'),
+  ('admin', 'workspace_notification_configuration', 'Configuração de Notificações do Workspace'),
+  ('admin', 'notification_registration', 'Registro de Notificação'),
+  ('admin', 'edit_notification_registration', 'Editar Registro de Notificação'),
+  ('admin', 'notification_registrations', 'Registros de Notificação'),
+  ('admin', 'workspace_notification_form_hint', 'Configure um canal de workspace (Slack, Google Chat ou Teams) para receber notificações automatizadas. Cada registro tem seu próprio fuso horário e horário de envio.'),
+  ('admin', 'platform', 'Plataforma'),
+  ('admin', 'platform_slack', 'Slack'),
+  ('admin', 'platform_google_chat', 'Google Chat'),
+  ('admin', 'slack_incoming_webhook_url', 'URL do Webhook de Entrada do Slack'),
+  ('admin', 'google_chat_webhook_url', 'URL do Webhook do Google Chat'),
+  ('admin', 'teams_workflow_url', 'URL do Workflow do Microsoft Teams'),
+  ('admin', 'slack_webhook_hint', 'Crie um Webhook de Entrada em seu workspace do Slack e cole a URL aqui. Deve ser HTTPS.'),
+  ('admin', 'google_chat_webhook_hint', 'Crie um Webhook de Entrada em seu workspace do Google Chat e cole a URL aqui. Deve ser HTTPS.'),
+  ('admin', 'workspace_notification_channel_name_optional', 'Nome do Canal (Opcional)'),
+  ('admin', 'workspace_notification_channel_hint', 'Apenas rótulo (ex: #rh-equipe). A URL do webhook determina o destino real.'),
+  ('admin', 'sub_units', 'Sub-unidades'),
+  ('admin', 'workspace_notification_subunit_hint', 'Filtrar por sub-unidade(s): deixe vazio para incluir todos os funcionários, ou selecione uma ou mais sub-unidades para limitar as notificações.'),
+  ('admin', 'workspace_notification_timezone_hint', 'Selecione o fuso horário para enviar esta notificação.'),
+  ('admin', 'channel', 'Canal'),
+  ('admin', 'send_time', 'Horário de Envio'),
+  ('admin', 'workspace_notification_send_time_hint', 'Horário local de envio (HH:mm).'),
+  ('admin', 'all_employees', 'Todos os Funcionários'),
+  ('admin', 'send_test', 'Enviar Teste'),
+  ('admin', 'slack_webhook_url_invalid', 'Deve ser uma URL válida de Webhook de Entrada do Slack (https://hooks.slack.com/services/...)'),
+  ('admin', 'google_chat_webhook_url_invalid', 'Deve ser uma URL válida de webhook do Google Chat (https://chat.googleapis.com/v1/spaces/...?key=...&token=...)'),
+  ('admin', 'add_registration', '+ Adicionar Registro'),
+  ('admin', 'update', 'Atualizar'),
+  ('admin', 'workspace_notification_event_birthday', 'Aniversário'),
+  ('admin', 'workspace_notification_no_registrations_hint', 'Nenhum registro ainda. Preencha o formulário acima e clique em + Adicionar Registro para criar um.'),
+  ('admin', 'workspace_notification_cron_reminder', 'Certifique-se de que o cron do servidor execute php bin/console orangehrm:run-schedule regularmente (ex: a cada 5-15 minutos) para que as notificações agendadas possam ser executadas.'),
+  ('admin', 'workspace_notification_platform_changed_hint', 'A plataforma de chat foi alterada. Cole uma nova URL de Webhook do {platform} para este canal antes de salvar.'),
+  ('admin', 'workspace_notification_duplicate_dialog_title', 'Possível registro duplicado'),
+  ('admin', 'workspace_notification_duplicate_dialog_subtitle', 'Outro registro já tem como alvo o mesmo tipo de evento, canal de workspace e sub-unidade. Salvar isso fará com que a mesma mensagem seja enviada mais de uma vez por dia. Deseja salvar mesmo assim?'),
+  ('admin', 'workspace_notification_go_back_and_fix', 'Voltar e editar'),
+  ('admin', 'workspace_notification_schedule_info', 'Agendar um evento aqui aciona os fluxos de notificação configurados automaticamente. Certifique-se de que o cron do servidor execute php bin/console orangehrm:run-schedule regularmente (ex: a cada 5-15 minutos) para que as notificações agendadas possam ser executadas.'),
+  ('admin', 'workspace_notification_send_test_dialog_title', 'Enviar uma mensagem de teste?'),
+  ('admin', 'workspace_notification_send_test_dialog_subtitle', 'Isso enviará uma notificação de exemplo para o canal deste registro. Funciona independentemente de a linha estar ativa ou não.'),
+  ('admin', 'workspace_notification_duplicate_warning', 'Atenção: um registro semelhante já existe. A mesma mensagem pode ser enviada mais de uma vez por dia.'),
+  ('admin', 'workspace_notification_save_failed', 'Falha ao salvar. Verifique a URL do webhook e tente novamente.'),
+  ('admin', 'workspace_notification_test_sent', 'Mensagem de teste enviada para o canal configurado.'),
+  ('admin', 'workspace_notification_test_failed', 'Falha ao enviar mensagem de teste. Verifique a URL do webhook.'),
+  ('admin', 'workspace_notification_status_update_failed', 'Não foi possível atualizar o status. Atualize a página e tente novamente.'),
+  ('admin', 'workspace_notification_global_toggle_failed', 'Não foi possível atualizar o botão global.'),
+  ('admin', 'teams_webhook_hint', 'Crie um workflow "Postar no canal" do Power Automate com um gatilho HTTP e cole a URL do workflow aqui. Deve ser HTTPS.'),
+  ('admin', 'teams_webhook_url_invalid', 'Deve ser uma URL válida de workflow do Power Automate do Microsoft Teams'),
+  ('admin', 'google_chat_webhook_key_token_required', 'A URL do webhook do Google Chat deve incluir ambos os parâmetros de consulta key e token.'),
+  ('admin', 'teams_webhook_sig_required', 'A URL do workflow do Microsoft Teams deve incluir o parâmetro de consulta sig.'),
+  ('admin', 'workspace_notification_invalid_url', 'URL inválida.'),
+  ('admin', 'workspace_notification_webhook_saved_hint', '(salvo - deixe em branco para manter)');
+
+INSERT INTO ohrm_i18n_translate (lang_string_id, language_id, value, customized, modified_at)
+SELECT ls.id, @lang_pt_br, b.value, 0, NOW()
+FROM tmp_br_i18n_base b
+JOIN ohrm_i18n_group g ON g.name = b.group_name
+JOIN ohrm_i18n_lang_string ls ON ls.group_id = g.id AND ls.unit_id = b.unit_id
+WHERE NOT EXISTS (
+  SELECT 1 FROM ohrm_i18n_translate t
+  WHERE t.lang_string_id = ls.id AND t.language_id = @lang_pt_br
+);
+
+DROP TEMPORARY TABLE tmp_br_i18n_base;
+
+-- Invalida o cache de i18n
+UPDATE ohrm_i18n_language SET modified_at = NOW() WHERE id = @lang_pt_br;
