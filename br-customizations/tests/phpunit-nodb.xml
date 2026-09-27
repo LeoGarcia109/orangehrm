@@ -23,6 +23,8 @@
       <directory>/app/src/plugins/orangehrmAttendancePlugin/test/Config</directory>
       <directory>/app/src/plugins/orangehrmAttendancePlugin/test/Service/Assessment</directory>
       <directory>/app/src/plugins/orangehrmAttendancePlugin/test/Api/Assessment</directory>
+      <directory>/app/src/plugins/orangehrmAttendancePlugin/test/Service/JobFit</directory>
+      <directory>/app/src/plugins/orangehrmAttendancePlugin/test/Api/JobFit</directory>
     </testsuite>
   </testsuites>
 </phpunit>
