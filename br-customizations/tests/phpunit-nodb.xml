@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="/app/br-customizations/tests/bootstrap-nodb.php" colors="true"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <testsuites>
+    <testsuite name="BR">
+      <file>/app/src/plugins/orangehrmCorePlugin/test/Utility/BrazilianDocumentTest.php</file>
+      <file>/app/src/plugins/orangehrmAttendancePlugin/test/Service/RecordSignatureTest.php</file>
+      <file>/app/src/plugins/orangehrmAttendancePlugin/test/Service/EmployerResolutionTest.php</file>
+      <file>/app/src/plugins/orangehrmAttendancePlugin/test/Service/BrExportGuardTest.php</file>
+      <file>/app/src/plugins/orangehrmAttendancePlugin/test/Service/ProxyPunchGuardTest.php</file>
+      <file>/app/src/plugins/orangehrmAttendancePlugin/test/Service/OfflinePunchWindowTest.php</file>
+      <file>/app/src/plugins/orangehrmAttendancePlugin/test/Service/AnnouncementAudienceTest.php</file>
+      <file>/app/src/plugins/orangehrmAttendancePlugin/test/Service/AbsenceJustificationRulesTest.php</file>
+      <file>/app/src/plugins/orangehrmAttendancePlugin/test/Service/TimesheetSignatureRulesTest.php</file>
+      <file>/app/src/plugins/orangehrmAttendancePlugin/test/Api/BrOptionalFlagValidationTest.php</file>
+      <file>/app/src/plugins/orangehrmAttendancePlugin/test/Service/BrAccessScopeTest.php</file>
+      <file>/app/src/plugins/orangehrmAttendancePlugin/test/Service/GeofenceDecisionTest.php</file>
+      <file>/app/src/plugins/orangehrmAttendancePlugin/test/Controller/File/BrExportControllerTest.php</file>
+      <directory>/app/src/plugins/orangehrmAttendancePlugin/test/Service/Form</directory>
+      <directory>/app/src/plugins/orangehrmAttendancePlugin/test/Api/Form</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>
