@@ -185,3 +185,30 @@
     color: #4a4a4a;
   }
 }
+
+.ohrm-mobile {
+  &__assessment-notice {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #4a4a4a;
+  }
+
+  &__assessment-start {
+    width: 100%;
+    min-height: 3rem;
+    margin-top: 0.5rem;
+    border: none;
+    border-radius: 0.75rem;
+    background: $ohrm-mobile-orange;
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+}

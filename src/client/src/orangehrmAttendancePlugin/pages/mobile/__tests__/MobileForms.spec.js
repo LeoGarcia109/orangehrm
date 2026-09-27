@@ -19,6 +19,7 @@ import {flushPromises, mount} from '@vue/test-utils';
 
 const mockRequest = jest.fn();
 const mockGet = jest.fn();
+const mockUpdate = jest.fn();
 
 jest.mock('@ohrm/core/util/services/api.service', () => ({
   APIService: class {
@@ -31,11 +32,15 @@ jest.mock('@ohrm/core/util/services/api.service', () => ({
     get(...args) {
       return mockGet(...args);
     }
+    update(...args) {
+      return mockUpdate(...args);
+    }
   },
 }));
 
 import MobileForms from '../MobileForms.vue';
 import FormFiller from '@/orangehrmAttendancePlugin/components/forms/FormFiller.vue';
+import AssessmentRunner from '@/orangehrmAttendancePlugin/components/assessment/AssessmentRunner.vue';
 
 /**
  * The "Provas" tab: what is waiting, answering it, and what came of it.
@@ -199,5 +204,74 @@ describe('MobileForms', () => {
     expect(wrapper.findComponent(FormFiller).props('error')).toBe(
       'O prazo deste formulario terminou.',
     );
+  });
+
+  describe('behavioural profile', () => {
+    const assessmentState = {
+      subjectType: 'EMPLOYEE',
+      firstName: 'Leo',
+      consentGiven: false,
+      pages: [[{code: 'B5-E01', text: 'Eu sou a alma da festa.'}]],
+      answers: [],
+      nextPage: 0,
+    };
+
+    beforeEach(() => {
+      mockRequest.mockImplementation(() =>
+        Promise.resolve({
+          data: {
+            data: [],
+            meta: {
+              pendingCount: 1,
+              assessments: [{id: 9, createdAt: '2026-09-27'}],
+            },
+          },
+        }),
+      );
+      mockGet.mockResolvedValue({data: {data: assessmentState}});
+      mockUpdate.mockResolvedValue({data: {data: assessmentState}});
+    });
+
+    it('lists the pending profile with the forms', async () => {
+      const wrapper = await mountWith();
+
+      const card = wrapper.find('.ohrm-mobile__form-card--assessment');
+      expect(card.exists()).toBe(true);
+      expect(card.text()).toContain('attendance.assessment_title');
+    });
+
+    it('explains the purpose, then runs the questionnaire through the employee API', async () => {
+      const wrapper = await mountWith();
+      await wrapper
+        .find('.ohrm-mobile__form-card--assessment')
+        .trigger('click');
+      await flushPromises();
+
+      expect(mockGet).toHaveBeenCalledWith(9);
+      expect(wrapper.text()).toContain('attendance.assessment_employee_notice');
+
+      await wrapper.find('.ohrm-mobile__assessment-start').trigger('click');
+      const runner = wrapper.findComponent(AssessmentRunner);
+      expect(runner.exists()).toBe(true);
+
+      await runner.props('save')({'B5-E01': 4});
+      expect(mockUpdate).toHaveBeenCalledWith(9, {answers: {'B5-E01': 4}});
+      await runner.props('complete')();
+      expect(mockUpdate).toHaveBeenCalledWith(9, {complete: true});
+    });
+
+    it('thanks when done, without any result', async () => {
+      const wrapper = await mountWith();
+      await wrapper
+        .find('.ohrm-mobile__form-card--assessment')
+        .trigger('click');
+      await flushPromises();
+      await wrapper.find('.ohrm-mobile__assessment-start').trigger('click');
+
+      wrapper.findComponent(AssessmentRunner).vm.$emit('done');
+      await flushPromises();
+
+      expect(wrapper.text()).toContain('attendance.assessment_thanks');
+    });
   });
 });

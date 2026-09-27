@@ -27,7 +27,29 @@
           <h3 class="ohrm-mobile__forms-heading">
             {{ $t('attendance.form_pending') }}
           </h3>
-          <p v-if="!pending.length" class="ohrm-mobile__forms-empty">
+          <button
+            v-for="assessment in assessments"
+            :key="`assessment-${assessment.id}`"
+            type="button"
+            class="ohrm-mobile__form-card ohrm-mobile__form-card--pending ohrm-mobile__form-card--assessment"
+            @click="openAssessment(assessment.id)"
+          >
+            <span class="ohrm-mobile__form-kind">
+              <i class="oxd-icon bi-person-lines-fill"></i>
+              {{ $t('attendance.assessment_title') }}
+            </span>
+            <span class="ohrm-mobile__form-title">
+              {{ $t('attendance.assessment_title') }}
+            </span>
+            <span class="ohrm-mobile__form-go">
+              {{ $t('attendance.form_answer') }}
+              <i class="oxd-icon bi-chevron-right"></i>
+            </span>
+          </button>
+          <p
+            v-if="!pending.length && !assessments.length"
+            class="ohrm-mobile__forms-empty"
+          >
             {{ $t('attendance.form_no_pending') }}
           </p>
           <button
@@ -83,6 +105,56 @@
       </template>
     </template>
 
+    <template v-else-if="view.startsWith('assessment')">
+      <button type="button" class="ohrm-mobile__forms-back" @click="backToList">
+        <i class="oxd-icon bi-chevron-left"></i>
+        {{ $t('attendance.form_tab') }}
+      </button>
+      <div v-if="view === 'assessment-intro'" class="ohrm-mobile__form-result">
+        <i
+          class="oxd-icon bi-person-lines-fill ohrm-mobile__form-result-icon is-done"
+        ></i>
+        <strong class="ohrm-mobile__form-result-text">
+          {{ $t('attendance.assessment_title') }}
+        </strong>
+        <p class="ohrm-mobile__assessment-notice">
+          {{ $t('attendance.assessment_employee_notice') }}
+        </p>
+        <p class="ohrm-mobile__assessment-notice">
+          {{ $t('attendance.assessment_intro') }}
+        </p>
+        <button
+          type="button"
+          class="ohrm-mobile__assessment-start"
+          :disabled="!assessment"
+          @click="view = 'assessment-questions'"
+        >
+          {{ $t('attendance.assessment_start') }}
+        </button>
+      </div>
+      <assessment-runner
+        v-else-if="view === 'assessment-questions' && assessment"
+        :state="assessment"
+        :save="saveAssessment"
+        :complete="completeAssessment"
+        @done="onAssessmentDone"
+      />
+      <div
+        v-else-if="view === 'assessment-done'"
+        class="ohrm-mobile__form-result"
+      >
+        <i
+          class="oxd-icon bi-check-circle-fill ohrm-mobile__form-result-icon is-done"
+        ></i>
+        <span class="ohrm-mobile__form-result-text">
+          {{ $t('attendance.assessment_thanks') }}
+        </span>
+      </div>
+      <div v-else class="ohrm-mobile__forms-empty">
+        {{ openError || $t('attendance.history_loading') }}
+      </div>
+    </template>
+
     <template v-else>
       <button type="button" class="ohrm-mobile__forms-back" @click="backToList">
         <i class="oxd-icon bi-chevron-left"></i>
@@ -124,9 +196,11 @@
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
 import FormFiller from '@/orangehrmAttendancePlugin/components/forms/FormFiller.vue';
+import AssessmentRunner from '@/orangehrmAttendancePlugin/components/assessment/AssessmentRunner.vue';
 
 const MY_FORMS = '/api/v2/attendance/br/my-forms';
 const SUBMISSIONS = '/api/v2/attendance/br/my-forms/submissions';
+const MY_ASSESSMENTS = '/api/v2/attendance/br/my-assessments';
 
 function serverMessage(e) {
   return e?.data?.error?.message ?? e?.response?.data?.error?.message ?? null;
@@ -138,7 +212,10 @@ function serverMessage(e) {
  */
 export default {
   name: 'MobileForms',
-  components: {'form-filler': FormFiller},
+  components: {
+    'form-filler': FormFiller,
+    'assessment-runner': AssessmentRunner,
+  },
   props: {
     openFormId: {type: Number, default: null},
   },
@@ -149,12 +226,21 @@ export default {
     // A closed deadline or a second attempt are answers, not crashes
     http.setIgnorePath(MY_FORMS);
     submitHttp.setIgnorePath(SUBMISSIONS);
-    return {http, submitHttp};
+    const assessmentHttp = new APIService(
+      window.appGlobal.baseUrl,
+      MY_ASSESSMENTS,
+    );
+    assessmentHttp.setIgnorePath(MY_ASSESSMENTS);
+    return {http, submitHttp, assessmentHttp};
   },
   data() {
     return {
       view: 'list',
       items: [],
+      // Behavioural questionnaires share the tab (meta.assessments)
+      assessments: [],
+      assessment: null,
+      assessmentId: null,
       isLoading: true,
       current: null,
       openError: null,
@@ -187,6 +273,7 @@ export default {
         .request({method: 'GET'})
         .then((response) => {
           this.items = response.data.data;
+          this.assessments = response.data.meta?.assessments ?? [];
           this.$emit('pending-changed', response.data.meta?.pendingCount ?? 0);
         })
         .catch(() => {
@@ -232,6 +319,32 @@ export default {
         .finally(() => {
           this.isSending = false;
         });
+    },
+    openAssessment(id) {
+      this.view = 'assessment-intro';
+      this.assessment = null;
+      this.assessmentId = id;
+      this.openError = null;
+      return this.assessmentHttp
+        .get(id)
+        .then((response) => {
+          this.assessment = response.data.data;
+        })
+        .catch((e) => {
+          this.view = 'assessment-error';
+          this.openError = serverMessage(e) ?? this.$t('general.error');
+        });
+    },
+    saveAssessment(answers) {
+      return this.assessmentHttp.update(this.assessmentId, {answers});
+    },
+    completeAssessment() {
+      return this.assessmentHttp.update(this.assessmentId, {complete: true});
+    },
+    onAssessmentDone() {
+      this.view = 'assessment-done';
+      this.assessment = null;
+      return this.load();
     },
     backToList() {
       this.view = 'list';
