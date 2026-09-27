@@ -114,5 +114,4 @@ describe('BrAssessmentProfile', () => {
     expect(styles).toContain('attendance.assessment_f_disc_s');
     expect(styles).toContain('attendance.assessment_f_disc_c');
   });
-
 });
