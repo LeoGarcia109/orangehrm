@@ -1,0 +1,11 @@
+// OrangeHRM BR - shared tokens for the mobile pages.
+// Each mobile component carries its own scoped stylesheet (a parent's scoped
+// CSS never reaches the inside of a child component), so the colours live
+// here and every sheet imports them.
+
+$ohrm-mobile-orange: #ff7b1d;
+$ohrm-mobile-orange-dark: #f35c17;
+$ohrm-mobile-green: #46b080;
+$ohrm-mobile-red: #d0453d;
+$ohrm-mobile-gray: #6c757c;
+$ohrm-mobile-bg: #f7f7f7;

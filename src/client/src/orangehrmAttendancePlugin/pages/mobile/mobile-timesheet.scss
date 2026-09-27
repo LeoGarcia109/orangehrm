@@ -1,0 +1,230 @@
+// OrangeHRM BR - monthly timesheet signature card (MobileTimesheet).
+//
+// Its own scoped sheet: a parent's scoped CSS reaches only the root of a child
+// component, never what is inside it -- which is how this card first shipped
+// with the password field glued to the button, unstyled.
+
+@import './mobile-tokens';
+
+.ohrm-mobile {
+  &__sheet {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1.1rem 1rem 1rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  }
+
+  &__sheet-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  &__sheet-eyebrow {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: $ohrm-mobile-gray;
+  }
+
+  &__sheet-title {
+    margin: 0.15rem 0 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #2c2c2c;
+  }
+
+  &__sheet-chip {
+    flex-shrink: 0;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    white-space: nowrap;
+
+    &.is-pending {
+      background: #fff4e5;
+      color: #8a5300;
+    }
+
+    &.is-signed {
+      background: #e6f4ea;
+      color: #2e7d32;
+    }
+
+    &.is-broken {
+      background: #fdecef;
+      color: #c62828;
+    }
+  }
+
+  &__sheet-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+
+  &__sheet-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.7rem 0.8rem;
+    border-radius: 0.7rem;
+    background: $ohrm-mobile-bg;
+  }
+
+  &__sheet-stat-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: #2c2c2c;
+    line-height: 1.2;
+  }
+
+  &__sheet-stat-label {
+    font-size: 0.72rem;
+    color: $ohrm-mobile-gray;
+  }
+
+  &__sheet-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0.7rem 0.8rem;
+    border-radius: 0.6rem;
+    font-size: 0.82rem;
+    line-height: 1.45;
+
+    .oxd-icon {
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    &.is-ok {
+      background: #e6f4ea;
+      color: #2e7d32;
+    }
+
+    &.is-warn {
+      background: #fff4e5;
+      color: #8a5300;
+    }
+
+    &.is-danger {
+      background: #fdecef;
+      color: #c62828;
+      font-weight: 600;
+    }
+  }
+
+  &__sheet-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    min-height: 3rem;
+    border: none;
+    border-radius: 0.75rem;
+    background: $ohrm-mobile-orange;
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+    &:active {
+      background: $ohrm-mobile-orange-dark;
+    }
+  }
+
+  // The confirmation step reads as its own panel: what is being agreed to,
+  // then the password, then the two choices -- each with room to breathe.
+  &__sheet-confirm {
+    margin-top: 0.25rem;
+    padding: 1rem;
+    border: 1px solid #f0e2d6;
+    border-radius: 0.8rem;
+    background: #fffaf5;
+  }
+
+  &__sheet-confirm-text {
+    margin: 0 0 1rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: #4a4a4a;
+  }
+
+  &__sheet-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #4a4a4a;
+  }
+
+  &__sheet-input {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 2.9rem;
+    padding: 0 0.85rem;
+    border: 1px solid #d6d6d6;
+    border-radius: 0.6rem;
+    background: #fff;
+    // 16px keeps iOS Safari from zooming the page in on focus
+    font-size: 16px;
+    font-family: inherit;
+
+    &:focus {
+      outline: none;
+      border-color: $ohrm-mobile-orange;
+      box-shadow: 0 0 0 3px rgba(255, 123, 29, 0.18);
+    }
+  }
+
+  &__sheet-error {
+    margin: 0.6rem 0 0;
+    font-size: 0.8rem;
+    color: #c62828;
+  }
+
+  &__sheet-actions {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 0.6rem;
+    margin-top: 1rem;
+  }
+
+  &__sheet-btn {
+    min-height: 2.9rem;
+    border-radius: 0.7rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+    &--secondary {
+      border: 1px solid #d6d6d6;
+      background: #fff;
+      color: #4a4a4a;
+    }
+
+    &--primary {
+      border: none;
+      background: $ohrm-mobile-orange;
+      color: #fff;
+
+      &:disabled {
+        opacity: 0.45;
+        cursor: default;
+      }
+    }
+  }
+}

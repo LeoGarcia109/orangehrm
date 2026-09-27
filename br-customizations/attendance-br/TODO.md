@@ -183,6 +183,25 @@ Dock do mobile: as abas foram para baixo, como barra de navegacao de
 celular. `viewport-fit=cover` so na pagina mobile, para o dock respeitar a
 barra de gesto do iPhone; as outras paginas continuam com o viewport antigo.
 
+### Incidente 2026-09-27 (noite): card da folha, Avisos e Faltas sem estilo
+
+A pagina mobile usa CSS com escopo (`scoped`), e no Vue esse CSS so alcanca
+a **raiz** dos componentes filhos, nunca o que esta dentro deles. Todo o
+estilo do card da folha, da aba Avisos e do formulario de Faltas estava no
+arquivo da pagina-mae, entao nada disso se aplicava -- o Leo viu o campo de
+senha colado no botao. Cada filho agora tem o proprio estilo
+(`mobile-timesheet.scss`, `mobile-inbox.scss`, tokens em
+`_mobile-tokens.scss`).
+
+O card da folha foi refeito: mostra o mes, o estado e os totais com um botao
+"Assinar folha"; a senha so aparece numa etapa de confirmacao que explica o
+que esta sendo assinado. `MobileTimesheet.spec.js`, 9 testes.
+
+Conferido com foto (Chromium em largura de iPhone, HTML real dos componentes
+gerado pelo Jest + CSS compilado). A foto pegou um defeito que o teste nao
+pegaria: os campos de Faltas vazavam do card (faltava `box-sizing:
+border-box`), e o texto a 13,6px faria o iPhone dar zoom ao tocar -- agora 16px.
+
 ### Pendente da assinatura da folha
 
 12. [ ] **Ninguem avisa o funcionario que a folha abriu para assinatura.** Ele

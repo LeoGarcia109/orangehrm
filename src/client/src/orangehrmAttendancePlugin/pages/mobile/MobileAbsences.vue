@@ -266,3 +266,5 @@ export default {
   },
 };
 </script>
+
+<style src="./mobile-inbox.scss" lang="scss" scoped></style>
