@@ -270,6 +270,51 @@ Ordem de aplicação: [`014_forms.sql`](attendance-br/migrations/014_forms.sql),
 Spec e plano: `docs/superpowers/specs/2026-09-27-formularios-design.md`,
 `docs/superpowers/plans/2026-09-27-formularios.md`.
 
+## Perfil comportamental — Big Five e DISC
+
+Inventário comportamental para **candidatos** (link público, sem login) e
+**funcionários** (aba Provas do app). Fica em **Recrutamento → Perfis
+comportamentais**, só para o Admin. O banco de possíveis contratados é a lista de
+candidatos do Recrutamento nativo; o perfil se soma a ela.
+
+- **Big Five:** os 50 marcadores do IPIP (domínio público, uso comercial livre), com a
+  chave oficial e a tradução brasileira do próprio IPIP. As fontes estão em
+  `Service/Assessment/InventoryCatalog.php`. **DISC:** 24 frases próprias, rotuladas
+  como aproximação do modelo. Eneagrama ficou de fora (não há instrumento público
+  validado).
+- **Cálculo:** 0–100 por fator, com as frases invertidas contando ao contrário.
+  **Não há referência populacional**: é a posição na própria escala, não um percentil.
+- **Não é teste psicológico** (Res. CFP 31/2022) nem critério único de decisão. O perfil
+  exibe esse aviso sempre.
+- **Candidato:**
+  - quem se candidata pela página pública de vagas cai direto no questionário;
+  - o RH também gera o link na tela ("Copiar" / "WhatsApp");
+  - o link é um token de uso único (só o sha256 fica no banco) e vale 7 dias;
+  - "Novo link" invalida o anterior;
+  - consentimento LGPD antes de gravar qualquer coisa, com data e IP;
+  - páginas salvas no servidor, retomando de onde parou;
+  - o candidato não vê o resultado.
+- **Contratação:** contratar pelo Recrutamento cria o funcionário (nativo), e o perfil
+  passa a apontar para ele. Excluir o candidato (Manutenção) apaga o perfil em cascata.
+- **Funcionário:** o RH envia para uma pessoa, uma empresa/posto ou a rede, e o
+  questionário aparece na aba Provas como "Perfil comportamental".
+
+Migrações: [`017_assessments.sql`](attendance-br/migrations/017_assessments.sql) e
+[`i18n/017_assessments_i18n.sql`](i18n/017_assessments_i18n.sql). O
+`ApplicantController` e o `AbstractCandidateActionAPI` do Recrutamento nativo foram
+tocados (candidatura → questionário; contratação → perfil); o deploy copia também o
+`orangehrmRecruitmentPlugin`.
+Spec e plano: `docs/superpowers/specs/2026-09-27-perfil-comportamental-design.md`,
+`docs/superpowers/plans/2026-09-27-perfil-comportamental.md`.
+
+### IP de evidência atrás da Cloudflare
+
+O site passa pela Cloudflare e por uma bridge do Docker, então `REMOTE_ADDR` é sempre
+`172.24.0.1`. Consentimento, assinatura da folha e auditoria do ponto usam
+`ClientIp::fromServer()`, que lê `CF-Connecting-IP` / `X-Forwarded-For` **só quando** a
+conexão vem de endereço privado (o nosso proxy). Os registros anteriores a 27/09/2026
+guardaram o IP da bridge.
+
 ## Fila offline de ponto
 
 Bater ponto sem sinal guarda a batida no aparelho e a envia quando a conexão
@@ -432,6 +477,7 @@ docker cp web/dist/. orangehrm-web:/var/www/html/web/dist/
 # Copiar arquivos PHP modificados
 docker cp src/plugins/orangehrmAttendancePlugin/. orangehrm-web:/var/www/html/src/plugins/orangehrmAttendancePlugin/
 docker cp src/plugins/orangehrmPimPlugin/. orangehrm-web:/var/www/html/src/plugins/orangehrmPimPlugin/
+docker cp src/plugins/orangehrmRecruitmentPlugin/. orangehrm-web:/var/www/html/src/plugins/orangehrmRecruitmentPlugin/
 
 # Entidade nova com relacao (ex.: formularios): gerar as classes proxy do
 # Doctrine -- em prod ele nao gera sozinho e a leitura quebra com

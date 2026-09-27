@@ -462,3 +462,33 @@ o contrato de todas as rotas do plugin.
       pela `i18n/015_fix_shifted_pt_br_translations.sql` (74 linhas, 27/09/2026);
       a base agora casa por grupo + `unit_id` e so insere.
 
+# Perfil comportamental - Big Five + DISC (2026-09-27, migracao 017)
+
+## Entregue
+
+- [x] Inventarios (IPIP-50 com a traducao brasileira do IPIP; DISC proprio),
+      calculo 0-100 com invertidas, estilos DISC, faixas descritivas.
+- [x] Link publico do candidato (token de uso unico, 7 dias, so o hash no banco),
+      consentimento LGPD com data e IP real, paginas salvas no servidor.
+- [x] Candidatura pela pagina publica de vagas leva direto ao questionario
+      (verificado por HTTP real, com CSRF e curriculo).
+- [x] Convites para funcionarios pela aba Provas; telas do RH (lista, novo convite,
+      WhatsApp, novo link, cancelar, perfil com aviso legal).
+- [x] Contratacao liga o perfil ao funcionario criado (verificado pela API nativa).
+- [x] Menu "Formularios" na barra lateral; menu de cima de volta nas telas BR (016).
+
+### Corrigido de passagem
+
+- IP de evidencia (auditoria do ponto, assinatura da folha) gravava o da bridge do
+  Docker (172.24.0.1). `ClientIp` resolve pelo cabecalho da Cloudflare, so vindo do proxy.
+
+### Pendente / proximos ciclos
+
+- [ ] D: perfil do cargo (engenharia de cargo: skills, requisitos, perfil desejado).
+- [ ] E: aderencia candidato x vaga (compara D com o resultado).
+- [ ] Revisao das 24 frases do DISC pelo RH.
+- [ ] Redirecionamentos do Recrutamento nativo saem com http:// atras do proxy
+      (inclusive o sucesso nativo); a Cloudflare corrige para https, mas vale
+      configurar trusted proxies no Symfony.
+- [ ] Conferir com um usuario so ESS.
+
