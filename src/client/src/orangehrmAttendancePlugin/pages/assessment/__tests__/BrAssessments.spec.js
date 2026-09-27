@@ -218,4 +218,35 @@ describe('BrAssessments', () => {
     await flushPromises();
     expect(mockUpdate).toHaveBeenCalledWith(1, {action: 'cancel'});
   });
+
+  it('compares the answered profiles that are ticked', async () => {
+    mockRequest.mockResolvedValue({
+      data: {
+        data: [
+          {
+            ...items[1],
+            id: 3,
+            candidateId: 1,
+            employeeId: null,
+            subjectType: 'CANDIDATE',
+          },
+          {...items[1], id: 4, candidateId: null, employeeId: 2},
+          items[0],
+        ],
+      },
+    });
+    const wrapper = await mountIt();
+    const boxes = wrapper.findAll('.ohrm-assessments__pick input');
+
+    expect(boxes).toHaveLength(2);
+    await boxes[0].setValue(true);
+    await boxes[1].setValue(true);
+    await wrapper.find('.ohrm-assessments__compare').trigger('click');
+
+    expect(mockNavigate).toHaveBeenCalledWith(
+      '/recruitment/brProfileCompare',
+      {},
+      {subjects: 'c1,e2'},
+    );
+  });
 });

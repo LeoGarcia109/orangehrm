@@ -38,6 +38,7 @@ import BrAssessments from './pages/assessment/BrAssessments.vue';
 import BrAssessmentProfile from './pages/assessment/BrAssessmentProfile.vue';
 import BrJobProfiles from './pages/jobfit/BrJobProfiles.vue';
 import BrJobProfile from './pages/jobfit/BrJobProfile.vue';
+import BrProfileCompare from './pages/jobfit/BrProfileCompare.vue';
 
 export default {
   'attendance-punch-in': PunchIn,
@@ -63,4 +64,5 @@ export default {
   'br-assessment-profile': BrAssessmentProfile,
   'br-job-profiles': BrJobProfiles,
   'br-job-profile': BrJobProfile,
+  'br-profile-compare': BrProfileCompare,
 };

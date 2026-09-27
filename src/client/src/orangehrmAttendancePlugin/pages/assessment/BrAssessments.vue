@@ -177,6 +177,26 @@
             {{ $t(`attendance.assessment_status_${status.toLowerCase()}`) }}
           </option>
         </select>
+        <select
+          v-model="filters.vacancyId"
+          class="ohrm-builder__input"
+          @change="load"
+        >
+          <option value="">{{ $t('attendance.jobfit_all_vacancies') }}</option>
+          <option v-for="v in vacancies" :key="v.id" :value="v.id">
+            {{ v.name }}
+          </option>
+        </select>
+        <button
+          type="button"
+          class="ohrm-builder__btn ohrm-assessments__compare"
+          :disabled="!picked.length"
+          @click="onCompare"
+        >
+          <i class="oxd-icon bi-bar-chart-line"></i>
+          {{ $t('attendance.jobfit_compare_selected') }}
+          <template v-if="picked.length">({{ picked.length }})</template>
+        </button>
       </div>
 
       <p v-if="!items.length" class="ohrm-forms__empty">
@@ -185,6 +205,7 @@
       <table v-else class="ohrm-br-table">
         <thead>
           <tr>
+            <th></th>
             <th>{{ $t('general.name') }}</th>
             <th>{{ $t('general.type') }}</th>
             <th>{{ $t('attendance.assessment_vacancy') }}</th>
@@ -196,6 +217,18 @@
         </thead>
         <tbody>
           <tr v-for="item in items" :key="item.id">
+            <td class="ohrm-assessments__pick">
+              <input
+                v-if="item.status === 'COMPLETED'"
+                v-model="picked"
+                type="checkbox"
+                :value="subjectKey(item)"
+                :disabled="
+                  !picked.includes(subjectKey(item)) &&
+                  picked.length >= maxPeople
+                "
+              />
+            </td>
             <td class="ohrm-forms__title">{{ item.name || '—' }}</td>
             <td>
               {{
@@ -258,6 +291,7 @@ import {APIService} from '@ohrm/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import CandidateAutocomplete from '@/orangehrmRecruitmentPlugin/components/CandidateAutocomplete.vue';
+import {MAX_PEOPLE, subjectKey} from '@/orangehrmAttendancePlugin/utils/jobFit';
 
 const ASSESSMENTS = '/api/v2/attendance/br/assessments';
 
@@ -281,13 +315,20 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/admin/subunits',
     );
-    return {http, unitsHttp};
+    const vacanciesHttp = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/recruitment/vacancies',
+    );
+    return {http, unitsHttp, vacanciesHttp};
   },
   data() {
     return {
       items: [],
       units: [],
-      filters: {subjectType: '', status: ''},
+      filters: {subjectType: '', status: '', vacancyId: ''},
+      vacancies: [],
+      picked: [],
+      maxPeople: MAX_PEOPLE,
       statuses: ['PENDING', 'COMPLETED', 'EXPIRED', 'CANCELLED'],
       creating: false,
       invite: this.emptyInvite(),
@@ -339,6 +380,14 @@ export default {
       .catch(() => {
         this.units = [];
       });
+    this.vacanciesHttp
+      .getAll({limit: 0})
+      .then((response) => {
+        this.vacancies = response.data.data;
+      })
+      .catch(() => {
+        this.vacancies = [];
+      });
   },
   methods: {
     emptyInvite() {
@@ -355,6 +404,7 @@ export default {
       if (this.filters.subjectType)
         params.subjectType = this.filters.subjectType;
       if (this.filters.status) params.status = this.filters.status;
+      if (this.filters.vacancyId) params.vacancyId = this.filters.vacancyId;
       return this.http
         .request({method: 'GET', params})
         .then((response) => {
@@ -420,6 +470,12 @@ export default {
       if (!window.confirm(this.$t('attendance.assessment_cancel_confirm')))
         return;
       this.http.update(item.id, {action: 'cancel'}).then(() => this.load());
+    },
+    subjectKey,
+    onCompare() {
+      const query = {subjects: this.picked.join(',')};
+      if (this.filters.vacancyId) query.vacancyId = this.filters.vacancyId;
+      navigate('/recruitment/brProfileCompare', {}, query);
     },
     onView(item) {
       navigate('/recruitment/brAssessmentProfile/{id}', {id: item.id});
