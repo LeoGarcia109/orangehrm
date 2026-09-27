@@ -22,6 +22,7 @@ namespace OrangeHRM\Attendance\Service\Assessment;
 use DateTime;
 use OrangeHRM\Attendance\Exception\AssessmentRuleException;
 use OrangeHRM\Attendance\Service\Form\FormService;
+use OrangeHRM\Attendance\Service\JobFit\JobFitService;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Assessment;
 use OrangeHRM\Entity\AssessmentAnswer;
@@ -322,8 +323,8 @@ class AssessmentService
     }
 
     /**
-     * A hired candidate's profiles follow them to the employee the hiring
-     * created.
+     * A hired candidate's profiles -- and HR's competency ratings -- follow
+     * them to the employee the hiring created.
      */
     public function linkHiredEmployee(Candidate $candidate, Employee $employee): void
     {
@@ -334,6 +335,7 @@ class AssessmentService
             $assessment->setEmployee($employee);
         }
         $this->getEntityManager()->flush();
+        (new JobFitService())->moveRatingsToEmployee($candidate, $employee);
     }
 
     /**
