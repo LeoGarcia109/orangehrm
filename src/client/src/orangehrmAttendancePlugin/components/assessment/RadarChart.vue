@@ -33,30 +33,50 @@
       v-for="(axis, i) in axes"
       :key="`axis-${axis.key}`"
       class="ohrm-radar__axis"
+      :class="{'is-muted': axis.muted}"
       :x1="cx"
       :y1="cy"
       :x2="point(i, 100)[0]"
       :y2="point(i, 100)[1]"
     />
-    <polygon class="ohrm-radar__shape" :points="polygon(values)" />
-    <circle
-      v-for="(axis, i) in axes"
-      :key="`dot-${axis.key}`"
-      class="ohrm-radar__dot"
-      :cx="point(i, values[i])[0]"
-      :cy="point(i, values[i])[1]"
-      r="3.5"
+    <path
+      v-if="bandPath"
+      class="ohrm-radar__band"
+      :d="bandPath"
+      fill-rule="evenodd"
     />
+    <template v-if="series">
+      <polygon
+        v-for="person in series"
+        :key="`series-${person.key}`"
+        class="ohrm-radar__series"
+        :points="polygon(clamp(person.values))"
+        :stroke="person.color"
+        :fill="person.color"
+      />
+    </template>
+    <template v-else>
+      <polygon class="ohrm-radar__shape" :points="polygon(values)" />
+      <circle
+        v-for="(axis, i) in axes"
+        :key="`dot-${axis.key}`"
+        class="ohrm-radar__dot"
+        :cx="point(i, values[i])[0]"
+        :cy="point(i, values[i])[1]"
+        r="3.5"
+      />
+    </template>
     <text
       v-for="(axis, i) in axes"
       :key="`label-${axis.key}`"
       class="ohrm-radar__label"
+      :class="{'is-muted': axis.muted}"
       :x="labelPoint(i)[0]"
       :y="labelPoint(i)[1]"
       :text-anchor="anchor(i)"
       dominant-baseline="middle"
     >
-      {{ axis.label }}
+      {{ axis.essential ? `${axis.label} ★` : axis.label }}
     </text>
   </svg>
 </template>
@@ -66,6 +86,12 @@
  * BR: a spider chart of 0-100 scores, in plain SVG -- no chart library, and
  * it prints as sharp vectors in the PDF. The first axis points straight up
  * and the rest go clockwise.
+ *
+ * One person: `axes[].value`. Several people (the comparison): `series`, one
+ * outline each in its own colour, over the job's range shaded as a ring
+ * between its minimum and its maximum (`band`, aligned with `axes`; null for
+ * an axis without a range). `axes[].muted` dashes an ignored axis and
+ * `axes[].essential` stars its label.
  */
 export default {
   name: 'RadarChart',
@@ -73,6 +99,10 @@ export default {
     // [{key, label, value 0..100}]
     axes: {type: Array, required: true},
     size: {type: Number, default: 300},
+    // [{key, color, values: [0..100 per axis]}]
+    series: {type: Array, default: null},
+    // [{min, max} | null per axis]
+    band: {type: Array, default: null},
   },
   data() {
     return {rings: [25, 50, 75, 100]};
@@ -89,12 +119,21 @@ export default {
       return this.size / 2 - 58;
     },
     values() {
-      return this.axes.map((a) =>
-        Math.min(100, Math.max(0, Number(a.value) || 0)),
-      );
+      return this.clamp(this.axes.map((a) => a.value));
+    },
+    bandPath() {
+      if (!this.band || !this.band.some(Boolean)) return null;
+      const edge = (side) =>
+        this.axes.map((a, i) => this.point(i, this.band[i]?.[side] ?? 0));
+      const path = (points) => `M${points.map((p) => p.join(',')).join('L')}Z`;
+      // The inner outline runs the other way, so even-odd leaves it empty
+      return `${path(edge('max'))} ${path(edge('min').reverse())}`;
     },
   },
   methods: {
+    clamp(values) {
+      return values.map((v) => Math.min(100, Math.max(0, Number(v) || 0)));
+    },
     angle(i) {
       return (2 * Math.PI * i) / this.axes.length - Math.PI / 2;
     },
@@ -146,6 +185,20 @@ export default {
   stroke-width: 2;
   stroke-linejoin: round;
 }
+.ohrm-radar__axis.is-muted {
+  stroke-dasharray: 3 3;
+}
+.ohrm-radar__band {
+  fill: rgba(250, 199, 117, 0.35);
+  stroke: #ba7517;
+  stroke-width: 1;
+  stroke-dasharray: 4 2;
+}
+.ohrm-radar__series {
+  fill-opacity: 0.08;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
 .ohrm-radar__dot {
   fill: #ff7b1d;
 }
@@ -153,5 +206,9 @@ export default {
   font-size: 11px;
   font-weight: 700;
   fill: #4a4a4a;
+}
+.ohrm-radar__label.is-muted {
+  fill: #9a9a9a;
+  font-weight: 400;
 }
 </style>

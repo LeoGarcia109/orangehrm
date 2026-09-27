@@ -80,4 +80,59 @@ describe('RadarChart', () => {
 
     expect(y).toBeCloseTo(wrapper.vm.cy - wrapper.vm.radius, 1);
   });
+
+  describe('several people and the job range', () => {
+    const series = [
+      {key: 'c1', color: '#1D9E75', values: [80, 60, 40, 70, 20]},
+      {key: 'e2', color: '#D85A30', values: [30, 50, 90, 60, 10]},
+    ];
+    const band = [{min: 60, max: 90}, {min: 50, max: 85}, null, null, null];
+
+    it('draws one outline per person, in their colour', () => {
+      const wrapper = mount(RadarChart, {props: {axes, series}});
+      const shapes = wrapper.findAll('polygon.ohrm-radar__series');
+
+      expect(shapes).toHaveLength(2);
+      expect(shapes.map((s) => s.attributes('stroke'))).toEqual([
+        '#1D9E75',
+        '#D85A30',
+      ]);
+      expect(wrapper.find('.ohrm-radar__shape').exists()).toBe(false);
+    });
+
+    it('shades the job range as a ring between min and max', () => {
+      const wrapper = mount(RadarChart, {props: {axes, series, band}});
+      const d = wrapper.find('path.ohrm-radar__band').attributes('d');
+
+      expect(d.match(/M/g)).toHaveLength(2);
+      expect(
+        wrapper.find('path.ohrm-radar__band').attributes('fill-rule'),
+      ).toBe('evenodd');
+    });
+
+    it('has no band without a range', () => {
+      const wrapper = mount(RadarChart, {props: {axes, series}});
+      expect(wrapper.find('path.ohrm-radar__band').exists()).toBe(false);
+    });
+
+    it('dashes ignored axes and stars essential ones', () => {
+      const wrapper = mount(RadarChart, {
+        props: {
+          axes: [
+            {...axes[0], essential: true},
+            {...axes[1], muted: true},
+            ...axes.slice(2),
+          ],
+          series,
+        },
+      });
+      const lines = wrapper.findAll('.ohrm-radar__axis');
+
+      expect(lines[1].classes()).toContain('is-muted');
+      expect(lines[0].classes()).not.toContain('is-muted');
+      expect(wrapper.findAll('.ohrm-radar__label')[0].text()).toBe(
+        'Extroversão ★',
+      );
+    });
+  });
 });
