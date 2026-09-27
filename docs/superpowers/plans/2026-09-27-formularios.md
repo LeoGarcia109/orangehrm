@@ -992,6 +992,7 @@ public static function forFilling(array $definition): array
 | form_publish | Publish | Publicar |
 | form_close | Close | Encerrar |
 | form_duplicate | Duplicate | Duplicar |
+| form_remove | Remove | Excluir |
 | form_results | Results | Resultados |
 | form_responded | Responded | Responderam |
 | form_audience | Audience | Público |
@@ -1002,6 +1003,15 @@ public static function forFilling(array $definition): array
 | form_review | Review | Corrigir |
 | form_grant_retake | Allow another attempt | Liberar nova tentativa |
 | form_export_csv | Export CSV | Exportar CSV |
+| form_close_confirm | Close this form? Nobody will be able to answer it anymore. | Encerrar este formulário? Ninguém mais poderá responder. |
+| form_view_answers | View answers | Ver respostas |
+| form_attempt | Attempt | Tentativa |
+| form_score | Score | Nota |
+| form_submitted_at | Submitted | Enviado em |
+| form_by_question | By question | Por questão |
+| form_by_person | By person | Por pessoa |
+| form_correct_rate | Correct | Acerto |
+| form_retake_confirm | Allow this person another attempt? | Liberar nova tentativa para esta pessoa? |
 | form_hidden_anonymous | Results appear after 3 responses, to protect anonymity. | Os resultados aparecem a partir de 3 respostas, para proteger o anonimato. |
 | form_pending | To answer | Para responder |
 | form_answered | Answered | Respondidos |
@@ -1021,7 +1031,7 @@ public static function forFilling(array $definition): array
 | form_yes | Yes | Sim |
 | form_no | No | Não |
 
-- [ ] **Step 2:** Aplicar duas vezes no banco. Esperado: sem erro, e `SELECT COUNT(*) FROM ohrm_i18n_lang_string WHERE group_id=17 AND unit_id LIKE 'form\_%'` = 66.
+- [ ] **Step 2:** Aplicar duas vezes no banco. Esperado: sem erro, e `SELECT COUNT(*) FROM ohrm_i18n_lang_string WHERE group_id=17 AND unit_id LIKE 'form\_%'` = 76.
 - [ ] **Step 3:** Commit `feat(br): formularios - textos pt-BR`.
 
 ---

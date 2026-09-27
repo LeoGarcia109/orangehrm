@@ -50,6 +50,7 @@ SELECT t.unit_id, 17, t.value, NULL FROM (
   SELECT 'form_publish', 'Publish' UNION ALL
   SELECT 'form_close', 'Close' UNION ALL
   SELECT 'form_duplicate', 'Duplicate' UNION ALL
+  SELECT 'form_remove', 'Remove' UNION ALL
   SELECT 'form_results', 'Results' UNION ALL
   SELECT 'form_responded', 'Responded' UNION ALL
   SELECT 'form_audience', 'Audience' UNION ALL
@@ -60,6 +61,15 @@ SELECT t.unit_id, 17, t.value, NULL FROM (
   SELECT 'form_review', 'Review' UNION ALL
   SELECT 'form_grant_retake', 'Allow another attempt' UNION ALL
   SELECT 'form_export_csv', 'Export CSV' UNION ALL
+  SELECT 'form_close_confirm', 'Close this form? Nobody will be able to answer it anymore.' UNION ALL
+  SELECT 'form_view_answers', 'View answers' UNION ALL
+  SELECT 'form_attempt', 'Attempt' UNION ALL
+  SELECT 'form_score', 'Score' UNION ALL
+  SELECT 'form_submitted_at', 'Submitted' UNION ALL
+  SELECT 'form_by_question', 'By question' UNION ALL
+  SELECT 'form_by_person', 'By person' UNION ALL
+  SELECT 'form_correct_rate', 'Correct' UNION ALL
+  SELECT 'form_retake_confirm', 'Allow this person another attempt?' UNION ALL
   SELECT 'form_hidden_anonymous', 'Results appear after 3 responses, to protect anonymity.' UNION ALL
   SELECT 'form_pending', 'To answer' UNION ALL
   SELECT 'form_answered', 'Answered' UNION ALL
@@ -126,6 +136,7 @@ SELECT ls.id, @lang_pt_br,
     WHEN 'form_publish' THEN 'Publicar'
     WHEN 'form_close' THEN 'Encerrar'
     WHEN 'form_duplicate' THEN 'Duplicar'
+    WHEN 'form_remove' THEN 'Excluir'
     WHEN 'form_results' THEN 'Resultados'
     WHEN 'form_responded' THEN 'Responderam'
     WHEN 'form_audience' THEN 'Público'
@@ -136,6 +147,15 @@ SELECT ls.id, @lang_pt_br,
     WHEN 'form_review' THEN 'Corrigir'
     WHEN 'form_grant_retake' THEN 'Liberar nova tentativa'
     WHEN 'form_export_csv' THEN 'Exportar CSV'
+    WHEN 'form_close_confirm' THEN 'Encerrar este formulário? Ninguém mais poderá responder.'
+    WHEN 'form_view_answers' THEN 'Ver respostas'
+    WHEN 'form_attempt' THEN 'Tentativa'
+    WHEN 'form_score' THEN 'Nota'
+    WHEN 'form_submitted_at' THEN 'Enviado em'
+    WHEN 'form_by_question' THEN 'Por questão'
+    WHEN 'form_by_person' THEN 'Por pessoa'
+    WHEN 'form_correct_rate' THEN 'Acerto'
+    WHEN 'form_retake_confirm' THEN 'Liberar nova tentativa para esta pessoa?'
     WHEN 'form_hidden_anonymous' THEN 'Os resultados aparecem a partir de 3 respostas, para proteger o anonimato.'
     WHEN 'form_pending' THEN 'Para responder'
     WHEN 'form_answered' THEN 'Respondidos'

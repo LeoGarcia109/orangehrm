@@ -30,6 +30,9 @@ import BrAnnouncements from './pages/inbox/BrAnnouncements.vue';
 import BrAbsences from './pages/inbox/BrAbsences.vue';
 import BrTimesheets from './pages/inbox/BrTimesheets.vue';
 import BrMyForms from './pages/forms/BrMyForms.vue';
+import BrForms from './pages/forms/BrForms.vue';
+import BrFormBuilder from './pages/forms/BrFormBuilder.vue';
+import BrFormResults from './pages/forms/BrFormResults.vue';
 
 export default {
   'attendance-punch-in': PunchIn,
@@ -47,4 +50,7 @@ export default {
   'br-absences': BrAbsences,
   'br-timesheets': BrTimesheets,
   'br-my-forms': BrMyForms,
+  'br-forms': BrForms,
+  'br-form-builder': BrFormBuilder,
+  'br-form-results': BrFormResults,
 };
