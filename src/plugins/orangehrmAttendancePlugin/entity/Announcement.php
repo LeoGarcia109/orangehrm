@@ -91,6 +91,14 @@ class Announcement
     private ?DateTime $expiresAt = null;
 
     /**
+     * The form this notice announces, when it does -- it gets a "Responder" button.
+     *
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Form")
+     * @ORM\JoinColumn(name="form_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    private ?Form $form = null;
+
+    /**
      * @ORM\Column(name="created_by_emp_number", type="integer", nullable=true)
      */
     private ?int $createdByEmpNumber = null;
@@ -204,5 +212,15 @@ class Announcement
     public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
+    }
+
+    public function getForm(): ?Form
+    {
+        return $this->form;
+    }
+
+    public function setForm(?Form $form): void
+    {
+        $this->form = $form;
     }
 }
