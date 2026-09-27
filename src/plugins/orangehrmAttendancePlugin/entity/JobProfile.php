@@ -71,7 +71,7 @@ class JobProfile
 
     /**
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\JobCompetency", mappedBy="jobProfile", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"sortOrder" = "ASC", "id" = "ASC"})
+     * @ORM\OrderBy({"sortOrder"="ASC", "id"="ASC"})
      *
      * @var Collection<int, JobCompetency>
      */

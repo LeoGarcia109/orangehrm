@@ -460,3 +460,67 @@ recruitment_br_assessment_profile_page:
   methods: [ GET ]
   requirements:
     id: '\d+'
+
+# BR: perfil do cargo e comparacao de aderencia -- RH
+apiv2_attendance_br_job_profiles:
+  path: /api/v2/attendance/br/job-profiles
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\JobProfileAPI
+
+apiv2_attendance_br_job_profile:
+  path: /api/v2/attendance/br/job-profiles/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\JobProfileAPI
+  requirements:
+    id: '\d+'
+
+apiv2_attendance_br_job_profile_suggestion:
+  path: /api/v2/attendance/br/job-profile-suggestion
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\JobProfileSuggestionAPI
+
+apiv2_attendance_br_profile_people:
+  path: /api/v2/attendance/br/profile-people
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\ProfilePeopleAPI
+
+apiv2_attendance_br_profile_comparison:
+  path: /api/v2/attendance/br/profile-comparison
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\ProfileComparisonAPI
+
+apiv2_attendance_br_competency_rating:
+  path: /api/v2/attendance/br/competency-ratings/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\CompetencyRatingAPI
+  requirements:
+    id: '\d+'
+
+recruitment_br_job_profiles_page:
+  path: /recruitment/brJobProfiles
+  controller: OrangeHRM\Attendance\Controller\BrJobProfilesController::handle
+  methods: [ GET ]
+
+recruitment_br_job_profile_page:
+  path: /recruitment/brJobProfile/{id}
+  controller: OrangeHRM\Attendance\Controller\BrJobProfileController::handle
+  methods: [ GET ]
+  requirements:
+    id: '\d+'
+
+recruitment_br_profile_compare_page:
+  path: /recruitment/brProfileCompare
+  controller: OrangeHRM\Attendance\Controller\BrProfileCompareController::handle
+  methods: [ GET ]

@@ -17,36 +17,24 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace OrangeHRM\Attendance\Menu;
+namespace OrangeHRM\Attendance\Controller;
 
-use OrangeHRM\Core\Menu\MenuConfigurator;
-use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
-use OrangeHRM\Entity\MenuItem;
-use OrangeHRM\Entity\Screen;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Framework\Http\Request;
 
 /**
- * BR: the behavioural-profile and job-profile screens live under Recruitment.
- * A page that is not a menu item of its own -- one profile, one job title --
- * highlights the list it opens from; the others highlight themselves.
+ * BR: the job titles and their ideal profiles.
  */
-class AssessmentMenuConfigurator implements MenuConfigurator
+class BrJobProfilesController extends AbstractVueController
 {
-    use ModuleScreenHelperTrait;
-
-    private const PARENT_SCREEN = [
-        'brAssessmentProfile' => 'brAssessments',
-        'brJobProfile' => 'brJobProfiles',
-    ];
-
     /**
      * @inheritDoc
      */
-    public function configure(Screen $screen): ?MenuItem
+    public function preRender(Request $request): void
     {
-        $parent = self::PARENT_SCREEN[$screen->getActionUrl()] ?? null;
-        if ($parent !== null) {
-            $this->getCurrentModuleAndScreen()->overrideScreen($parent);
-        }
-        return null;
+        $component = new Component('br-job-profiles');
+
+        $this->setComponent($component);
     }
 }
