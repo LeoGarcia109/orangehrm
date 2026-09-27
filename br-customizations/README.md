@@ -235,7 +235,7 @@ Migrações: [`010_inbox.sql`](attendance-br/migrations/010_inbox.sql),
 
 O RH monta, campo a campo, **provas** (gabarito, nota automática, nota mínima)
 e **pesquisas** (sem certo ou errado; podem ser anônimas) em
-`Ponto → Formulários`, e envia para a rede, uma empresa/posto ou uma pessoa —
+**Formulários**, item próprio da barra lateral (migração `016`), e envia para a rede, uma empresa/posto ou uma pessoa —
 o mesmo alcance dos Avisos. Publicar cria um aviso com botão **Responder**. O
 funcionário responde na aba **Provas** do mobile ou em `Ponto → Meus
 formulários` no desktop (o mesmo componente, `FormFiller`).
@@ -265,6 +265,7 @@ formulários` no desktop (o mesmo componente, `FormFiller`).
 
 Ordem de aplicação: [`014_forms.sql`](attendance-br/migrations/014_forms.sql),
 [`015_form_templates.sql`](attendance-br/migrations/015_form_templates.sql),
+[`016_forms_side_menu.sql`](attendance-br/migrations/016_forms_side_menu.sql),
 [`i18n/014_forms_i18n.sql`](i18n/014_forms_i18n.sql). Todas idempotentes.
 Spec e plano: `docs/superpowers/specs/2026-09-27-formularios-design.md`,
 `docs/superpowers/plans/2026-09-27-formularios.md`.
@@ -454,6 +455,11 @@ docker run --rm -v /home/leo/orangehrm-repo:/app -w /app orangehrm/orangehrm:lat
   php /app/src/vendor/bin/phpunit -c /app/br-customizations/tests/phpunit-nodb.xml
 cd src/client && npx jest && npx eslint --ext .js,.vue,.ts src/orangehrmAttendancePlugin
 ```
+
+Tela nova de Ponto precisa de `menu_configurator` em `ohrm_screen` (em geral
+`AttendanceMenuConfigurator`): a barra lateral casa pelo módulo da URL, e sem
+ele nenhum item fica ativo e o menu de cima some (aconteceu com todas as telas
+BR até a migração 016).
 
 O `ApiRouteContractTest` confere que todo verbo das rotas do plugin de Ponto
 chega a um método que o `GenericRestController` executa (PUT exige
