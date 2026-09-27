@@ -214,6 +214,44 @@ Migrações: [`010_inbox.sql`](attendance-br/migrations/010_inbox.sql),
 [`011_inbox_screens.sql`](attendance-br/migrations/011_inbox_screens.sql)
 · strings: [`i18n/011_inbox_i18n.sql`](i18n/011_inbox_i18n.sql)
 
+## Formulários — provas e pesquisas
+
+O RH monta, campo a campo, **provas** (gabarito, nota automática, nota mínima)
+e **pesquisas** (sem certo ou errado; podem ser anônimas) em
+`Ponto → Formulários`, e envia para a rede, uma empresa/posto ou uma pessoa —
+o mesmo alcance dos Avisos. Publicar cria um aviso com botão **Responder**. O
+funcionário responde na aba **Provas** do mobile ou em `Ponto → Meus
+formulários` no desktop (o mesmo componente, `FormFiller`).
+
+- **Blocos:** escolha única, múltipla escolha, texto curto e longo, escala 1–5,
+  Sim/Não e conteúdo (texto/imagem/vídeo sem resposta). Qualquer bloco aceita
+  imagem (no banco, até 2 MB, tipo conferido pelos bytes, sem SVG) e vídeo do
+  YouTube (só o ID, host comparado inteiro, exibido por youtube-nocookie).
+- **Correção:** tudo ou nada por questão; múltipla só pontua com o conjunto
+  exato; escala não pontua; texto fica "aguardando correção" até o RH dar os
+  pontos. **O gabarito nunca vai para o navegador de quem responde** — a
+  correção é só no servidor.
+- **Uma tentativa**, mais as que o RH liberar; vale a última. Prazo vencido e
+  formulário encerrado recusam envio.
+- **Publicado trava** (as notas são dadas contra ele); para mudar, duplique.
+- **Anonimato:** "quem respondeu" e "o que respondeu" ficam em tabelas
+  separadas, e o envio anônimo é gravado sem funcionário, sem tentativa, sem
+  horário e com ID aleatório. Pesquisa anônima para uma pessoa é recusada, e os
+  resultados só aparecem a partir de **3 respostas**. Limite que o código não
+  resolve: num texto a pessoa pode se identificar pelo que escreveu.
+- **Resultados:** quem falta, média e aprovados, barras por opção com a certa
+  em verde, escala, textos, respostas por pessoa com correção e nova tentativa,
+  e CSV para Excel pt-BR (célula que parece fórmula vira texto).
+- **Modelos prontos para postos** (`015`): autoavaliação do frentista, prova de
+  segurança na pista (NR-20 Anexo IV e Resolução ANP 898/2022, fontes no SQL)
+  e pesquisa de clima anônima. "Usar modelo" copia para um rascunho.
+
+Ordem de aplicação: [`014_forms.sql`](attendance-br/migrations/014_forms.sql),
+[`015_form_templates.sql`](attendance-br/migrations/015_form_templates.sql),
+[`i18n/014_forms_i18n.sql`](i18n/014_forms_i18n.sql). Todas idempotentes.
+Spec e plano: `docs/superpowers/specs/2026-09-27-formularios-design.md`,
+`docs/superpowers/plans/2026-09-27-formularios.md`.
+
 ## Fila offline de ponto
 
 Bater ponto sem sinal guarda a batida no aparelho e a envia quando a conexão
@@ -377,15 +415,32 @@ docker cp web/dist/. orangehrm-web:/var/www/html/web/dist/
 docker cp src/plugins/orangehrmAttendancePlugin/. orangehrm-web:/var/www/html/src/plugins/orangehrmAttendancePlugin/
 docker cp src/plugins/orangehrmPimPlugin/. orangehrm-web:/var/www/html/src/plugins/orangehrmPimPlugin/
 
+# Entidade nova com relacao (ex.: formularios): gerar as classes proxy do
+# Doctrine -- em prod ele nao gera sozinho e a leitura quebra com
+# "Failed opening required .../proxy/__CG__..."
+docker exec -u www-data orangehrm-web sh -c "cd /var/www/html && php bin/console orm:generate-proxies"
+
 # Corrigir permissoes + regenerar autoload + limpar cache
 docker exec orangehrm-web bash -c "
   chown -R www-data:www-data /var/www/html/web/dist/ &&
   chmod -R 755 /var/www/html/web/dist/ &&
   cd /var/www/html/src && php composer.phar dump-autoload &&
   chown -R www-data:www-data /var/www/html/src/cache/ &&
-  rm -rf /var/www/html/src/cache/orangehrm/*
+  rm -rf /var/www/html/src/cache/orangehrm/* /var/www/html/src/cache/doctrine_metadata/* /var/www/html/src/cache/doctrine_queries/*
 "
 ```
+
+### Testes BR (sem banco)
+
+```bash
+docker run --rm -v /home/leo/orangehrm-repo:/app -w /app orangehrm/orangehrm:latest \
+  php /app/src/vendor/bin/phpunit -c /app/br-customizations/tests/phpunit-nodb.xml
+cd src/client && npx jest && npx eslint --ext .js,.vue,.ts src/orangehrmAttendancePlugin
+```
+
+O `ApiRouteContractTest` confere que todo verbo das rotas do plugin de Ponto
+chega a um método que o `GenericRestController` executa (PUT exige
+`ResourceEndpoint`). Probe que chama o método da API direto não pega isso.
 
 ### Credenciais do banco (container orangehrm-db)
 

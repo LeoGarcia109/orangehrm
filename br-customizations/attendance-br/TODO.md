@@ -421,3 +421,43 @@ Com geofence exigindo coordenadas, batida sem GPS e recusada
 (`missing_coordinates`). A tela desktop padrao (`/attendance/punchIn`) nao envia
 coordenadas, entao funcionarios de empresa com geofence terao de usar a pagina
 mobile (`/attendance/mobile`). Confirmar que e o fluxo desejado.
+
+# Formularios - provas e pesquisas (2026-09-27, migracoes 014 e 015)
+
+## Entregue
+
+- [x] Construtor do RH (desktop): 7 tipos de bloco, imagem, video do YouTube,
+      reordenar/duplicar/excluir, pre-visualizar sem gabarito, publicar com a
+      recusa apontando o bloco ("Bloco N: ..."), encerrar, duplicar.
+- [x] Resposta pelo mobile (aba Provas, com contador) e pelo desktop (Meus
+      formularios), rascunho no aparelho, confirmacao antes de enviar.
+- [x] Correcao automatica, correcao manual de texto, nova tentativa, resultados
+      e CSV. Pesquisa anonima sem nada que ligue a pessoa a resposta.
+- [x] Aviso com botao Responder; modelos prontos para postos.
+- [x] Testes: PHPUnit (regras puras, validacao das APIs, contrato das rotas),
+      Jest (FormFiller, aba, construtor, lista, resultados), probes no banco
+      real com rollback, e ponta a ponta pelo GenericRestController (15/15).
+- [x] Publicados para o Leo testar (funcionario 1, prazo 27/10/2026): a prova
+      de seguranca (form 57) e a autoavaliacao (form 56).
+
+### Incidente encontrado de passagem: aprovar/recusar falta dava 501
+
+O `GenericRestController` so executa PUT em quem implementa `ResourceEndpoint`;
+o `AbsenceJustificationAPI` so implementava `CollectionEndpoint`, entao todo
+clique em aprovar/recusar respondia "Not Implemented". Passou porque o probe
+chamava `update()` direto. Corrigido, e o `ApiRouteContractTest` agora confere
+o contrato de todas as rotas do plugin.
+
+### Pendente dos formularios
+
+- [ ] Conferir com um usuario so ESS (nao ha nenhum no banco).
+- [ ] Revisao do conteudo dos modelos pelo RH/seguranca; colar o video de
+      treinamento no bloco "Antes de comecar" da prova.
+- [ ] Fora da primeira versao (decidido): montar pelo celular, arrastar e
+      soltar, secoes e ramificacao, imagem nas opcoes, ponto parcial na
+      multipla, Supervisor criando/corrigindo, fila offline de respostas, push.
+- [ ] Traducoes `general.*` do pt_BR trocadas na instalacao (ex.: "No, Cancel"
+      aparece como "Gestao de Usuarios", `general.date` como "Segunda-feira").
+      Causa: `i18n/pt_br_translations.sql` grava por id numerico. Tarefa
+      separada; as telas de formularios usam chaves `form_*` proprias.
+
