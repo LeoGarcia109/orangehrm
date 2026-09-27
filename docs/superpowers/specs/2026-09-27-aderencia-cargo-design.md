@@ -67,6 +67,7 @@ Média ponderada das notas dos fatores com peso > 0, nos dois instrumentos junto
   menor que o nível mínimo. Competência sem nota não alerta.
 
 ### Duelo: quem está mais perto
+Calculado na tela, a partir das notas por fator que a API já devolve.
 - Fator: a seta vai para a maior nota do fator (a mais perto da faixa, **não** o maior
   score). Notas iguais, sem seta.
 - Competência: a seta vai para a maior nota do RH. Sem nota de um dos dois, sem seta.
@@ -124,20 +125,20 @@ Média ponderada das notas dos fatores com peso > 0, nos dois instrumentos junto
   - `ProfilePeopleAPI`: GET da lista de seleção (filtros: vaga, empresa, tipo, nome).
   - `ProfileComparisonAPI`: GET com `jobTitleId` e `subjects` → perfil do cargo, pessoas,
     notas, blocos, geral, marcas e alertas, já ordenado.
-  - `CompetencyRatingAPI`: PUT de uma nota (pessoa, competência, 1 a 5) e DELETE para
-    limpar.
+  - `CompetencyRatingAPI`: PUT de uma nota (pessoa, competência, 1 a 5); PUT sem nota
+    apaga a nota.
 - Idempotente, como a 017. i18n num arquivo próprio, prefixo `jobfit_`, grupo 17.
 
 ## 4. Regras (classes puras, testadas sem banco)
 
 - `JobFit`: nota do fator, cor, bloco comportamental, competências, geral, marca "parcial",
-  alertas, ranking e vencedor do duelo por linha.
+  alertas e ranking.
 - `JobProfileSuggestion`: média, DP amostral, arredondamento de 5 em 5, largura mínima,
   caso de uma referência.
 - `JobProfileRules`: valida o perfil (9 fatores, `min ≤ max`, múltiplos de 5, pesos 0/1/2,
   ao menos um fator com peso > 0, peso comportamental 0 a 100, nome da competência não
-  vazio e sem repetição, nível mínimo 1 a 5, até 30 competências) e a comparação (2 a 20
-  pessoas, sem repetição).
+  vazio e sem repetição, nível mínimo 1 a 5, até 30 competências) e a comparação (1 a 20
+  pessoas, sem repetição; uma pessoa já mostra a aderência dela ao cargo).
 - Violações lançam `JobFitRuleException`, que a API devolve como 400 com a mensagem.
 
 ## 5. Telas
@@ -161,7 +162,8 @@ Média ponderada das notas dos fatores com peso > 0, nos dois instrumentos junto
 
 ### Comparar perfis (Recrutamento → Comparar perfis)
 - **Cargo** (obrigatório). Se a tela abrir com filtro de vaga, o cargo da vaga vem
-  preenchido.
+  preenchido. Cargo sem perfil definido não compara: a tela pede para definir o perfil e
+  leva à edição.
 - **Seleção**: lista das pessoas com teste concluído, com filtros de vaga (candidatos),
   empresa (funcionários, incluindo sub-unidades), tipo e nome; **Marcar todos** marca o que
   o filtro mostra; até 20 marcadas.
@@ -169,7 +171,7 @@ Média ponderada das notas dos fatores com peso > 0, nos dois instrumentos junto
   link abre a mesma comparação.
 - **Radar sobreposto** (Big Five e DISC): faixa do cargo em anel sombreado entre mínimo e
   máximo; eixos com peso 0 tracejados e sem faixa; essencial com ★; uma linha colorida por
-  pessoa. Até 6 linhas: por padrão as 6 primeiras do ranking; cada pessoa do ranking tem a
+  pessoa. Até 6 linhas (duelo: exatamente 2 pessoas): por padrão as 6 primeiras do ranking; cada pessoa do ranking tem a
   chave **Mostrar no gráfico**.
 - **Ranking**: posição, nome, tipo (e empresa, para funcionário), geral, comportamental,
   competências, marca "parcial", alertas.
