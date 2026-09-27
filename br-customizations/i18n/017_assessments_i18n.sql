@@ -49,6 +49,7 @@ SELECT t.unit_id, 17, t.value, NULL FROM (
   SELECT 'assessment_cancel', 'Cancel invite' UNION ALL
   SELECT 'assessment_cancel_confirm', 'Cancel this invite? The link will stop working.' UNION ALL
   SELECT 'assessment_view', 'View profile' UNION ALL
+  SELECT 'assessment_download_pdf', 'Download PDF' UNION ALL
   SELECT 'assessment_status_pending', 'Pending' UNION ALL
   SELECT 'assessment_status_completed', 'Answered' UNION ALL
   SELECT 'assessment_status_expired', 'Expired' UNION ALL
@@ -134,6 +135,7 @@ SELECT ls.id, @lang_pt_br,
     WHEN 'assessment_cancel' THEN 'Cancelar convite'
     WHEN 'assessment_cancel_confirm' THEN 'Cancelar este convite? O link deixa de funcionar.'
     WHEN 'assessment_view' THEN 'Ver perfil'
+    WHEN 'assessment_download_pdf' THEN 'Baixar PDF'
     WHEN 'assessment_status_pending' THEN 'Pendente'
     WHEN 'assessment_status_completed' THEN 'Respondido'
     WHEN 'assessment_status_expired' THEN 'Vencido'
@@ -220,6 +222,7 @@ UPDATE ohrm_i18n_lang_string ls SET ls.value = CASE ls.unit_id
     WHEN 'assessment_cancel' THEN 'Cancel invite'
     WHEN 'assessment_cancel_confirm' THEN 'Cancel this invite? The link will stop working.'
     WHEN 'assessment_view' THEN 'View profile'
+    WHEN 'assessment_download_pdf' THEN 'Download PDF'
     WHEN 'assessment_status_pending' THEN 'Pending'
     WHEN 'assessment_status_completed' THEN 'Answered'
     WHEN 'assessment_status_expired' THEN 'Expired'
@@ -300,6 +303,7 @@ SET t.value = CASE ls.unit_id
     WHEN 'assessment_cancel' THEN 'Cancelar convite'
     WHEN 'assessment_cancel_confirm' THEN 'Cancelar este convite? O link deixa de funcionar.'
     WHEN 'assessment_view' THEN 'Ver perfil'
+    WHEN 'assessment_download_pdf' THEN 'Baixar PDF'
     WHEN 'assessment_status_pending' THEN 'Pendente'
     WHEN 'assessment_status_completed' THEN 'Respondido'
     WHEN 'assessment_status_expired' THEN 'Vencido'

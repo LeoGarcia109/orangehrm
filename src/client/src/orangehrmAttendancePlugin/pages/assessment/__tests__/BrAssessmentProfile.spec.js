@@ -114,4 +114,32 @@ describe('BrAssessmentProfile', () => {
     expect(styles).toContain('attendance.assessment_f_disc_s');
     expect(styles).toContain('attendance.assessment_f_disc_c');
   });
+
+  it('shows a spider chart for each instrument', async () => {
+    const radars = (await mountIt()).findAllComponents({name: 'RadarChart'});
+
+    expect(radars).toHaveLength(2);
+    expect(radars[0].props('axes').map((a) => a.value)).toEqual([
+      75, 50, 87.5, 20, 50,
+    ]);
+    expect(radars[1].props('axes')).toHaveLength(4);
+  });
+
+  it('saves as PDF through the browser, named after the person', async () => {
+    const wrapper = await mountIt();
+    document.title = 'OrangeHRM';
+    let titleWhilePrinting = null;
+    window.print = jest.fn(() => {
+      titleWhilePrinting = document.title;
+    });
+
+    await wrapper.find('.ohrm-profile__pdf').trigger('click');
+    window.dispatchEvent(new Event('afterprint'));
+
+    expect(window.print).toHaveBeenCalled();
+    expect(titleWhilePrinting).toBe(
+      'attendance.assessment_title - Maria Souza',
+    );
+    expect(document.title).toBe('OrangeHRM');
+  });
 });

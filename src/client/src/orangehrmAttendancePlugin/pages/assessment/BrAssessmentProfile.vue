@@ -26,6 +26,14 @@
 
     <template v-if="profile">
       <section class="ohrm-builder__card">
+        <button
+          type="button"
+          class="ohrm-builder__btn ohrm-builder__btn--primary ohrm-profile__pdf"
+          @click="onPdf"
+        >
+          <i class="oxd-icon bi-file-earmark-pdf"></i>
+          {{ $t('attendance.assessment_download_pdf') }}
+        </button>
         <div class="ohrm-profile__head">
           <span class="ohrm-results__eyebrow">
             {{
@@ -51,6 +59,10 @@
           {{ $t('attendance.assessment_big5') }}
           <small>{{ big5.version }}</small>
         </h3>
+        <radar-chart
+          class="ohrm-profile__radar"
+          :axes="axes('big5', big5.factors)"
+        />
         <div
           v-for="f in big5.factors"
           :key="f.factor"
@@ -89,6 +101,10 @@
           {{ $t('attendance.assessment_disc') }}
           <small>{{ disc.version }}</small>
         </h3>
+        <radar-chart
+          class="ohrm-profile__radar"
+          :axes="axes('disc', disc.factors)"
+        />
         <div class="ohrm-profile__styles">
           <div
             v-for="(style, role) in disc.styles"
@@ -139,12 +155,14 @@
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
+import RadarChart from '@/orangehrmAttendancePlugin/components/assessment/RadarChart.vue';
 
 /**
  * BR: one behavioural profile test result, for HR.
  */
 export default {
   name: 'BrAssessmentProfile',
+  components: {'radar-chart': RadarChart},
   props: {
     assessmentId: {type: Number, required: true},
   },
@@ -178,6 +196,32 @@ export default {
       });
   },
   methods: {
+    axes(instrument, factors) {
+      return factors.map((f) => ({
+        key: f.factor,
+        label: this.$t(
+          `attendance.assessment_f_${instrument}_${f.factor.toLowerCase()}`,
+        ),
+        value: f.score,
+      }));
+    },
+    /**
+     * The browser's own "save as PDF": the print stylesheet lays the profile
+     * out on A4 without the app around it, and the title becomes the
+     * suggested file name.
+     */
+    onPdf() {
+      const previous = document.title;
+      const restore = () => {
+        document.title = previous;
+        window.removeEventListener('afterprint', restore);
+      };
+      document.title = `${this.$t('attendance.assessment_title')} - ${
+        this.profile.name
+      }`;
+      window.addEventListener('afterprint', restore);
+      window.print();
+    },
     decimal(value) {
       return String(value).replace('.', ',');
     },
@@ -196,3 +240,45 @@ export default {
 
 <style src="../forms/br-forms.scss" lang="scss" scoped></style>
 <style src="./br-assessments.scss" lang="scss" scoped></style>
+<style lang="scss">
+// Printing (the PDF): only the profile, on A4, without the app around it.
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  .oxd-sidepanel,
+  .oxd-topbar,
+  .oxd-layout-navigation,
+  .oxd-layout-footer,
+  .ohrm-builder__top,
+  .ohrm-profile__pdf {
+    display: none !important;
+  }
+
+  body,
+  .ohrm-results,
+  .oxd-layout,
+  .oxd-layout-container,
+  .oxd-layout-context,
+  .orangehrm-background-container {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+
+  .ohrm-builder__card {
+    box-shadow: none !important;
+    border: 1px solid #e3e3e3;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  // Bars and chips keep their colours on paper
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+</style>

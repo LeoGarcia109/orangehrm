@@ -96,6 +96,16 @@
 }
 
 .ohrm-profile {
+  &__pdf {
+    align-self: flex-end;
+    margin-bottom: -2.5rem;
+  }
+
+  &__radar {
+    width: 300px;
+    margin: 0.5rem auto 0.25rem;
+  }
+
   &__head {
     display: flex;
     flex-direction: column;

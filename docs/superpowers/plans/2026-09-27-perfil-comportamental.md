@@ -225,6 +225,7 @@ Gerados pela tabela; as chaves ficam em `docs` e no SQL.
 | assessment_cancel | Cancel invite | Cancelar convite |
 | assessment_cancel_confirm | Cancel this invite? The link will stop working. | Cancelar este convite? O link deixa de funcionar. |
 | assessment_view | View profile | Ver perfil |
+| assessment_download_pdf | Download PDF | Baixar PDF |
 | assessment_status_pending | Pending | Pendente |
 | assessment_status_completed | Answered | Respondido |
 | assessment_status_expired | Expired | Vencido |
