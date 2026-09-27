@@ -233,7 +233,7 @@ Gerados pela tabela; as chaves ficam em `docs` e no SQL.
 | assessment_completed_at | Answered on | Respondido em |
 | assessment_expires_at | Link valid until | Link válido até |
 | assessment_all | All | Todos |
-| assessment_disclaimer | Complementary behavioral inventory. Not a psychological test (CFP Resolution 31/2022) and not to be used as the sole basis for a decision. No population norms: values show the position on the scale itself. | Inventário comportamental complementar. Não é teste psicológico (Res. CFP 31/2022) nem deve ser critério único de decisão. Sem referência populacional: os valores mostram a posição na própria escala. |
+| assessment_disclaimer | Complementary behavioral inventory. Not a psychological test (CFP Resolution 31/2022) and not to be used as the sole basis for a decision. | Inventário comportamental complementar. Não é teste psicológico (Res. CFP 31/2022) nem deve ser critério único de decisão. |
 | assessment_big5 | Big Five (IPIP-50) | Big Five (IPIP-50) |
 | assessment_disc | DISC (approximation of the model) | DISC (aproximação do modelo) |
 | assessment_primary_style | Predominant style | Estilo predominante |
