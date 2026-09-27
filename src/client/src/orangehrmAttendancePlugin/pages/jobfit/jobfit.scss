@@ -1,0 +1,195 @@
+// OrangeHRM BR - Recruitment -> Job profiles and Compare profiles.
+//
+// Imported scoped by every page and component that uses it: a parent's
+// scoped CSS never reaches inside a child component.
+
+@import '../mobile/mobile-tokens';
+
+$ink: #2c2c2c;
+$muted: #5c5c5c;
+$line: #e3e3e3;
+$gold: #ba7517;
+$gold-fill: rgba(250, 199, 117, 0.35);
+$in: #2e7d32;
+$near: #8a5300;
+$far: #c62828;
+
+.ohrm-jobfit {
+  &__chip {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+
+    &.is-on {
+      background: #e6f4ea;
+      color: $in;
+    }
+
+    &.is-off {
+      background: #f1efe8;
+      color: $muted;
+    }
+
+    &.is-partial {
+      background: #fff4e5;
+      color: $near;
+    }
+
+    &.is-alert {
+      background: #fdecef;
+      color: $far;
+    }
+  }
+
+  &__job-name {
+    margin: 0.2rem 0 0;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: $ink;
+  }
+
+  &__section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+
+    h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 700;
+      color: $ink;
+    }
+  }
+
+  &__group-title {
+    margin: 0.9rem 0 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: $muted;
+  }
+
+  &__notice {
+    margin: 0 0 0.75rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: 0.6rem;
+    background: #e6f4ea;
+    color: $in;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  // Suggestion panel
+  &__suggest-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 0.9rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid $line;
+    border-radius: 0.8rem;
+    background: #fcfcfc;
+
+    p {
+      margin: 0;
+      font-size: 0.82rem;
+      color: $muted;
+    }
+
+    select {
+      max-width: 20rem;
+    }
+  }
+
+  &__refs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+    gap: 0.35rem 1rem;
+    max-height: 14rem;
+    overflow-y: auto;
+  }
+
+  &__ref {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.85rem;
+    color: $ink;
+    cursor: pointer;
+
+    input {
+      width: 1rem;
+      height: 1rem;
+      accent-color: $ohrm-mobile-orange;
+    }
+
+    small {
+      color: $muted;
+    }
+  }
+
+  &__suggest-error {
+    margin: 0;
+    color: $far;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  // Competencies
+  &__competency {
+    display: grid;
+    grid-template-columns: minmax(10rem, 1fr) auto auto auto;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.45rem 0;
+    border-bottom: 1px solid #f3f3f3;
+  }
+
+  &__competency-actions {
+    display: inline-flex;
+    gap: 0.2rem;
+  }
+
+  &__min-level {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    color: $muted;
+    white-space: nowrap;
+
+    select {
+      width: auto;
+    }
+  }
+
+  &__split {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+
+    input {
+      width: 6rem;
+    }
+
+    span {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: $ink;
+    }
+  }
+
+  @media (max-width: 700px) {
+    &__competency {
+      grid-template-columns: 1fr;
+    }
+  }
+}
