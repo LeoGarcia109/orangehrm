@@ -1,0 +1,187 @@
+// OrangeHRM BR - the "Provas" tab (MobileForms).
+//
+// Its own scoped sheet, like every mobile child component: a parent's scoped
+// CSS never reaches inside a child.
+
+@import './mobile-tokens';
+
+.ohrm-mobile {
+  &__forms {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  &__forms-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  &__forms-heading {
+    margin: 0 0.15rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: $ohrm-mobile-gray;
+  }
+
+  &__forms-empty {
+    margin: 0;
+    padding: 1.25rem 1rem;
+    border-radius: 1rem;
+    background: #fff;
+    text-align: center;
+    font-size: 0.88rem;
+    color: $ohrm-mobile-gray;
+  }
+
+  &__form-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.9rem 1rem;
+    border: none;
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    font-family: inherit;
+    text-align: left;
+
+    &--pending {
+      border-left: 4px solid $ohrm-mobile-orange;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+
+      &:active {
+        background: #fffaf5;
+      }
+    }
+  }
+
+  &__form-kind {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: $ohrm-mobile-gray;
+  }
+
+  &__form-anon {
+    color: #1f4f8a;
+  }
+
+  &__form-title {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: #2c2c2c;
+    overflow-wrap: anywhere;
+  }
+
+  &__form-due {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #8a5300;
+  }
+
+  &__form-go {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    align-self: flex-end;
+    margin-top: 0.2rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: $ohrm-mobile-orange;
+  }
+
+  &__form-chip {
+    margin-top: 0.15rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+
+    &.is-passed,
+    &.is-done {
+      background: #e6f4ea;
+      color: #2e7d32;
+    }
+
+    &.is-failed {
+      background: #fdecef;
+      color: #c62828;
+    }
+
+    &.is-waiting {
+      background: #fff4e5;
+      color: #8a5300;
+    }
+  }
+
+  &__forms-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    align-self: flex-start;
+    min-height: 2.75rem;
+    padding: 0 0.5rem 0 0.1rem;
+    border: none;
+    background: transparent;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: $ohrm-mobile-orange;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  &__form-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 2rem 1rem;
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    text-align: center;
+  }
+
+  &__form-result-icon {
+    font-size: 3rem;
+
+    &.is-passed,
+    &.is-done {
+      color: $ohrm-mobile-green;
+    }
+
+    &.is-failed {
+      color: $ohrm-mobile-red;
+    }
+
+    &.is-waiting {
+      color: #e0a100;
+    }
+  }
+
+  &__form-result-score {
+    font-size: 2.2rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: #2c2c2c;
+  }
+
+  &__form-result-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #4a4a4a;
+  }
+}

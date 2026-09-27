@@ -46,6 +46,15 @@
       <div v-if="expandedId === item.id" class="ohrm-mobile__notice-body">
         <p class="ohrm-mobile__notice-text">{{ item.body }}</p>
 
+        <button
+          v-if="item.formId"
+          class="ohrm-mobile__notice-answer"
+          @click="$emit('open-form', item.formId)"
+        >
+          <i class="oxd-icon bi-clipboard-check"></i>
+          {{ $t('attendance.form_answer') }}
+        </button>
+
         <div v-if="item.acknowledgedAt" class="ohrm-mobile__notice-acked">
           <i class="oxd-icon bi-check-circle-fill"></i>
           {{ $t('attendance.announcement_acknowledged') }}
@@ -73,7 +82,7 @@ import {APIService} from '@ohrm/core/util/services/api.service';
 
 export default {
   name: 'MobileAnnouncements',
-  emits: ['pending-changed'],
+  emits: ['pending-changed', 'open-form'],
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,

@@ -16,6 +16,13 @@
     <mobile-announcements
       v-if="tab === 'announcements'"
       @pending-changed="pendingAckCount = $event"
+      @open-form="onOpenForm"
+    />
+
+    <mobile-forms
+      v-if="tab === 'forms'"
+      :open-form-id="openFormId"
+      @pending-changed="pendingFormsCount = $event"
     />
 
     <mobile-absences v-if="tab === 'absences'" />
@@ -233,6 +240,19 @@
       </button>
       <button
         class="ohrm-mobile__dock-item"
+        :class="{'ohrm-mobile__dock-item--active': tab === 'forms'}"
+        @click="tab = 'forms'"
+      >
+        <span class="ohrm-mobile__dock-icon">
+          <i class="oxd-icon bi-clipboard-check"></i>
+          <span v-if="pendingFormsCount" class="ohrm-mobile__dock-badge">
+            {{ pendingFormsCount }}
+          </span>
+        </span>
+        <span>{{ $t('attendance.form_tab') }}</span>
+      </button>
+      <button
+        class="ohrm-mobile__dock-item"
         :class="{'ohrm-mobile__dock-item--active': tab === 'absences'}"
         @click="tab = 'absences'"
       >
@@ -259,6 +279,7 @@ import useGeolocation from '@/orangehrmAttendancePlugin/composables/useGeolocati
 import MobileAnnouncements from './MobileAnnouncements.vue';
 import MobileAbsences from './MobileAbsences.vue';
 import MobileTimesheet from './MobileTimesheet.vue';
+import MobileForms from './MobileForms.vue';
 import useOfflinePunchQueue, {
   isUndelivered,
 } from '@/orangehrmAttendancePlugin/composables/useOfflinePunchQueue';
@@ -271,6 +292,7 @@ export default {
     'mobile-announcements': MobileAnnouncements,
     'mobile-absences': MobileAbsences,
     'mobile-timesheet': MobileTimesheet,
+    'mobile-forms': MobileForms,
   },
   props: {
     // Injected by mobile.html.twig — same shape oxd-layout normally provides
@@ -327,6 +349,9 @@ export default {
       punchError: null,
       pendingCount: 0,
       pendingAckCount: 0,
+      pendingFormsCount: 0,
+      // Set by a notice's "Responder": the tab opens straight on that form
+      openFormId: null,
       isSyncing: false,
       offlineNotice: null,
       historyDate: null,
@@ -394,6 +419,12 @@ export default {
       return `${hours}h ${String(minutes).padStart(2, '0')}m`;
     },
   },
+  watch: {
+    tab(tab) {
+      // Leaving the tab ends the jump from a notice; coming back shows the list
+      if (tab !== 'forms') this.openFormId = null;
+    },
+  },
   beforeMount() {
     this.updateClock();
     this.clockTimer = setInterval(this.updateClock, 15000);
@@ -401,6 +432,7 @@ export default {
     this.pendingCount = this.offlineQueue.size();
     window.addEventListener('online', this.flushQueue);
     this.loadPendingAck();
+    this.loadPendingForms();
     Promise.all([this.loadStatus(), this.loadGeofence(), this.loadToday()])
       .catch(() => null)
       .finally(() => {
@@ -439,6 +471,20 @@ export default {
               .join(' ');
           }
         });
+    },
+    loadPendingForms() {
+      return this.recordsHttp
+        .request({method: 'GET', url: '/api/v2/attendance/br/my-forms'})
+        .then((response) => {
+          this.pendingFormsCount = response.data.meta?.pendingCount ?? 0;
+        })
+        .catch(() => {
+          this.pendingFormsCount = 0;
+        });
+    },
+    onOpenForm(formId) {
+      this.openFormId = formId;
+      this.tab = 'forms';
     },
     loadPendingAck() {
       // The badge has to be right before the employee opens the tab -- an

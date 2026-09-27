@@ -980,6 +980,7 @@ public static function forFilling(array $definition): array
 | form_help_text | Help text | Texto de ajuda |
 | form_required | Required | Obrigatória |
 | form_points | Points | Pontos |
+| form_point | point | ponto |
 | form_option | Option | Opção |
 | form_add_option | Add option | Adicionar opção |
 | form_correct | Correct | Certa |
@@ -1013,13 +1014,14 @@ public static function forFilling(array $definition): array
 | form_result_passed | Passed | Aprovado |
 | form_result_failed | Not passed | Não aprovado |
 | form_thanks | Thank you for answering | Obrigado por responder |
+| form_done | Answered | Respondido |
 | form_required_missing | Answer the required questions | Responda as questões obrigatórias |
 | form_draft_restored | Your previous answers were restored | Suas respostas anteriores foram recuperadas |
 | form_watch_video | Watch video | Assistir ao vídeo |
 | form_yes | Yes | Sim |
 | form_no | No | Não |
 
-- [ ] **Step 2:** Aplicar duas vezes no banco. Esperado: sem erro, e `SELECT COUNT(*) FROM ohrm_i18n_lang_string WHERE group_id=17 AND unit_id LIKE 'form\_%'` = 64.
+- [ ] **Step 2:** Aplicar duas vezes no banco. Esperado: sem erro, e `SELECT COUNT(*) FROM ohrm_i18n_lang_string WHERE group_id=17 AND unit_id LIKE 'form\_%'` = 66.
 - [ ] **Step 3:** Commit `feat(br): formularios - textos pt-BR`.
 
 ---

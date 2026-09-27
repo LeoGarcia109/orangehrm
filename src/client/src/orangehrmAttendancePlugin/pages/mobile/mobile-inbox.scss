@@ -79,6 +79,28 @@
     }
   }
 
+  &__notice-answer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 100%;
+    min-height: 2.9rem;
+    margin-bottom: 0.6rem;
+    border: none;
+    border-radius: 0.7rem;
+    background: $ohrm-mobile-orange;
+    color: #fff;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+    &:active {
+      background: $ohrm-mobile-orange-dark;
+    }
+  }
+
   &__notice-acked {
     display: flex;
     align-items: center;

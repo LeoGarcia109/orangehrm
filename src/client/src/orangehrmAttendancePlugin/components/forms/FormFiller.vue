@@ -63,7 +63,12 @@
           <span v-if="item.required" class="ohrm-form__required">*</span>
         </h3>
         <span v-if="item.points !== undefined" class="ohrm-form__points">
-          {{ item.points }} {{ $t('attendance.form_points').toLowerCase() }}
+          {{ item.points }}
+          {{
+            item.points === 1
+              ? $t('attendance.form_point')
+              : $t('attendance.form_points').toLowerCase()
+          }}
         </span>
       </div>
       <p v-if="item.helpText" class="ohrm-form__help">{{ item.helpText }}</p>

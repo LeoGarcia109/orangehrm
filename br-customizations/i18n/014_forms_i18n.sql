@@ -38,6 +38,7 @@ SELECT t.unit_id, 17, t.value, NULL FROM (
   SELECT 'form_help_text', 'Help text' UNION ALL
   SELECT 'form_required', 'Required' UNION ALL
   SELECT 'form_points', 'Points' UNION ALL
+  SELECT 'form_point', 'point' UNION ALL
   SELECT 'form_option', 'Option' UNION ALL
   SELECT 'form_add_option', 'Add option' UNION ALL
   SELECT 'form_correct', 'Correct' UNION ALL
@@ -71,6 +72,7 @@ SELECT t.unit_id, 17, t.value, NULL FROM (
   SELECT 'form_result_passed', 'Passed' UNION ALL
   SELECT 'form_result_failed', 'Not passed' UNION ALL
   SELECT 'form_thanks', 'Thank you for answering' UNION ALL
+  SELECT 'form_done', 'Answered' UNION ALL
   SELECT 'form_required_missing', 'Answer the required questions' UNION ALL
   SELECT 'form_draft_restored', 'Your previous answers were restored' UNION ALL
   SELECT 'form_watch_video', 'Watch video' UNION ALL
@@ -112,6 +114,7 @@ SELECT ls.id, @lang_pt_br,
     WHEN 'form_help_text' THEN 'Texto de ajuda'
     WHEN 'form_required' THEN 'Obrigatória'
     WHEN 'form_points' THEN 'Pontos'
+    WHEN 'form_point' THEN 'ponto'
     WHEN 'form_option' THEN 'Opção'
     WHEN 'form_add_option' THEN 'Adicionar opção'
     WHEN 'form_correct' THEN 'Certa'
@@ -145,6 +148,7 @@ SELECT ls.id, @lang_pt_br,
     WHEN 'form_result_passed' THEN 'Aprovado'
     WHEN 'form_result_failed' THEN 'Não aprovado'
     WHEN 'form_thanks' THEN 'Obrigado por responder'
+    WHEN 'form_done' THEN 'Respondido'
     WHEN 'form_required_missing' THEN 'Responda as questões obrigatórias'
     WHEN 'form_draft_restored' THEN 'Suas respostas anteriores foram recuperadas'
     WHEN 'form_watch_video' THEN 'Assistir ao vídeo'

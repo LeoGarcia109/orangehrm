@@ -161,8 +161,15 @@ describe('FormFiller', () => {
     );
   });
 
-  it('shows how much a quiz question is worth', () => {
-    expect(item(mountWith(), 2).text()).toContain('2');
+  it('shows how much a quiz question is worth, in singular or plural', () => {
+    const wrapper = mountWith();
+
+    expect(item(wrapper, 2).find('.ohrm-form__points').text()).toBe(
+      '2 attendance.form_points',
+    );
+    expect(item(wrapper, 7).find('.ohrm-form__points').text()).toBe(
+      '1 attendance.form_point',
+    );
   });
 
   it('shows the anonymous banner only on anonymous surveys', () => {
