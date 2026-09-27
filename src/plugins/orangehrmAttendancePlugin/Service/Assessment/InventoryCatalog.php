@@ -233,4 +233,3 @@ final class InventoryCatalog
         ];
     }
 }
-
