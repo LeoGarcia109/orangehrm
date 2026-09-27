@@ -296,3 +296,63 @@ attendance_br_timesheets_page:
   path: /attendance/brTimesheets
   controller: OrangeHRM\Attendance\Controller\BrTimesheetsController::handle
   methods: [ GET ]
+
+# BR: formularios (provas e pesquisas)
+apiv2_attendance_br_forms:
+  path: /api/v2/attendance/br/forms
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\FormAPI
+
+apiv2_attendance_br_form_images:
+  path: /api/v2/attendance/br/forms/images
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\FormImageAPI
+
+apiv2_attendance_br_form:
+  path: /api/v2/attendance/br/forms/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\FormAPI
+  requirements:
+    id: '\d+'
+
+attendance_br_forms_page:
+  path: /attendance/brForms
+  controller: OrangeHRM\Attendance\Controller\BrFormsController::handle
+  methods: [ GET ]
+
+attendance_br_form_builder_new_page:
+  path: /attendance/brFormBuilder
+  controller: OrangeHRM\Attendance\Controller\BrFormBuilderController::handle
+  methods: [ GET ]
+
+attendance_br_form_builder_page:
+  path: /attendance/brFormBuilder/{id}
+  controller: OrangeHRM\Attendance\Controller\BrFormBuilderController::handle
+  methods: [ GET ]
+  requirements:
+    id: '\d+'
+
+attendance_br_form_results_page:
+  path: /attendance/brFormResults/{id}
+  controller: OrangeHRM\Attendance\Controller\BrFormResultsController::handle
+  methods: [ GET ]
+  requirements:
+    id: '\d+'
+
+attendance_br_my_forms_page:
+  path: /attendance/brMyForms
+  controller: OrangeHRM\Attendance\Controller\BrMyFormsController::handle
+  methods: [ GET ]
+
+attendance_br_form_image:
+  path: /attendance/brFormImage/{id}
+  controller: OrangeHRM\Attendance\Controller\File\FormImageView::handle
+  methods: [ GET ]
+  requirements:
+    id: '\d+'

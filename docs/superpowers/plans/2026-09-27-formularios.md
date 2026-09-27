@@ -833,7 +833,7 @@ public static function forFilling(array $definition): array
   - `X-Content-Type-Options: nosniff`;
   - `Content-Type` = `fileType` gravado (sempre um dos 3 tipos de imagem).
 
-**DRY:** copiar `decodeAttachment`/`detectFileType` seria a terceira cópia. Extraí-los para `Api/Traits/Base64UploadTrait.php` e usar a trait no `AbsenceJustificationAPI` e no `FormImageAPI`. O `AbsenceJustificationAPI` muda só no `use`: rodar a suíte e fazer o teste manual de envio de atestado depois do deploy.
+**Feito diferente na execucao:** o `FormImageAPI` usa o formato de anexo padrao do OrangeHRM (`Rules::BASE_64_ATTACHMENT`, `{name,type,size,base64}`) e confere o tipo real pelos bytes com `finfo`, entao nao houve trait nem mudanca no `AbsenceJustificationAPI`. Erros de regra saem como 400 (padrao da casa), nao 422. Plano original: copiar `decodeAttachment`/`detectFileType` seria a terceira cópia. Extraí-los para `Api/Traits/Base64UploadTrait.php` e usar a trait no `AbsenceJustificationAPI` e no `FormImageAPI`. O `AbsenceJustificationAPI` muda só no `use`: rodar a suíte e fazer o teste manual de envio de atestado depois do deploy.
 
 - [ ] **Step 1: Teste que falha** (`FormApiValidationTest`, modelo `BrOptionalFlagValidationTest`):
   - salvar com `{action:'save', title:'Prova', definition:[...]}` é aceito;
