@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Recruitment\Api;
 
+use OrangeHRM\Attendance\Service\Assessment\AssessmentService;
 use Exception;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
@@ -126,6 +127,8 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
                 $employee = new Employee();
                 $this->setCandidateAsEmployee($candidateVacancy, $employee);
                 $this->getEmployeeService()->getEmployeeDao()->saveEmployee($employee);
+                // BR: the candidate's behavioural profile follows them to the new employee
+                (new AssessmentService())->linkHiredEmployee($candidateVacancy->getCandidate(), $employee);
             }
 
             $candidateHistory = new CandidateHistory();
