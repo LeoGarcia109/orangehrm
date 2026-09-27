@@ -233,6 +233,17 @@ class FormService
      */
     public function audience(Form $form): array
     {
+        return $this->audienceFor($form->getScope(), $form->getSubunit(), $form->getEmployee());
+    }
+
+    /**
+     * The same reach as a form, for anything else aimed at the network, a
+     * company/site or one person (e.g. behavioural-assessment invites).
+     *
+     * @return Employee[] active employees, by name
+     */
+    public function audienceFor(string $scope, ?Subunit $subunit, ?Employee $employee): array
+    {
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('e')
             ->from(Employee::class, 'e')
@@ -241,24 +252,23 @@ class FormService
             ->orderBy('e.firstName', 'ASC')
             ->addOrderBy('e.lastName', 'ASC');
 
-        switch ($form->getScope()) {
+        switch ($scope) {
             case FormTypes::SCOPE_SUBUNIT:
-                $target = $form->getSubunit();
-                if (!$target instanceof Subunit) {
+                if (!$subunit instanceof Subunit) {
                     return [];
                 }
                 $qb->innerJoin('e.subDivision', 's')
                     ->andWhere('s.lft >= :lft')
                     ->andWhere('s.rgt <= :rgt')
-                    ->setParameter('lft', $target->getLft())
-                    ->setParameter('rgt', $target->getRgt());
+                    ->setParameter('lft', $subunit->getLft())
+                    ->setParameter('rgt', $subunit->getRgt());
                 break;
             case FormTypes::SCOPE_EMPLOYEE:
-                if (!$form->getEmployee() instanceof Employee) {
+                if (!$employee instanceof Employee) {
                     return [];
                 }
                 $qb->andWhere('e.empNumber = :empNumber')
-                    ->setParameter('empNumber', $form->getEmployee()->getEmpNumber());
+                    ->setParameter('empNumber', $employee->getEmpNumber());
                 break;
         }
 
