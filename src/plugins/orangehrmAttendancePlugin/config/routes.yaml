@@ -408,3 +408,55 @@ br_assessment_public_api:
   methods: [ GET, PUT, POST ]
   requirements:
     token: '[^/]+'
+
+# BR: perfil comportamental -- RH e funcionario
+apiv2_attendance_br_assessments:
+  path: /api/v2/attendance/br/assessments
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\AssessmentAPI
+
+apiv2_attendance_br_assessment:
+  path: /api/v2/attendance/br/assessments/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\AssessmentAPI
+  requirements:
+    id: '\d+'
+
+apiv2_attendance_br_assessment_profile:
+  path: /api/v2/attendance/br/assessment-profile
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\AssessmentResultAPI
+
+apiv2_attendance_br_my_assessments:
+  path: /api/v2/attendance/br/my-assessments
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\MyAssessmentAPI
+
+apiv2_attendance_br_my_assessment:
+  path: /api/v2/attendance/br/my-assessments/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\MyAssessmentAPI
+  requirements:
+    id: '\d+'
+
+recruitment_br_assessments_page:
+  path: /recruitment/brAssessments
+  controller: OrangeHRM\Attendance\Controller\BrAssessmentsController::handle
+  methods: [ GET ]
+
+recruitment_br_assessment_profile_page:
+  path: /recruitment/brAssessmentProfile/{id}
+  controller: OrangeHRM\Attendance\Controller\BrAssessmentProfileController::handle
+  methods: [ GET ]
+  requirements:
+    id: '\d+'
