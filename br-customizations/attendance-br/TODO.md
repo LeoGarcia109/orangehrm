@@ -155,6 +155,34 @@ Duas causas independentes, as duas minhas:
    erro nenhum. Minha verificacao checava o codigo HTTP das rotas, nao o
    conteudo do bundle. Agora o README manda conferir o JS servido.
 
+### Incidente 2026-09-27 (tarde): "nao autorizado" nas abas novas
+
+As quatro APIs da caixa de entrada foram registradas nas rotas mas nao em
+`ohrm_api_permission`, entao o OrangeHRM recusava todo mundo com 403 --
+inclusive o Admin. Migracao 013.
+
+Junto, um erro de permissao meu nas migracoes 010 e 012: tratei o papel 2
+como Supervisor, e ele e o **ESS -- todo funcionario**. As telas do RH de
+Justificativas (com permissao de alterar) e de Assinaturas estavam abertas a
+qualquer funcionario. Corrigido: ESS removido, Supervisor (papel 3) incluido.
+
+E um furo que so aparece com as permissoes certas: as mesmas APIs servem a
+caixa do funcionario e a fila do RH, e o OrangeHRM autoriza por API e verbo,
+nao por `?queue=1`. Liberar leitura ao ESS deixaria qualquer um listar os
+atestados de todo mundo. `BrAccessScope` recorta o modo RH pelos
+`getAccessibleEntityIds`: Admin ve todos, Supervisor a equipe, ESS ninguem.
+Decidir falta de quem voce nao enxerga responde "nao encontrado", igual a id
+inexistente. A lista de avisos publicados exige permissao de publicar.
+
+**Nao verificado ponta a ponta com um usuario so-ESS** -- nao existe nenhum
+no banco. Testado: a regra de recorte (6 testes) e as permissoes aplicadas.
+Criar um funcionario de teste sem papel de Admin e conferir antes de liberar
+para a rede.
+
+Dock do mobile: as abas foram para baixo, como barra de navegacao de
+celular. `viewport-fit=cover` so na pagina mobile, para o dock respeitar a
+barra de gesto do iPhone; as outras paginas continuam com o viewport antigo.
+
 ### Pendente da assinatura da folha
 
 12. [ ] **Ninguem avisa o funcionario que a folha abriu para assinatura.** Ele

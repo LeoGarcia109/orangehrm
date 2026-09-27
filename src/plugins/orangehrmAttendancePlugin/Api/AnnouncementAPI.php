@@ -37,6 +37,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Announcement;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Subunit;
@@ -52,6 +53,7 @@ class AnnouncementAPI extends Endpoint implements CollectionEndpoint
 {
     use EntityManagerHelperTrait;
     use AuthUserTrait;
+    use UserRoleManagerTrait;
 
     public const PARAMETER_TITLE = 'title';
     public const PARAMETER_BODY = 'body';
@@ -125,6 +127,13 @@ class AnnouncementAPI extends Endpoint implements CollectionEndpoint
      */
     private function listPublished(): EndpointResult
     {
+        // Every employee may read their inbox through this endpoint; the list
+        // of everything published -- notices aimed at other companies and
+        // other people -- is only for whoever may publish.
+        if (!$this->getUserRoleManager()->getApiPermissions(self::class)->canCreate()) {
+            throw $this->getForbiddenException();
+        }
+
         $service = new AnnouncementService();
         $announcements = $this->getEntityManager()
             ->getRepository(Announcement::class)

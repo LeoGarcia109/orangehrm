@@ -4,6 +4,11 @@
 
 {% block title %}OrangeHRM Mobile{% endblock %}
 
+{# viewport-fit=cover lets the page reach under the iPhone home indicator, which
+   is what makes env(safe-area-inset-bottom) non-zero -- without it the bottom
+   dock would sit flush against the gesture bar. #}
+{% block viewport %}<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">{% endblock %}
+
 {% block links %}
   <link rel="icon" href="{{ publicPath }}/dist/favicon.ico?v={{ assetsVersion }}">
   <link rel="manifest" href="{{ publicPath }}/manifest.webmanifest">

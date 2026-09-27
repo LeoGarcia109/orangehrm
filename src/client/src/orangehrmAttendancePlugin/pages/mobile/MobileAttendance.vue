@@ -13,44 +13,6 @@
       />
     </header>
 
-    <nav class="ohrm-mobile__tabs">
-      <button
-        class="ohrm-mobile__tab"
-        :class="{'ohrm-mobile__tab--active': tab === 'punch'}"
-        @click="tab = 'punch'"
-      >
-        <i class="oxd-icon bi-stopwatch"></i>
-        {{ $t('general.punch_in_out') }}
-      </button>
-      <button
-        class="ohrm-mobile__tab"
-        :class="{'ohrm-mobile__tab--active': tab === 'history'}"
-        @click="onOpenHistory"
-      >
-        <i class="oxd-icon bi-clock-history"></i>
-        {{ $t('attendance.history') }}
-      </button>
-      <button
-        class="ohrm-mobile__tab"
-        :class="{'ohrm-mobile__tab--active': tab === 'announcements'}"
-        @click="tab = 'announcements'"
-      >
-        <i class="oxd-icon bi-megaphone"></i>
-        {{ $t('attendance.announcements') }}
-        <span v-if="pendingAckCount" class="ohrm-mobile__tab-badge">
-          {{ pendingAckCount }}
-        </span>
-      </button>
-      <button
-        class="ohrm-mobile__tab"
-        :class="{'ohrm-mobile__tab--active': tab === 'absences'}"
-        @click="tab = 'absences'"
-      >
-        <i class="oxd-icon bi-file-earmark-medical"></i>
-        {{ $t('attendance.absences') }}
-      </button>
-    </nav>
-
     <mobile-announcements
       v-if="tab === 'announcements'"
       @pending-changed="pendingAckCount = $event"
@@ -235,6 +197,49 @@
         </div>
       </section>
     </template>
+
+    <!-- Bottom dock: where the thumb reaches, the tab-bar convention on both
+         iOS and Android for three to five destinations. Last in the DOM so it
+         paints over the scrolling content. -->
+    <nav class="ohrm-mobile__dock">
+      <button
+        class="ohrm-mobile__dock-item"
+        :class="{'ohrm-mobile__dock-item--active': tab === 'punch'}"
+        @click="tab = 'punch'"
+      >
+        <i class="oxd-icon bi-stopwatch"></i>
+        <span>{{ $t('attendance.tab_punch') }}</span>
+      </button>
+      <button
+        class="ohrm-mobile__dock-item"
+        :class="{'ohrm-mobile__dock-item--active': tab === 'history'}"
+        @click="onOpenHistory"
+      >
+        <i class="oxd-icon bi-clock-history"></i>
+        <span>{{ $t('attendance.history') }}</span>
+      </button>
+      <button
+        class="ohrm-mobile__dock-item"
+        :class="{'ohrm-mobile__dock-item--active': tab === 'announcements'}"
+        @click="tab = 'announcements'"
+      >
+        <span class="ohrm-mobile__dock-icon">
+          <i class="oxd-icon bi-megaphone"></i>
+          <span v-if="pendingAckCount" class="ohrm-mobile__dock-badge">
+            {{ pendingAckCount }}
+          </span>
+        </span>
+        <span>{{ $t('attendance.announcements') }}</span>
+      </button>
+      <button
+        class="ohrm-mobile__dock-item"
+        :class="{'ohrm-mobile__dock-item--active': tab === 'absences'}"
+        @click="tab = 'absences'"
+      >
+        <i class="oxd-icon bi-file-earmark-medical"></i>
+        <span>{{ $t('attendance.absences') }}</span>
+      </button>
+    </nav>
   </div>
 </template>
 

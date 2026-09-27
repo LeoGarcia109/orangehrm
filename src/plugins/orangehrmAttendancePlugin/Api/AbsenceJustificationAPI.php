@@ -20,6 +20,7 @@
 namespace OrangeHRM\Attendance\Api;
 
 use OrangeHRM\Attendance\Service\AbsenceJustificationRules;
+use OrangeHRM\Attendance\Service\BrAccessScope;
 use OrangeHRM\Attendance\Service\AbsenceJustificationService;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
@@ -36,6 +37,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\AbsenceJustification;
 use OrangeHRM\Entity\Employee;
 
@@ -51,6 +53,7 @@ class AbsenceJustificationAPI extends Endpoint implements CollectionEndpoint
 {
     use EntityManagerHelperTrait;
     use AuthUserTrait;
+    use UserRoleManagerTrait;
 
     public const PARAMETER_ID = 'id';
     public const PARAMETER_REASON_TYPE = 'reasonType';
@@ -93,6 +96,13 @@ class AbsenceJustificationAPI extends Endpoint implements CollectionEndpoint
             fn (AbsenceJustification $j) => $this->present($j, $service),
             $justifications
         );
+        if ($queue === true) {
+            // The queue holds other people's medical certificates. The endpoint
+            // is open to every employee for their own requests, so the queue is
+            // cut down to whom the caller may see: everyone for an admin, the
+            // team for a supervisor, nobody for a plain employee.
+            $items = BrAccessScope::restrictToEmployees($items, $this->getAccessibleEmpNumbers());
+        }
 
         return new EndpointCollectionResult(
             ArrayModel::class,
@@ -222,7 +232,14 @@ class AbsenceJustificationAPI extends Endpoint implements CollectionEndpoint
             self::PARAMETER_ID
         );
         $justification = $this->getEntityManager()->find(AbsenceJustification::class, $id);
-        if (!$justification instanceof AbsenceJustification) {
+        // Not found and not yours to decide answer the same, so the id cannot
+        // be used to probe for other people's requests.
+        if (!$justification instanceof AbsenceJustification
+            || !BrAccessScope::canSee(
+                $justification->getEmployee()->getEmpNumber(),
+                $this->getAccessibleEmpNumbers()
+            )
+        ) {
             throw $this->getRecordNotFoundException();
         }
 
@@ -330,6 +347,14 @@ class AbsenceJustificationAPI extends Endpoint implements CollectionEndpoint
             return $matches[1];
         }
         return 'application/octet-stream';
+    }
+
+    /**
+     * @return array<int|string>
+     */
+    private function getAccessibleEmpNumbers(): array
+    {
+        return $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
     }
 
     private function getCurrentEmployee(): ?Employee

@@ -21,6 +21,7 @@ namespace OrangeHRM\Attendance\Api;
 
 use DateTime;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
+use OrangeHRM\Attendance\Service\BrAccessScope;
 use OrangeHRM\Attendance\Service\TimesheetSignatureRules;
 use OrangeHRM\Attendance\Service\TimesheetSignatureService;
 use OrangeHRM\Core\Api\CommonParams;
@@ -38,6 +39,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\TimesheetSignature;
@@ -54,6 +56,7 @@ class TimesheetSignatureAPI extends Endpoint implements CollectionEndpoint
 {
     use EntityManagerHelperTrait;
     use AuthUserTrait;
+    use UserRoleManagerTrait;
 
     public const PARAMETER_MONTH = 'month';
     public const PARAMETER_PASSWORD = 'password';
@@ -130,6 +133,12 @@ class TimesheetSignatureAPI extends Endpoint implements CollectionEndpoint
                 'intact' => $service->isIntact($s),
             ],
             $service->getSignaturesForMonth($month)
+        );
+        // Same endpoint serves the employee's own sheet; the list of everyone's
+        // is cut down to whom the caller may see.
+        $items = BrAccessScope::restrictToEmployees(
+            $items,
+            $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class)
         );
 
         return new EndpointCollectionResult(
