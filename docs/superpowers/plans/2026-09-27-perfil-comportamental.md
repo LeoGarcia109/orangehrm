@@ -185,3 +185,82 @@ Chaves `assessment_*` na tabela abaixo, geradas por script como na migração `0
 
 ## Textos (Task 8)
 Gerados pela tabela; as chaves ficam em `docs` e no SQL.
+
+| chave | en | pt_BR |
+|---|---|---|
+| assessment_title | Behavioral profile | Perfil comportamental |
+| assessment_profiles | Behavioral profiles | Perfis comportamentais |
+| assessment_welcome | Hello | Olá |
+| assessment_intro | It takes about 15 minutes. There are no right or wrong answers: answer as you are, not as you think you should be. | Leva cerca de 15 minutos. Não existe resposta certa ou errada: responda como você é, não como acha que deveria ser. |
+| assessment_vacancy | Vacancy | Vaga |
+| assessment_applied | Application sent! Next step: a short behavioral questionnaire. | Candidatura enviada! Próximo passo: um questionário comportamental rápido. |
+| assessment_consent_title | Your data | Seus dados |
+| assessment_consent_text | Your answers are used only in this selection process and in the company's candidate pool, and only HR can see them. They are kept while you allow it; to ask for deletion, contact HR. This questionnaire is a complementary behavioral inventory, not a psychological test. | Suas respostas serão usadas só neste processo seletivo e no banco de candidatos da empresa, e só o RH tem acesso a elas. Elas ficam guardadas enquanto você autorizar; para pedir a exclusão, fale com o RH. Este questionário é um inventário comportamental complementar e não é um teste psicológico. |
+| assessment_consent_check | I have read and I agree | Li e concordo |
+| assessment_employee_notice | HR uses this profile to better understand your working style and support your development. There are no right or wrong answers. | O RH usa este perfil para conhecer melhor o seu jeito de trabalhar e apoiar o seu desenvolvimento. Não existe resposta certa ou errada. |
+| assessment_start | Start | Começar |
+| assessment_continue | Continue | Continuar |
+| assessment_back | Back | Voltar |
+| assessment_finish | Finish | Concluir |
+| assessment_part | Part | Parte |
+| assessment_of | of | de |
+| assessment_scale_1 | Doesn't describe me at all | Não me descreve nada |
+| assessment_scale_2 | Describes me a little | Me descreve pouco |
+| assessment_scale_3 | Somewhat | Mais ou menos |
+| assessment_scale_4 | Describes me well | Me descreve bem |
+| assessment_scale_5 | Describes me very well | Me descreve muito bem |
+| assessment_answer_all | Answer every statement on this page | Responda todas as frases desta página |
+| assessment_thanks | Thank you! Your answers were recorded. | Obrigado! Suas respostas foram registradas. |
+| assessment_inactive | This link is no longer active. Please contact HR. | Este link não está mais ativo. Fale com o RH. |
+| assessment_new | New invite | Novo convite |
+| assessment_candidate | Candidate | Candidato |
+| assessment_employees | Employees | Funcionários |
+| assessment_copy_link | Copy link | Copiar link |
+| assessment_copied | Link copied | Link copiado |
+| assessment_whatsapp | Send via WhatsApp | Enviar pelo WhatsApp |
+| assessment_whatsapp_message | Hi {name}! To continue in the selection process, please answer this questionnaire (about 15 minutes): {link} | Olá, {name}! Para seguir no processo seletivo, responda este questionário (cerca de 15 minutos): {link} |
+| assessment_invite_created | Invite created. Send the link to the candidate: | Convite criado. Envie o link para o candidato: |
+| assessment_employees_invited | Invites created: | Convites criados: |
+| assessment_resend | New link | Novo link |
+| assessment_cancel | Cancel invite | Cancelar convite |
+| assessment_cancel_confirm | Cancel this invite? The link will stop working. | Cancelar este convite? O link deixa de funcionar. |
+| assessment_view | View profile | Ver perfil |
+| assessment_status_pending | Pending | Pendente |
+| assessment_status_completed | Answered | Respondido |
+| assessment_status_expired | Expired | Vencido |
+| assessment_status_cancelled | Cancelled | Cancelado |
+| assessment_sent_at | Sent | Enviado em |
+| assessment_completed_at | Answered on | Respondido em |
+| assessment_expires_at | Link valid until | Link válido até |
+| assessment_all | All | Todos |
+| assessment_disclaimer | Complementary behavioral inventory. Not a psychological test (CFP Resolution 31/2022) and not to be used as the sole basis for a decision. No population norms: values show the position on the scale itself. | Inventário comportamental complementar. Não é teste psicológico (Res. CFP 31/2022) nem deve ser critério único de decisão. Sem referência populacional: os valores mostram a posição na própria escala. |
+| assessment_big5 | Big Five (IPIP-50) | Big Five (IPIP-50) |
+| assessment_disc | DISC (approximation of the model) | DISC (aproximação do modelo) |
+| assessment_primary_style | Predominant style | Estilo predominante |
+| assessment_secondary_style | Secondary style | Estilo secundário |
+| assessment_band_low | Low | Baixo |
+| assessment_band_mid | Medium | Médio |
+| assessment_band_high | High | Alto |
+| assessment_f_big5_e | Extraversion | Extroversão |
+| assessment_f_big5_e_high | Sociable and talkative; draws energy from people. | Sociável e comunicativo; ganha energia no contato com as pessoas. |
+| assessment_f_big5_e_low | Reserved; prefers calm settings and focused individual work. | Reservado; prefere ambientes calmos e trabalho concentrado. |
+| assessment_f_big5_a | Agreeableness | Amabilidade |
+| assessment_f_big5_a_high | Cooperative and empathetic; avoids conflict. | Cooperativo e empático; evita conflitos. |
+| assessment_f_big5_a_low | Direct and skeptical; puts objectivity before harmony. | Direto e cético; coloca a objetividade à frente da harmonia. |
+| assessment_f_big5_c | Conscientiousness | Conscienciosidade |
+| assessment_f_big5_c_high | Organized, reliable, attentive to detail. | Organizado, cumpridor e atento aos detalhes. |
+| assessment_f_big5_c_low | Flexible and spontaneous; routine and deadlines may be harder. | Flexível e espontâneo; rotina e prazos podem ser mais difíceis. |
+| assessment_f_big5_n | Emotional stability | Estabilidade emocional |
+| assessment_f_big5_n_high | Calm under pressure, little shaken by stress. | Calmo sob pressão, pouco abalado pelo estresse. |
+| assessment_f_big5_n_low | Sensitive to stress; may worry and have mood swings. | Sensível ao estresse; pode se preocupar e oscilar de humor. |
+| assessment_f_big5_o | Openness | Abertura |
+| assessment_f_big5_o_high | Curious and creative; enjoys new ideas. | Curioso e criativo; gosta de ideias novas. |
+| assessment_f_big5_o_low | Practical; prefers the known and the concrete. | Prático; prefere o conhecido e o concreto. |
+| assessment_f_disc_d | Dominance | Dominância |
+| assessment_f_disc_d_desc | Direct and decisive; driven by results and challenges. | Direto e decidido; movido por resultados e desafios. |
+| assessment_f_disc_i | Influence | Influência |
+| assessment_f_disc_i_desc | Outgoing and enthusiastic; motivates and persuades people. | Comunicativo e entusiasmado; motiva e convence as pessoas. |
+| assessment_f_disc_s | Steadiness | Estabilidade |
+| assessment_f_disc_s_desc | Patient, steady and loyal; a good listener. | Paciente, constante e leal; bom ouvinte. |
+| assessment_f_disc_c | Conscientiousness (DISC) | Conformidade |
+| assessment_f_disc_c_desc | Careful and analytical; follows rules and seeks quality. | Cuidadoso e analítico; segue regras e busca qualidade. |
