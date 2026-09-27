@@ -344,6 +344,13 @@ apiv2_attendance_br_form_submissions:
   defaults:
     _api: OrangeHRM\Attendance\Api\FormSubmissionAPI
 
+apiv2_attendance_br_form_results:
+  path: /api/v2/attendance/br/form-results
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, PUT ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\FormResultAPI
+
 attendance_br_forms_page:
   path: /attendance/brForms
   controller: OrangeHRM\Attendance\Controller\BrFormsController::handle
@@ -376,6 +383,13 @@ attendance_br_my_forms_page:
 attendance_br_form_image:
   path: /attendance/brFormImage/{id}
   controller: OrangeHRM\Attendance\Controller\File\FormImageView::handle
+  methods: [ GET ]
+  requirements:
+    id: '\d+'
+
+attendance_br_form_results_csv:
+  path: /attendance/brFormResultsCsv/{id}
+  controller: OrangeHRM\Attendance\Controller\File\FormResultsCsv::handle
   methods: [ GET ]
   requirements:
     id: '\d+'
