@@ -132,6 +132,29 @@ foram corrigidos junto:
 
       `TimesheetSignatureRules`, 23 testes.
 
+### Incidente 2026-09-27: ponto no mobile recusado com "Invalid Parameter"
+
+Duas causas independentes, as duas minhas:
+
+1. **Todo booleano opcional que criei rejeitava a requisicao quando ausente.**
+   `notRequiredParamRule` monta `ONE_OF(NotRequired, regra)`: exatamente um
+   lado pode passar. `BOOL_VAL` le `null` como `false` e aceita, entao com o
+   flag ausente os dois lados passavam e o `ONE_OF` recusava. Derrubava o
+   punch (`offlineSync`, que so a fila offline manda) e todas as abas da
+   caixa de entrada (`sent`, `queue`, `acknowledge`, `requiresAck`).
+   Corrigido no padrao do proprio OrangeHRM: corpo JSON usa `BOOL_TYPE`
+   dentro do `notRequiredParamRule`; query string usa `BOOL_VAL` sem ele.
+   `BrOptionalFlagValidationTest` roda as regras reais de cada endpoint.
+
+   Minhas sondas testavam os servicos, nunca a camada de validacao da API.
+
+2. **O frontend de 31/08 em diante nunca foi ao ar.** Buildei com
+   `vue-cli-service build` direto, que grava em `src/client/dist`; o script
+   do projeto (`yarn build`) passa `--dest ../../web/dist`. So o arquivo de
+   versao ia para `web/dist`, entao o deploy publicava o JS de 17/08 sem
+   erro nenhum. Minha verificacao checava o codigo HTTP das rotas, nao o
+   conteudo do bundle. Agora o README manda conferir o JS servido.
+
 ### Pendente da assinatura da folha
 
 12. [ ] **Ninguem avisa o funcionario que a folha abriu para assinatura.** Ele

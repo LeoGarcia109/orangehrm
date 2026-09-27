@@ -152,9 +152,10 @@ class TimesheetSignatureAPI extends Endpoint implements CollectionEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_MONTH, new Rule(Rules::STRING_TYPE))
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_QUEUE, new Rule(Rules::BOOL_VAL))
-            ),
+            // Query string carries "true" as text, so BOOL_VAL -- and without
+            // notRequiredParamRule, because BOOL_VAL already accepts an absent
+            // (null) value and ONE_OF would then see two passing sides.
+            new ParamRule(self::PARAMETER_QUEUE, new Rule(Rules::BOOL_VAL)),
         );
     }
 

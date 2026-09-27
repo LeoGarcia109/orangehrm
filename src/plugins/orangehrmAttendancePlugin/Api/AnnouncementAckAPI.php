@@ -103,8 +103,11 @@ class AnnouncementAckAPI extends Endpoint implements CollectionEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(self::PARAMETER_ANNOUNCEMENT_ID, new Rule(Rules::POSITIVE)),
+            // JSON body carries a real boolean: BOOL_TYPE rejects null, so only
+            // NotRequired passes when the flag is absent. BOOL_VAL would accept
+            // null as false too, and ONE_OF would reject the request.
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_ACKNOWLEDGE, new Rule(Rules::BOOL_VAL))
+                new ParamRule(self::PARAMETER_ACKNOWLEDGE, new Rule(Rules::BOOL_TYPE))
             ),
         );
     }

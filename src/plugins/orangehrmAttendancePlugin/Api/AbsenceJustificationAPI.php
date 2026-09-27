@@ -114,9 +114,10 @@ class AbsenceJustificationAPI extends Endpoint implements CollectionEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_QUEUE, new Rule(Rules::BOOL_VAL))
-            ),
+            // Query string carries "true" as text, so BOOL_VAL -- and without
+            // notRequiredParamRule, because BOOL_VAL already accepts an absent
+            // (null) value and ONE_OF would then see two passing sides.
+            new ParamRule(self::PARAMETER_QUEUE, new Rule(Rules::BOOL_VAL)),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_STATUS,

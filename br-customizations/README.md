@@ -363,6 +363,13 @@ docker exec orangehrm-web bash -c "cd /var/www/html/src && php composer.phar dum
 # Build do frontend (no host)
 cd src/client && yarn install --frozen-lockfile && yarn build
 
+# ATENCAO: use `yarn build`, nunca `vue-cli-service build` direto.
+# O script passa --dest ../../web/dist; sem ele o JS vai para src/client/dist
+# e so o arquivo web/dist/build e atualizado -- a versao parece nova, o
+# conteudo e velho, e o deploy publica o frontend antigo sem erro nenhum.
+# Aconteceu de 31/08 a 27/09. Conferir depois do deploy:
+#   curl -s https://rh.leogarcia.com.br/web/dist/js/app.js?v=$(curl -s https://rh.leogarcia.com.br/web/dist/build) | grep -c offlineSync
+
 # Copiar dist para o container
 docker cp web/dist/. orangehrm-web:/var/www/html/web/dist/
 

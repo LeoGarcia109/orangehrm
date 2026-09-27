@@ -162,9 +162,10 @@ class AnnouncementAPI extends Endpoint implements CollectionEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_SENT, new Rule(Rules::BOOL_VAL))
-            ),
+            // Query string carries "true" as text, so BOOL_VAL -- and without
+            // notRequiredParamRule, because BOOL_VAL already accepts an absent
+            // (null) value and ONE_OF would then see two passing sides.
+            new ParamRule(self::PARAMETER_SENT, new Rule(Rules::BOOL_VAL)),
         );
     }
 
@@ -263,8 +264,11 @@ class AnnouncementAPI extends Endpoint implements CollectionEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_EMPLOYEE_ID, new Rule(Rules::POSITIVE))
             ),
+            // JSON body carries a real boolean: BOOL_TYPE rejects null, so only
+            // NotRequired passes when the flag is absent. BOOL_VAL would accept
+            // null as false too, and ONE_OF would reject the request.
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_REQUIRES_ACK, new Rule(Rules::BOOL_VAL))
+                new ParamRule(self::PARAMETER_REQUIRES_ACK, new Rule(Rules::BOOL_TYPE))
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_EXPIRES_AT, new Rule(Rules::API_DATE))

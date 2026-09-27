@@ -527,11 +527,14 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::BETWEEN, [-180, 180])
                 )
             ),
-            // BR: punch replayed from the offline queue
+            // BR: punch replayed from the offline queue.
+            // JSON body carries a real boolean: BOOL_TYPE rejects null, so only
+            // NotRequired passes when the flag is absent. BOOL_VAL would accept
+            // null as false too, and ONE_OF would reject the request.
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_OFFLINE_SYNC,
-                    new Rule(Rules::BOOL_VAL)
+                    new Rule(Rules::BOOL_TYPE)
                 )
             )
         ];
