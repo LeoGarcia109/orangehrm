@@ -321,6 +321,29 @@ apiv2_attendance_br_form:
   requirements:
     id: '\d+'
 
+apiv2_attendance_br_my_forms:
+  path: /api/v2/attendance/br/my-forms
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\MyFormAPI
+
+apiv2_attendance_br_my_form:
+  path: /api/v2/attendance/br/my-forms/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\MyFormAPI
+  requirements:
+    id: '\d+'
+
+apiv2_attendance_br_form_submissions:
+  path: /api/v2/attendance/br/my-forms/submissions
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\FormSubmissionAPI
+
 attendance_br_forms_page:
   path: /attendance/brForms
   controller: OrangeHRM\Attendance\Controller\BrFormsController::handle

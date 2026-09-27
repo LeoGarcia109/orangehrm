@@ -108,6 +108,8 @@ class AnnouncementAPI extends Endpoint implements CollectionEndpoint
                 'readAt' => $receipt?->getReadAt()?->format('Y-m-d H:i'),
                 'acknowledgedAt' => $receipt?->getAcknowledgedAt()?->format('Y-m-d H:i'),
                 'pendingAck' => $service->isPendingAck($announcement, $receipt),
+                // A notice announcing a form gets a "Responder" button
+                'formId' => $announcement->getForm()?->getId(),
             ];
         }
 
