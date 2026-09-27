@@ -658,7 +658,7 @@ public static function forFilling(array $definition): array
 
 **Interfaces:**
 - Produces:
-  - `FormResultAggregator::perItem(array $items, array $answerRows, int $submissionCount): array`. As linhas são `['submissionId'=>string,'itemId'=>int,'optionId'=>?int,'text'=>?string,'scale'=>?int,'yesNo'=>?bool,'points'=>?float]`. Devolve uma lista, uma entrada por item de `QUESTION_TYPES`:
+  - `FormResultAggregator::perItem(string $kind, array $items, array $answerRows, int $submissionCount): array`. As linhas são `['submissionId'=>string,'itemId'=>int,'optionId'=>?int,'text'=>?string,'scale'=>?int,'yesNo'=>?bool,'points'=>?float]`. Devolve uma lista, uma entrada por item de `QUESTION_TYPES`:
     - `['itemId','type','prompt','answered'=>int]`, mais:
     - escolha: `'options'=>[['id','label','count','percent','isCorrect']]`, e em QUIZ também `'correctPercent'` (float, ou null em SURVEY). Na MULTIPLE, correto = `points` > 0 na linha da questão;
     - Sim/Não: `'yes','no'`, e `'correctPercent'` em QUIZ;
