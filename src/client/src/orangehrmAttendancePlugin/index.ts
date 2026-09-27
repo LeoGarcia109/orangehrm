@@ -34,6 +34,8 @@ import BrForms from './pages/forms/BrForms.vue';
 import BrFormBuilder from './pages/forms/BrFormBuilder.vue';
 import BrFormResults from './pages/forms/BrFormResults.vue';
 import AssessmentPublic from './pages/assessment/AssessmentPublic.vue';
+import BrAssessments from './pages/assessment/BrAssessments.vue';
+import BrAssessmentProfile from './pages/assessment/BrAssessmentProfile.vue';
 
 export default {
   'attendance-punch-in': PunchIn,
@@ -55,4 +57,6 @@ export default {
   'br-form-builder': BrFormBuilder,
   'br-form-results': BrFormResults,
   'br-assessment-public': AssessmentPublic,
+  'br-assessments': BrAssessments,
+  'br-assessment-profile': BrAssessmentProfile,
 };

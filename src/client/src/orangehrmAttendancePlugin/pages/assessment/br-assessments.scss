@@ -1,0 +1,242 @@
+// OrangeHRM BR - Recruitment -> Behavioural profiles (list and profile).
+
+@import '../mobile/mobile-tokens';
+
+.ohrm-assessments {
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid #e3e3e3;
+    border-radius: 0.9rem;
+    background: #fcfcfc;
+  }
+
+  &__field {
+    max-width: 26rem;
+  }
+
+  &__panel-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__link {
+    border-color: #b7dfc3;
+    background: #f3fbf5;
+
+    strong {
+      font-size: 0.88rem;
+      color: #2e7d32;
+    }
+
+    input {
+      font-family: monospace;
+      font-size: 0.82rem;
+    }
+  }
+
+  &__whatsapp {
+    border-color: #25d366;
+    background: #25d366;
+
+    &:hover {
+      background: #1fb457 !important;
+    }
+  }
+
+  &__created {
+    margin: 0 0 1rem;
+    padding: 0.7rem 1rem;
+    border-radius: 0.6rem;
+    background: #e6f4ea;
+    color: #2e7d32;
+    font-weight: 600;
+  }
+
+  &__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+
+    select {
+      width: auto;
+      min-width: 11rem;
+    }
+  }
+
+  &__status {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+
+    &.is-pending {
+      background: #fff4e5;
+      color: #8a5300;
+    }
+
+    &.is-completed {
+      background: #e6f4ea;
+      color: #2e7d32;
+    }
+
+    &.is-expired,
+    &.is-cancelled {
+      background: #eef0f3;
+      color: #5c5c5c;
+    }
+  }
+}
+
+.ohrm-profile {
+  &__head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  &__name {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #2c2c2c;
+  }
+
+  &__meta {
+    font-size: 0.85rem;
+    color: #5c5c5c;
+  }
+
+  &__disclaimer {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0.8rem 1rem;
+    border-radius: 0.7rem;
+    background: #eaf1fb;
+    color: #1f4f8a;
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  &__section-title {
+    margin: 0;
+    font-size: 1rem;
+    color: #2c2c2c;
+
+    small {
+      font-weight: 500;
+      color: #8a8a8a;
+    }
+  }
+
+  &__bar {
+    display: grid;
+    grid-template-columns: 12rem 1fr 3.5rem;
+    align-items: center;
+    gap: 0.4rem 0.9rem;
+    padding: 0.7rem 0;
+    border-top: 1px solid #f2f2f2;
+  }
+
+  &__factor {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #2c2c2c;
+  }
+
+  &__track {
+    height: 0.8rem;
+    border-radius: 999px;
+    background: #f0f0f0;
+    overflow: hidden;
+  }
+
+  &__bar-fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: $ohrm-mobile-orange;
+  }
+
+  &__score {
+    text-align: right;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: #2c2c2c;
+  }
+
+  &__desc {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 0.84rem;
+    color: #5c5c5c;
+  }
+
+  &__band {
+    flex-shrink: 0;
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: #eef0f3;
+    color: #5c5c5c;
+
+    &.is-high {
+      background: #fff0e3;
+      color: #b4530d;
+    }
+
+    &.is-low {
+      background: #eaf1fb;
+      color: #1f4f8a;
+    }
+  }
+
+  &__styles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  &__style {
+    padding: 0.9rem 1rem;
+    border-radius: 0.8rem;
+    background: $ohrm-mobile-bg;
+
+    span {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: #8a8a8a;
+    }
+
+    strong {
+      display: block;
+      margin: 0.2rem 0;
+      font-size: 1.05rem;
+      color: #2c2c2c;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.84rem;
+      color: #5c5c5c;
+    }
+
+    &.is-primary {
+      background: #fff4ec;
+    }
+  }
+}

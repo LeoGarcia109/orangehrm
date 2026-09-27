@@ -28,11 +28,11 @@
             {{ $t('attendance.form_pending') }}
           </h3>
           <button
-            v-for="assessment in assessments"
-            :key="`assessment-${assessment.id}`"
+            v-for="invite in assessments"
+            :key="`assessment-${invite.id}`"
             type="button"
             class="ohrm-mobile__form-card ohrm-mobile__form-card--pending ohrm-mobile__form-card--assessment"
-            @click="openAssessment(assessment.id)"
+            @click="openAssessment(invite.id)"
           >
             <span class="ohrm-mobile__form-kind">
               <i class="oxd-icon bi-person-lines-fill"></i>
