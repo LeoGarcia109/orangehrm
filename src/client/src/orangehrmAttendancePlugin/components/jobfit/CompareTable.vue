@@ -26,7 +26,9 @@
             <th>{{ $t('attendance.jobfit_overall') }}</th>
             <th>{{ $t('attendance.jobfit_behavior') }}</th>
             <th>{{ $t('attendance.jobfit_competencies') }}</th>
-            <th>{{ $t('attendance.jobfit_show_in_chart') }}</th>
+            <th class="ohrm-compare__show">
+              {{ $t('attendance.jobfit_show_in_chart') }}
+            </th>
           </tr>
         </thead>
         <tbody>

@@ -16,7 +16,10 @@
 -->
 
 <template>
-  <div class="orangehrm-background-container ohrm-builder ohrm-compare">
+  <div
+    class="orangehrm-background-container ohrm-builder ohrm-compare"
+    :class="`ohrm-compare--${tab}`"
+  >
     <section class="ohrm-builder__card ohrm-compare__controls">
       <div class="ohrm-jobfit__section-head">
         <oxd-text tag="h6" class="orangehrm-main-title">
@@ -405,9 +408,36 @@ export default {
     page-break-inside: avoid;
   }
 
+  // The factor table has a column per person: it goes on landscape, whole
+  @page wide {
+    size: A4 landscape;
+    margin: 10mm;
+  }
+
+  .ohrm-compare--table {
+    page: wide;
+  }
+
+  .ohrm-compare__scroll {
+    overflow: visible !important;
+
+    .ohrm-br-table {
+      font-size: 10px;
+    }
+
+    th,
+    td {
+      padding: 4px 5px !important;
+    }
+  }
+
   .ohrm-compare__rating {
     appearance: none;
+    min-height: 0 !important;
+    padding: 0 !important;
     border: none !important;
+    font-size: 11px !important;
+    font-weight: 700;
   }
 
   * {

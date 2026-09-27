@@ -59,6 +59,10 @@ $far: #c62828;
     gap: 0.5rem;
     margin-bottom: 0.75rem;
 
+    .orangehrm-main-title {
+      margin: 0;
+    }
+
     h3 {
       margin: 0;
       font-size: 1rem;
@@ -321,7 +325,9 @@ $far: #c62828;
 
   &__key {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
     gap: 0.5rem 1.25rem;
     font-size: 0.85rem;
@@ -662,13 +668,13 @@ $far: #c62828;
     background: #eeeeee;
   }
 
+  // Only the frame: a fill would wash out the blocks under it
   &__band {
     position: absolute;
     top: -4px;
     bottom: -4px;
     border: 2px solid $gold;
     border-radius: 3px;
-    background: rgba(250, 199, 117, 0.25);
     pointer-events: none;
   }
 
@@ -708,7 +714,6 @@ $far: #c62828;
     height: 0.75rem;
     border: 2px solid $gold;
     border-radius: 3px;
-    background: rgba(250, 199, 117, 0.25);
   }
 
   @media (max-width: 700px) {
