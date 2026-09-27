@@ -19,7 +19,9 @@
 
 namespace OrangeHRM\Recruitment\Controller\PublicController;
 
+use DateTime;
 use Exception;
+use OrangeHRM\Attendance\Service\Assessment\AssessmentService;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\Validator\Helpers\ValidationDecorator;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -50,6 +52,7 @@ use OrangeHRM\Recruitment\Traits\Service\CandidateServiceTrait;
 use OrangeHRM\Recruitment\Traits\Service\RecruitmentAttachmentServiceTrait;
 use OrangeHRM\Recruitment\Traits\Service\VacancyServiceTrait;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Throwable;
 
 class ApplicantController extends AbstractController implements PublicControllerInterface
 {
@@ -97,14 +100,29 @@ class ApplicantController extends AbstractController implements PublicController
         $this->beginTransaction();
         try {
             $vacancyId = $request->request->get(self::PARAMETER_VACANCY_ID);
-            $this->processTransaction($request, $attachment, $vacancyId);
+            $applicant = $this->processTransaction($request, $attachment, $vacancyId);
             $this->commitTransaction();
-            return $this->redirect("/recruitmentApply/applyVacancy/id/$vacancyId?success=true");
         } catch (Exception $e) {
             $this->rollBackTransaction();
             $this->getLogger()->error($e->getMessage());
             $this->getLogger()->error($e->getTraceAsString());
             return $this->handleBadRequest();
+        }
+
+        // BR: the next step is the behavioural questionnaire. The application is
+        // already saved, so nothing here may undo it: if the invite fails, the
+        // candidate lands on the usual success page and HR sends the link later.
+        try {
+            [, $token] = (new AssessmentService())->inviteCandidate(
+                $applicant,
+                $this->getVacancyService()->getVacancyDao()->getVacancyById((int)$vacancyId),
+                null,
+                new DateTime()
+            );
+            return $this->redirect("/recruitmentApply/assessment/$token?applied=1");
+        } catch (Throwable $e) {
+            $this->getLogger()->error('BR assessment invite: ' . $e->getMessage());
+            return $this->redirect("/recruitmentApply/applyVacancy/id/$vacancyId?success=true");
         }
     }
 
@@ -146,9 +164,9 @@ class ApplicantController extends AbstractController implements PublicController
      * @param Request $request
      * @param Base64Attachment $attachment
      * @param int $vacancyId
-     * @return void
+     * @return Candidate
      */
-    private function processTransaction(Request $request, Base64Attachment $attachment, int $vacancyId): void
+    private function processTransaction(Request $request, Base64Attachment $attachment, int $vacancyId): Candidate
     {
         $applicant = new Candidate();
         $this->setApplicant($applicant, $request);
@@ -177,6 +195,8 @@ class ApplicantController extends AbstractController implements PublicController
         $this->getRecruitmentAttachmentService()
             ->getRecruitmentAttachmentDao()
             ->saveCandidateAttachment($applicantAttachment);
+
+        return $applicant;
     }
 
     /**

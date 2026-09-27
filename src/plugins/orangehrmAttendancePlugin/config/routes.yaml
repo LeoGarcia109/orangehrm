@@ -393,3 +393,18 @@ attendance_br_form_results_csv:
   methods: [ GET ]
   requirements:
     id: '\d+'
+
+# BR: perfil comportamental -- pagina publica do candidato (sem login, token no link)
+br_assessment_public_page:
+  path: /recruitmentApply/assessment/{token}
+  controller: OrangeHRM\Attendance\Controller\PublicAssessment\AssessmentPublicViewController::handle
+  methods: [ GET ]
+  requirements:
+    token: '[^/]+'
+
+br_assessment_public_api:
+  path: /recruitmentApply/assessment/{token}/api
+  controller: OrangeHRM\Attendance\Controller\PublicAssessment\AssessmentPublicRestController::handle
+  methods: [ GET, PUT, POST ]
+  requirements:
+    token: '[^/]+'
