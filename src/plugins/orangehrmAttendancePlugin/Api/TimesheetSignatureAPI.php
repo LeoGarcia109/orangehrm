@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Attendance\Api;
 
+use OrangeHRM\Attendance\Service\ClientIp;
 use DateTime;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Attendance\Service\BrAccessScope;
@@ -191,7 +192,7 @@ class TimesheetSignatureAPI extends Endpoint implements CollectionEndpoint
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_MONTH
             ),
-            $_SERVER['REMOTE_ADDR'] ?? null,
+            ClientIp::fromServer(),
             $_SERVER['HTTP_USER_AGENT'] ?? null
         );
 

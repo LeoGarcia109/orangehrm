@@ -15,6 +15,7 @@
       <file>/app/src/plugins/orangehrmAttendancePlugin/test/Service/TimesheetSignatureRulesTest.php</file>
       <file>/app/src/plugins/orangehrmAttendancePlugin/test/Api/BrOptionalFlagValidationTest.php</file>
       <file>/app/src/plugins/orangehrmAttendancePlugin/test/Service/BrAccessScopeTest.php</file>
+      <file>/app/src/plugins/orangehrmAttendancePlugin/test/Service/ClientIpTest.php</file>
       <file>/app/src/plugins/orangehrmAttendancePlugin/test/Service/GeofenceDecisionTest.php</file>
       <file>/app/src/plugins/orangehrmAttendancePlugin/test/Controller/File/BrExportControllerTest.php</file>
       <directory>/app/src/plugins/orangehrmAttendancePlugin/test/Service/Form</directory>

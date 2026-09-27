@@ -217,8 +217,9 @@ class AttendanceAuditService
         }
 
         // Capture request context if available
-        if (isset($_SERVER['REMOTE_ADDR'])) {
-            $log->setIpAddress($_SERVER['REMOTE_ADDR']);
+        $ip = ClientIp::fromServer();
+        if ($ip !== null) {
+            $log->setIpAddress($ip);
         }
         if (isset($_SERVER['HTTP_USER_AGENT'])) {
             $log->setUserAgent(substr($_SERVER['HTTP_USER_AGENT'], 0, 255));

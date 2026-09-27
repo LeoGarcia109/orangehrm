@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Attendance\Dao;
 
+use OrangeHRM\Attendance\Service\ClientIp;
 use DateTime;
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\Query\Expr;
@@ -101,7 +102,7 @@ class AttendanceDao extends BaseDao
                     $oldValue,
                     $newValue,
                     $this->getCurrentEmpNumber(),
-                    $_SERVER['REMOTE_ADDR'] ?? null,
+                    ClientIp::fromServer(),
                     isset($_SERVER['HTTP_USER_AGENT']) ? substr($_SERVER['HTTP_USER_AGENT'], 0, 255) : null,
                 ]
             );
