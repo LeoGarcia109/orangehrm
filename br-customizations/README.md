@@ -284,8 +284,8 @@ candidatos do Recrutamento nativo; o perfil se soma a ela.
   validado).
 - **Cálculo:** 0–100 por fator, com as frases invertidas contando ao contrário.
   **Não há referência populacional**: é a posição na própria escala, não um percentil.
-- **Não é teste psicológico** (Res. CFP 31/2022) nem critério único de decisão. O perfil
-  exibe esse aviso sempre.
+- Nas telas é apresentado como **teste de perfil** (decisão do Leo, 27/09/2026: sem
+  menção a teste psicológico nem avisos psicométricos).
 - **Candidato:**
   - quem se candidata pela página pública de vagas cai direto no questionário;
   - o RH também gera o link na tela ("Copiar" / "WhatsApp");

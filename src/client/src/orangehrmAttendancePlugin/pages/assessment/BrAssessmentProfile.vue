@@ -44,10 +44,6 @@
             {{ dateLabel(profile.completedAt) }}
           </span>
         </div>
-        <p class="ohrm-profile__disclaimer">
-          <i class="oxd-icon bi-info-circle-fill"></i>
-          <span>{{ $t('attendance.assessment_disclaimer') }}</span>
-        </p>
       </section>
 
       <section v-if="big5" class="ohrm-builder__card ohrm-profile__big5">
@@ -145,8 +141,7 @@ import {APIService} from '@ohrm/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 
 /**
- * BR: one behavioural profile, for HR -- always shown with what it is not:
- * a psychological test, or enough on its own to decide.
+ * BR: one behavioural profile test result, for HR.
  */
 export default {
   name: 'BrAssessmentProfile',

@@ -195,7 +195,7 @@ Gerados pela tabela; as chaves ficam em `docs` e no SQL.
 | assessment_vacancy | Vacancy | Vaga |
 | assessment_applied | Application sent! Next step: a short behavioral questionnaire. | Candidatura enviada! Próximo passo: um questionário comportamental rápido. |
 | assessment_consent_title | Your data | Seus dados |
-| assessment_consent_text | Your answers are used only in this selection process and in the company's candidate pool, and only HR can see them. They are kept while you allow it; to ask for deletion, contact HR. This questionnaire is a complementary behavioral inventory, not a psychological test. | Suas respostas serão usadas só neste processo seletivo e no banco de candidatos da empresa, e só o RH tem acesso a elas. Elas ficam guardadas enquanto você autorizar; para pedir a exclusão, fale com o RH. Este questionário é um inventário comportamental complementar e não é um teste psicológico. |
+| assessment_consent_text | Your answers are used only in this selection process and in the company's candidate pool, and only HR can see them. They are kept while you allow it; to ask for deletion, contact HR. This is a behavioral profile test. | Suas respostas serão usadas só neste processo seletivo e no banco de candidatos da empresa, e só o RH tem acesso a elas. Elas ficam guardadas enquanto você autorizar; para pedir a exclusão, fale com o RH. Este é um teste de perfil comportamental. |
 | assessment_consent_check | I have read and I agree | Li e concordo |
 | assessment_employee_notice | HR uses this profile to better understand your working style and support your development. There are no right or wrong answers. | O RH usa este perfil para conhecer melhor o seu jeito de trabalhar e apoiar o seu desenvolvimento. Não existe resposta certa ou errada. |
 | assessment_start | Start | Começar |
@@ -233,7 +233,6 @@ Gerados pela tabela; as chaves ficam em `docs` e no SQL.
 | assessment_completed_at | Answered on | Respondido em |
 | assessment_expires_at | Link valid until | Link válido até |
 | assessment_all | All | Todos |
-| assessment_disclaimer | Complementary behavioral inventory. Not a psychological test (CFP Resolution 31/2022) and not to be used as the sole basis for a decision. | Inventário comportamental complementar. Não é teste psicológico (Res. CFP 31/2022) nem deve ser critério único de decisão. |
 | assessment_big5 | Big Five (IPIP-50) | Big Five (IPIP-50) |
 | assessment_disc | DISC (approximation of the model) | DISC (aproximação do modelo) |
 | assessment_primary_style | Predominant style | Estilo predominante |

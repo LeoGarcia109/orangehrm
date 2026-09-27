@@ -19,7 +19,7 @@ SELECT t.unit_id, 17, t.value, NULL FROM (
   SELECT 'assessment_vacancy', 'Vacancy' UNION ALL
   SELECT 'assessment_applied', 'Application sent! Next step: a short behavioral questionnaire.' UNION ALL
   SELECT 'assessment_consent_title', 'Your data' UNION ALL
-  SELECT 'assessment_consent_text', 'Your answers are used only in this selection process and in the company''s candidate pool, and only HR can see them. They are kept while you allow it; to ask for deletion, contact HR. This questionnaire is a complementary behavioral inventory, not a psychological test.' UNION ALL
+  SELECT 'assessment_consent_text', 'Your answers are used only in this selection process and in the company''s candidate pool, and only HR can see them. They are kept while you allow it; to ask for deletion, contact HR. This is a behavioral profile test.' UNION ALL
   SELECT 'assessment_consent_check', 'I have read and I agree' UNION ALL
   SELECT 'assessment_employee_notice', 'HR uses this profile to better understand your working style and support your development. There are no right or wrong answers.' UNION ALL
   SELECT 'assessment_start', 'Start' UNION ALL
@@ -57,7 +57,6 @@ SELECT t.unit_id, 17, t.value, NULL FROM (
   SELECT 'assessment_completed_at', 'Answered on' UNION ALL
   SELECT 'assessment_expires_at', 'Link valid until' UNION ALL
   SELECT 'assessment_all', 'All' UNION ALL
-  SELECT 'assessment_disclaimer', 'Complementary behavioral inventory. Not a psychological test (CFP Resolution 31/2022) and not to be used as the sole basis for a decision.' UNION ALL
   SELECT 'assessment_big5', 'Big Five (IPIP-50)' UNION ALL
   SELECT 'assessment_disc', 'DISC (approximation of the model)' UNION ALL
   SELECT 'assessment_primary_style', 'Predominant style' UNION ALL
@@ -105,7 +104,7 @@ SELECT ls.id, @lang_pt_br,
     WHEN 'assessment_vacancy' THEN 'Vaga'
     WHEN 'assessment_applied' THEN 'Candidatura enviada! Próximo passo: um questionário comportamental rápido.'
     WHEN 'assessment_consent_title' THEN 'Seus dados'
-    WHEN 'assessment_consent_text' THEN 'Suas respostas serão usadas só neste processo seletivo e no banco de candidatos da empresa, e só o RH tem acesso a elas. Elas ficam guardadas enquanto você autorizar; para pedir a exclusão, fale com o RH. Este questionário é um inventário comportamental complementar e não é um teste psicológico.'
+    WHEN 'assessment_consent_text' THEN 'Suas respostas serão usadas só neste processo seletivo e no banco de candidatos da empresa, e só o RH tem acesso a elas. Elas ficam guardadas enquanto você autorizar; para pedir a exclusão, fale com o RH. Este é um teste de perfil comportamental.'
     WHEN 'assessment_consent_check' THEN 'Li e concordo'
     WHEN 'assessment_employee_notice' THEN 'O RH usa este perfil para conhecer melhor o seu jeito de trabalhar e apoiar o seu desenvolvimento. Não existe resposta certa ou errada.'
     WHEN 'assessment_start' THEN 'Começar'
@@ -143,7 +142,6 @@ SELECT ls.id, @lang_pt_br,
     WHEN 'assessment_completed_at' THEN 'Respondido em'
     WHEN 'assessment_expires_at' THEN 'Link válido até'
     WHEN 'assessment_all' THEN 'Todos'
-    WHEN 'assessment_disclaimer' THEN 'Inventário comportamental complementar. Não é teste psicológico (Res. CFP 31/2022) nem deve ser critério único de decisão.'
     WHEN 'assessment_big5' THEN 'Big Five (IPIP-50)'
     WHEN 'assessment_disc' THEN 'DISC (aproximação do modelo)'
     WHEN 'assessment_primary_style' THEN 'Estilo predominante'
@@ -192,7 +190,7 @@ UPDATE ohrm_i18n_lang_string ls SET ls.value = CASE ls.unit_id
     WHEN 'assessment_vacancy' THEN 'Vacancy'
     WHEN 'assessment_applied' THEN 'Application sent! Next step: a short behavioral questionnaire.'
     WHEN 'assessment_consent_title' THEN 'Your data'
-    WHEN 'assessment_consent_text' THEN 'Your answers are used only in this selection process and in the company''s candidate pool, and only HR can see them. They are kept while you allow it; to ask for deletion, contact HR. This questionnaire is a complementary behavioral inventory, not a psychological test.'
+    WHEN 'assessment_consent_text' THEN 'Your answers are used only in this selection process and in the company''s candidate pool, and only HR can see them. They are kept while you allow it; to ask for deletion, contact HR. This is a behavioral profile test.'
     WHEN 'assessment_consent_check' THEN 'I have read and I agree'
     WHEN 'assessment_employee_notice' THEN 'HR uses this profile to better understand your working style and support your development. There are no right or wrong answers.'
     WHEN 'assessment_start' THEN 'Start'
@@ -230,7 +228,6 @@ UPDATE ohrm_i18n_lang_string ls SET ls.value = CASE ls.unit_id
     WHEN 'assessment_completed_at' THEN 'Answered on'
     WHEN 'assessment_expires_at' THEN 'Link valid until'
     WHEN 'assessment_all' THEN 'All'
-    WHEN 'assessment_disclaimer' THEN 'Complementary behavioral inventory. Not a psychological test (CFP Resolution 31/2022) and not to be used as the sole basis for a decision.'
     WHEN 'assessment_big5' THEN 'Big Five (IPIP-50)'
     WHEN 'assessment_disc' THEN 'DISC (approximation of the model)'
     WHEN 'assessment_primary_style' THEN 'Predominant style'
@@ -273,7 +270,7 @@ SET t.value = CASE ls.unit_id
     WHEN 'assessment_vacancy' THEN 'Vaga'
     WHEN 'assessment_applied' THEN 'Candidatura enviada! Próximo passo: um questionário comportamental rápido.'
     WHEN 'assessment_consent_title' THEN 'Seus dados'
-    WHEN 'assessment_consent_text' THEN 'Suas respostas serão usadas só neste processo seletivo e no banco de candidatos da empresa, e só o RH tem acesso a elas. Elas ficam guardadas enquanto você autorizar; para pedir a exclusão, fale com o RH. Este questionário é um inventário comportamental complementar e não é um teste psicológico.'
+    WHEN 'assessment_consent_text' THEN 'Suas respostas serão usadas só neste processo seletivo e no banco de candidatos da empresa, e só o RH tem acesso a elas. Elas ficam guardadas enquanto você autorizar; para pedir a exclusão, fale com o RH. Este é um teste de perfil comportamental.'
     WHEN 'assessment_consent_check' THEN 'Li e concordo'
     WHEN 'assessment_employee_notice' THEN 'O RH usa este perfil para conhecer melhor o seu jeito de trabalhar e apoiar o seu desenvolvimento. Não existe resposta certa ou errada.'
     WHEN 'assessment_start' THEN 'Começar'
@@ -311,7 +308,6 @@ SET t.value = CASE ls.unit_id
     WHEN 'assessment_completed_at' THEN 'Respondido em'
     WHEN 'assessment_expires_at' THEN 'Link válido até'
     WHEN 'assessment_all' THEN 'Todos'
-    WHEN 'assessment_disclaimer' THEN 'Inventário comportamental complementar. Não é teste psicológico (Res. CFP 31/2022) nem deve ser critério único de decisão.'
     WHEN 'assessment_big5' THEN 'Big Five (IPIP-50)'
     WHEN 'assessment_disc' THEN 'DISC (aproximação do modelo)'
     WHEN 'assessment_primary_style' THEN 'Estilo predominante'
@@ -344,5 +340,9 @@ SET t.value = CASE ls.unit_id
     WHEN 'assessment_f_disc_c_desc' THEN 'Cuidadoso e analítico; segue regras e busca qualidade.'
   ELSE t.value END
 WHERE t.language_id = @lang_pt_br AND ls.group_id = 17 AND ls.unit_id LIKE 'assessment\_%';
+
+DELETE t FROM ohrm_i18n_translate t JOIN ohrm_i18n_lang_string ls ON ls.id = t.lang_string_id
+WHERE ls.group_id = 17 AND ls.unit_id IN ('assessment_disclaimer');
+DELETE FROM ohrm_i18n_lang_string WHERE group_id = 17 AND unit_id IN ('assessment_disclaimer');
 
 UPDATE ohrm_i18n_language SET modified_at = NOW() WHERE id = @lang_pt_br;

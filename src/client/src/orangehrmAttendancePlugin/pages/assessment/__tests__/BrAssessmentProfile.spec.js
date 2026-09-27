@@ -30,7 +30,7 @@ jest.mock('@ohrm/core/util/helper/navigation', () => ({navigate: jest.fn()}));
 import BrAssessmentProfile from '../BrAssessmentProfile.vue';
 
 /**
- * The profile HR reads -- always with the reminder of what it is not.
+ * The profile HR reads.
  */
 describe('BrAssessmentProfile', () => {
   const profile = {
@@ -115,9 +115,4 @@ describe('BrAssessmentProfile', () => {
     expect(styles).toContain('attendance.assessment_f_disc_c');
   });
 
-  it('always carries the disclaimer', async () => {
-    expect(
-      (await mountIt()).find('.ohrm-profile__disclaimer').text(),
-    ).toContain('attendance.assessment_disclaimer');
-  });
 });
