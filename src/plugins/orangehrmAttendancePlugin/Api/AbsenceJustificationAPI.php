@@ -31,6 +31,7 @@ use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -49,7 +50,7 @@ use OrangeHRM\Entity\Employee;
  * POST /api/v2/attendance/br/absences            - file one, with its document
  * PUT  /api/v2/attendance/br/absences            - settle one (Admin/Supervisor)
  */
-class AbsenceJustificationAPI extends Endpoint implements CollectionEndpoint
+class AbsenceJustificationAPI extends Endpoint implements CollectionEndpoint, ResourceEndpoint
 {
     use EntityManagerHelperTrait;
     use AuthUserTrait;
@@ -282,6 +283,29 @@ class AbsenceJustificationAPI extends Endpoint implements CollectionEndpoint
                 )
             ),
         );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    /**
+     * Not served: requests are read through the list. ResourceEndpoint is
+     * implemented for update() alone -- the REST controller only runs PUT on
+     * a ResourceEndpoint, and without it every approve/reject answered 501.
+     *
+     * @inheritDoc
+     */
+    public function getOne(): EndpointResult
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetOne(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
     }
 
     /**

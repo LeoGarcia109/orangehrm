@@ -19,6 +19,7 @@
       <file>/app/src/plugins/orangehrmAttendancePlugin/test/Controller/File/BrExportControllerTest.php</file>
       <directory>/app/src/plugins/orangehrmAttendancePlugin/test/Service/Form</directory>
       <directory>/app/src/plugins/orangehrmAttendancePlugin/test/Api/Form</directory>
+      <directory>/app/src/plugins/orangehrmAttendancePlugin/test/Config</directory>
     </testsuite>
   </testsuites>
 </phpunit>
